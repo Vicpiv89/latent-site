@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The reports — Latent</title>
+<meta name="description" content="Two report products and ongoing coverage, quoted on scope within 24 hours and delivered within 48 — with four samples published whole.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230A0A0A'/%3E%3Crect x='44' y='18' width='14' height='64' rx='7' fill='white'/%3E%3Ccircle cx='51' cy='50' r='29' fill='none' stroke='%232FA3EC' stroke-width='8'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#FFFFFF">
+
+<link rel="preload" href="assets/fonts/inter-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="styles.css">
+<script>document.documentElement.classList.add('js')</script>
+<style>
+/* D2 · homepage layout only — colour/type/shadow all come from styles.css */
+
+/* ---- landing (FACTS-shaped: full bleed, centred, one call to action) ----
+   The only place on the site that runs an inverted ground. Everything below it
+   is the white register D1 owns; this band paints its own colours locally and
+   restores the page tokens on the way out, so nothing leaks downward. */
+.landing {
+  position: relative; isolation: isolate; overflow: hidden;
+  padding: clamp(64px, 13vh, 132px) 0 clamp(56px, 11vh, 116px);
+  text-align: center;
+}
+/* background-COLOR first, gradient second, and not merged into one shorthand:
+   audit_site.py resolves contrast by walking ancestors for a computed
+   background-color, and a gradient-only band reports as transparent — so the
+   whole landing came back as "white on white, 1:1" while rendering correctly.
+   It is also the honest fallback if the gradient is ever dropped. */
+.landing-ink {
+  background-color: #0A0A0A;
+  background-image: radial-gradient(120% 130% at 50% 0%, #123A55 0%, #0A0A0A 62%);
+  color: #FFFFFF;
+}
+.landing-paper { background-color: var(--sky-wash); color: var(--ink); }
+.landing .field {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  z-index: -1; pointer-events: none;
+}
+.landing-ink .field { fill: #FFFFFF; opacity: .17; }
+.landing-paper .field { fill: var(--sky-ink); opacity: .16; }
+/* the wordmark and the copy sit in a legibility pocket, so the scatter can run
+   at full density behind them without ever competing with the type */
+.landing-inner { position: relative; }
+.landing-ink .landing-inner::before {
+  content: ""; position: absolute; z-index: -1;
+  inset: -12% -6%;
+  background: radial-gradient(58% 52% at 50% 46%, rgba(10,10,10,.86) 0%,
+                              rgba(10,10,10,.62) 48%, rgba(10,10,10,0) 100%);
+}
+.landing-paper .landing-inner::before {
+  content: ""; position: absolute; z-index: -1;
+  inset: -12% -6%;
+  background: radial-gradient(58% 52% at 50% 46%, rgba(232,244,253,.92) 0%,
+                              rgba(232,244,253,.70) 48%, rgba(232,244,253,0) 100%);
+}
+/* FACTS's proportion, which is the reason their hero reads at a glance: the mark
+   is the dominant object and the sentence under it is small. Reversing that (big
+   headline, small mark) made the two compete — the nav already carries a wordmark
+   at 22px, so a mid-sized one here just looked like a second nav. */
+.landing-mark {
+  font-family: var(--f-mark); font-weight: 800;
+  font-size: clamp(46px, 2rem + 5.4vw, 104px);
+  letter-spacing: -.045em; line-height: .95;
+  color: var(--ink);
+}
+.landing-ink .landing-mark { color: #FFFFFF; }
+.landing-mark .dot { color: var(--sky); }
+/* h1/h2/h3 carry `color: var(--ink)` from D1's baseline, so inheriting the band's
+   colour is not enough on the inverted ground — it has to be set outright, or the
+   headline renders black on black. This cost one screenshot; do not "simplify" it. */
+.landing-line {
+  font-family: var(--f-head); font-weight: 600;
+  font-size: clamp(17px, .9rem + .75vw, 25px);
+  letter-spacing: -.015em; line-height: 1.35;
+  margin: var(--s5) auto 0; max-width: 30ch; text-wrap: balance;
+  color: var(--ink);
+}
+.landing-ink .landing-line { color: #FFFFFF; }
+.landing-sub {
+  margin: var(--s5) auto 0; max-width: 60ch;
+  font-size: var(--t-md); line-height: 1.65;
+  color: var(--ink-2);
+}
+.landing-ink .landing-sub { color: rgba(255,255,255,.78); }
+.landing-cta {
+  display: flex; gap: var(--s4); justify-content: center; flex-wrap: wrap;
+  margin-top: var(--s7);
+}
+.landing-meta {
+  margin-top: var(--s6); font-size: var(--t-xs);
+  letter-spacing: .04em;
+}
+.landing-ink .landing-meta { color: rgba(255,255,255,.60); }
+.landing-paper .landing-meta { color: var(--ink-3); }
+/* the inverted ground needs its own button skins — D1's ghost button is drawn
+   for black-on-white and disappears entirely on a dark panel */
+.landing-ink .btn { background: var(--sky); color: #0A0A0A; border-color: var(--sky); }
+.landing-ink .btn:hover { background: #FFFFFF; border-color: #FFFFFF; color: #0A0A0A; }
+.landing-ink .btn-ghost {
+  background: transparent; color: #FFFFFF; border-color: rgba(255,255,255,.42);
+}
+.landing-ink .btn-ghost:hover {
+  background: rgba(255,255,255,.10); border-color: #FFFFFF; color: #FFFFFF;
+}
+.landing-ink .btn:focus-visible, .landing-ink .btn-ghost:focus-visible {
+  outline: 3px solid #FFFFFF; outline-offset: 3px;
+}
+@media (max-width: 620px) {
+  .landing-cta .btn { width: 100%; justify-content: center; }
+}
+
+/* ---- proof strip (FACTS runs client logos here; we run the database) ---- */
+.strip { padding: var(--s6) 0; }
+.strip-grid {
+  display: grid; grid-template-columns: repeat(5, minmax(0,1fr));
+  gap: var(--s5); align-items: start; text-align: center;
+}
+.strip-cell { display: flex; flex-direction: column; gap: var(--s1); }
+.strip-cell .figure {
+  font-family: var(--f-num); font-weight: 700;
+  font-size: clamp(20px, .8rem + 1.3vw, 30px); letter-spacing: -.02em;
+  line-height: 1.1; color: var(--ink);
+}
+.strip-cell .caption {
+  font-size: var(--t-2xs); text-transform: uppercase; letter-spacing: .12em;
+  color: var(--ink-3);
+}
+@media (max-width: 860px) {
+  .strip-grid { grid-template-columns: repeat(2, minmax(0,1fr)); gap: var(--s5) var(--s4); }
+  .strip-cell:last-child { grid-column: 1 / -1; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   DECK REGISTER — everything below the landing panel
+   Lifted from the "Who Pays Latent" deck (Vic, 2026-08-15: "i like the style
+   of that more than the website's content itself... i think its the minimalism
+   that makes it so nice"). The deck already ran D1's tokens, so nothing here
+   introduces a colour or a face — what changes is DENSITY:
+
+     · one idea per section, and one component under it
+     · sections breathe at clamp(72px, 11vh, 132px) instead of a fixed step
+     · headings run to 50px; ledes cap at 60ch and stop
+     · caveats become .foot small print, never a boxed callout mid-page
+     · figures are a sky rule and a number, not a bordered tile
+     · the ground barely moves: mostly white, tint alternating, wash once,
+       ink once at the close
+
+   The one rule to keep: this scope MUST NOT delete a stated limit. Every
+   caveat that used to sit in a .callout is still on the page — it moved into
+   .foot. Cutting the number of words is the brief; cutting the honesty is not.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.sec { padding: clamp(72px,11vh,132px) 0; border-bottom: 1px solid var(--line); }
+.sec:last-of-type { border-bottom: 0; }
+.sec.tint { background: var(--surface-2); border-bottom-color: transparent; }
+.sec.wash { background: var(--sky-wash); border-bottom-color: transparent; }
+/* Inverting a band means inverting the ACCENT too, not just the ink. --sky-ink is
+   tuned to clear AA on white and measures 3.5:1 on carbon, so links inside this
+   band (the Instagram/X lines) failed until --accent moved to --sky-bright. Any
+   future inverted surface must do the same. */
+.sec.ink {
+  --surface: #141414; --surface-2: #1C1C1C;
+  --ink: #FFFFFF; --ink-2: rgba(255,255,255,.76); --ink-3: rgba(255,255,255,.56);
+  --line: rgba(255,255,255,.16); --line-strong: rgba(255,255,255,.34);
+  --accent: var(--sky-bright); --accent-hover: #FFFFFF; --on-accent: #0A0A0A;
+  --focus: var(--sky-bright);
+  background: var(--carbon); color: #FFFFFF; border-bottom-color: transparent;
+}
+.sec.ink a { color: var(--sky-bright); }
+.sec.ink .btn { background: var(--sky); border-color: var(--sky); color: #0A0A0A; }
+.sec.ink .btn:hover { background: #FFFFFF; border-color: #FFFFFF; color: #0A0A0A; }
+.sec.ink .btn-ghost { background: transparent; color: #FFFFFF; border-color: rgba(255,255,255,.42); }
+.sec.ink .btn-ghost:hover { background: rgba(255,255,255,.10); border-color: #FFFFFF; color: #FFFFFF; }
+.sec.ink .eyebrow { color: var(--sky-bright); }
+.sec.ink .stat { border-left-color: var(--sky-bright); }
+
+.sec .eyebrow { display:block; margin-bottom: var(--s4); }
+.sec h2 {
+  font-size: clamp(27px, 1.5rem + 1.9vw, 50px); font-weight: 800;
+  line-height: 1.04; letter-spacing: -.03em; margin-bottom: var(--s4);
+  text-wrap: balance; max-width: 26ch;
+}
+.sec .lede {
+  font-size: clamp(17px, 1rem + .5vw, 22px); line-height: 1.45;
+  letter-spacing: -.011em; color: var(--ink-2); max-width: 60ch;
+}
+.sec .head { margin-bottom: clamp(28px, 5vh, 56px); }
+
+/* small print under a component: where every stated limit now lives */
+.foot {
+  margin-top: clamp(22px, 3.5vh, 34px); padding-top: var(--s3);
+  border-top: 1px solid var(--line);
+  font-size: var(--t-2xs); line-height: 1.55; color: var(--ink-3); max-width: 88ch;
+}
+.foot a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.foot + .foot { margin-top: var(--s3); border-top: 0; padding-top: 0; }
+
+/* a figure is a sky rule and a number — no box, no shadow */
+.stat { border-left: 3px solid var(--sky); padding-left: var(--s3); }
+.stat .v {
+  display: block; font-family: var(--f-num); font-variant-numeric: tabular-nums;
+  font-weight: 800; font-size: clamp(26px, 1.3rem + 1.5vw, 42px);
+  line-height: 1.02; letter-spacing: -.03em; color: var(--ink);
+}
+.stat .k {
+  display: block; font-size: 12.5px; line-height: 1.35;
+  color: var(--ink-3); margin-top: var(--s1);
+}
+
+ul.tick { list-style: none; padding: 0; margin: 0; display: grid; gap: 9px; }
+ul.tick li {
+  position: relative; padding-left: 22px; font-size: 15px;
+  line-height: 1.45; color: var(--ink-2);
+}
+ul.tick li::before {
+  content: ""; position: absolute; left: 0; top: .55em;
+  width: 9px; height: 9px; background: var(--sky); border-radius: 2px;
+}
+ul.tick li b { color: var(--ink); font-weight: 600; }
+
+.quote {
+  border-left: 3px solid var(--sky); padding-left: var(--s5);
+  font-size: clamp(19px, 1rem + .9vw, 30px); line-height: 1.3;
+  letter-spacing: -.02em; font-weight: 600; color: var(--ink);
+  max-width: 24ch;
+}
+.sec.ink .quote { border-left-color: var(--sky-bright); }
+
+/* cards: hairline, one sky edge, nothing else */
+.deck-card {
+  display: flex; flex-direction: column; align-items: flex-start;
+  background: var(--surface); border: 1px solid var(--line);
+  border-top: 4px solid var(--sky); border-radius: var(--radius);
+  padding: clamp(18px,1.8vw,26px);
+}
+.deck-card h3 { font-size: var(--t-xl); letter-spacing: -.018em; margin-bottom: var(--s3); }
+.deck-card p { font-size: 14.5px; color: var(--ink-2); }
+.deck-card .kicker {
+  display: block; font-family: var(--f-num); font-variant-numeric: tabular-nums;
+  font-weight: 800; font-size: var(--t-3xs); letter-spacing: .1em;
+  color: var(--sky-ink); margin-bottom: var(--s3);
+}
+/* The CTA sits on a common baseline across the row: `margin-top:auto` eats the
+   leftover height in the flex column. The minimum gap has to come from the
+   element ABOVE it — a `* + .btn { margin-top }` rule would out-specify `auto`
+   and drop each button back to natural flow, which staggers them by card. */
+.deck-card p, .deck-card ul.tick { margin-bottom: var(--s5); }
+.deck-card .btn { margin-top: auto; }
+.deck-card.quiet { border-top-color: var(--line-strong); background: transparent; }
+
+.grid-2 { display:grid; gap: clamp(14px,1.6vw,22px); grid-template-columns: repeat(2,minmax(0,1fr)); }
+.grid-3 { display:grid; gap: clamp(14px,1.6vw,22px); grid-template-columns: repeat(3,minmax(0,1fr)); }
+.grid-4 { display:grid; gap: clamp(14px,1.6vw,22px); grid-template-columns: repeat(4,minmax(0,1fr)); }
+.stat-row { display:grid; gap: clamp(16px,2vw,28px); grid-template-columns: repeat(4,minmax(0,1fr)); }
+.deck-split {
+  display: grid; grid-template-columns: minmax(0,.92fr) minmax(0,1.08fr);
+  gap: clamp(28px,4vw,64px); align-items: start;
+}
+@media (max-width: 940px) {
+  .grid-3, .grid-4, .stat-row { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .deck-split { grid-template-columns: minmax(0,1fr); gap: var(--s7); }
+}
+@media (max-width: 620px) {
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: minmax(0,1fr); }
+  .sec { padding: var(--s8) 0; }
+}
+
+/* tables lose their chrome: hairline rules, no zebra, no wrapper card */
+.sec .tbl-wrap { border: 0; border-radius: 0; background: transparent; overflow-x: auto; }
+.sec .tbl { border-collapse: collapse; width: 100%; }
+.sec .tbl th, .sec .tbl td {
+  border-bottom: 1px solid var(--line); padding: 13px 14px; background: transparent;
+}
+.sec .tbl thead th {
+  font-size: var(--t-3xs); text-transform: uppercase; letter-spacing: .13em;
+  color: var(--ink-3); font-weight: 700; border-bottom: 1px solid var(--line-strong);
+}
+.sec .tbl tbody tr:hover { background: var(--surface-2); }
+.sec .tbl tfoot td { border-bottom: 0; border-top: 1px solid var(--line-strong); font-weight: 600; }
+.sec .tbl caption {
+  text-align: left; padding: 0 0 var(--s3); font-weight: 700;
+  font-size: var(--t-md); letter-spacing: -.01em; color: var(--ink);
+}
+.sec .tbl caption .cap-note {
+  display: block; font-weight: 400; font-size: var(--t-2xs);
+  letter-spacing: 0; color: var(--ink-3); margin-top: 3px;
+}
+.board-grid { grid-template-columns: repeat(auto-fill, minmax(290px,1fr)); gap: clamp(24px,3vw,44px); }
+
+.live-split .livecard { box-shadow: var(--shadow); }
+
+/* the enquiry card carries its own field rhythm: D1's .field has no vertical
+   margin of its own, so without this every label sits on the input above it */
+.enq-card { background: var(--surface); border-radius: var(--radius); padding: clamp(22px,2.4vw,38px); }
+/* The `>` is load-bearing. Without it, `.field + .field` also matches the two
+   fields INSIDE a .field-pair, so the right-hand one takes a 24px top margin and
+   the pair renders visibly staggered — labels and inputs one line out of step. */
+.enq-card > .field + .field,
+.enq-card > .field-pair + .field,
+.enq-card > .field + .field-pair,
+.enq-card > .field-pair + .field-pair { margin-top: var(--s5); }
+.field-pair { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s4); align-items: start; }
+@media (max-width: 620px) { .field-pair { grid-template-columns: 1fr; } }
+
+/* The close is an ink band and the footer is ink too, so D1's footer margin was
+   drawing a white stripe between two black surfaces. This CSS block is inlined
+   only into the pages this file emits, so the bare sibling selector never
+   reaches the rest of the site, which still wants the margin. */
+main + .site-footer { margin-top: 0; }
+
+/* board captions are competition codes, not prose — D1 sets tables in italic */
+.sec .tbl caption { font-style: normal; }
+.livecard .pbars { margin-top: var(--s4); }
+.livecard .lvl { display: flex; align-items: baseline; gap: var(--s3); flex-wrap: wrap;
+                 margin-top: var(--s4); padding-top: var(--s4); border-top: 1px solid var(--line); }
+.board-grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--s6) var(--s5); }
+.sample-stats { margin-top: var(--s4); }
+.sample-case { margin-top: var(--s4); }
+.cadence { margin-top: var(--s6); }
+.enq-grid { grid-template-columns: 1.25fr .75fr; align-items: start; gap: var(--s6); }
+/* spacing between the form's own rows only — never between the two halves of a
+   pair, which must stay top-aligned with each other */
+.enq-grid form > .field + .field,
+.enq-grid form > .field-pair + .field,
+.enq-grid form > .field + .field-pair,
+.enq-grid form > .field-pair + .field-pair { margin-top: var(--s4); }
+.field-pair { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s4); align-items: start; }
+@media (max-width: 980px) { .enq-grid { grid-template-columns: 1fr; } }
+@media (max-width: 620px) { .field-pair { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-nav">
+  <div class="wrap">
+    <a class="mark" href="index.html">Latent</a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="players/index.html">Players</a>
+      <a href="full-report.html">Reports</a>
+      <a href="methodology.html">Methodology</a>
+      <a href="ledger.html">Ledger</a>
+    </nav>
+    <a class="btn btn-sm nav-cta" href="index.html#enquire"><span>Enquire</span></a>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ============================ 06 · WHAT WE SELL ======================= -->
+<section class="sec wash" id="reports">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">For agents · clubs · players</p>
+      <h2>The boards are the surface. A report goes to the bottom of it.</h2>
+      <p class="lede">Every match, every metric, market context, and a verdict that
+        states what the data could not answer as plainly as what it could.</p>
+    </div>
+    <div class="grid-2">
+      <div class="deck-card">
+        <span class="kicker">ONE PLAYER · NINE SECTIONS</span>
+        <h3>The Full Report</h3>
+        <ul class="tick">
+          <li>Career development &amp; market-value trajectory</li>
+          <li><b>Latent Level</b> — a cross-competition rating, backtested in public</li>
+          <li>A named destination shortlist, with reasons &amp; fee ranges</li>
+          <li>Similar players — with their post-move outcomes</li>
+          <li>Continental evidence: does the output travel?</li>
+          <li>Form &amp; usage, valuation &amp; fee comps, stated limits</li>
+        </ul>
+        <a class="btn btn-sm" href="full-report.html"><span>Section by section →</span></a>
+      </div>
+      <div class="deck-card">
+        <span class="kicker">ONE PLAYER · ONE TARGET SQUAD</span>
+        <h3>The Club Report</h3>
+        <ul class="tick">
+          <li>Level against the target team</li>
+          <li>Top five positional competitors in that squad</li>
+          <li>Raw-rate context against the target competition</li>
+          <li>Head-to-head against named alternatives</li>
+          <li>Cross-tier warnings stated, not smoothed over</li>
+        </ul>
+        <a class="btn btn-sm" href="club-report.html"><span>Section by section →</span></a>
+      </div>
+    </div>
+    <div class="head" style="margin-top:clamp(44px,7vh,80px)">
+      <p class="eyebrow">Ongoing coverage</p>
+      <h2>One report is a snapshot. A cadence is an edge.</h2>
+    </div>
+    <ul class="tick grid-3" style="gap:clamp(14px,1.6vw,22px)">
+      <li><b>Per match</b> — a focused update after every fixture your player plays:
+        rolling form, usage, opposition context, while the match is still the news.</li>
+      <li><b>Monthly</b> — a player or a shortlist tracked month over month, and a
+        straight answer on whether the case is strengthening or weakening.</li>
+      <li><b>Per season</b> — the retainer: a club portfolio kept current across the
+        season, report-grade backup ready before each window opens.</li>
+    </ul>
+    <p class="foot">No public price list. Every engagement, one-off or cadence, is
+      scoped and quoted within <span class="num">24</span> hours of your request, and
+      delivered within <span class="num">48</span> hours of confirmation. Every report
+      closes with a stated-limits section, and how every number is made is public on
+      the <a href="methodology.html">methodology page</a>.</p>
+  </div>
+</section>
+
+<!-- ============================ 07 · SAMPLES ============================ -->
+<section class="sec" id="samples">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">Published work · nothing withheld</p>
+      <h2>Four reports, published whole</h2>
+      <p class="lede">Not excerpts and not mock-ups: the same nine sections a
+        commissioned report ships with, on real players. Every rating and cohort size
+        on these cards is read live from the database that produced the report.</p>
+    </div>
+    <div class="grid-2" data-reveal-group>
+      <a class="panel panel-hard" href="reports/isaque-full-report.html" data-reveal>
+        <span class="eyebrow">Full Report · nine sections · published complete</span>
+        <h3 class="mt3">Isaque</h3>
+        <p class="meta mt2">UPL · 25/26 · Shakhtar Donetsk ·
+          Midfielder · 19 ·
+          <span class="num">1,105</span> min /
+          <span class="num">24</span> apps</p>
+        <div class="tiles sample-stats">
+          <div class="tile"><span class="figure num">1065</span>
+            <span class="caption">Export Index</span>
+            <span class="sub">UPL 25/26, position group</span></div>
+          <div class="tile"><span class="figure num">969</span><span class="caption">Latent Level</span><span class="sub">cohort average <span class="num">525</span>, n=169</span></div>
+        </div>
+        <p class="sample-case">The flagship, published whole: nine sections on a teenager his own club has not yet priced — comparables with their post-move outcomes, and a fee range built only from transfers that actually completed.</p>
+        <span class="btn btn-sm btn-ghost mt4"><span>Read the report →</span></span>
+      </a>
+      <a class="panel panel-hard" href="reports/prosper-obah-full-report.html" data-reveal>
+        <span class="eyebrow">Full Report · nine sections · published complete</span>
+        <h3 class="mt3">Prosper Obah</h3>
+        <p class="meta mt2">UPL · 25/26 · Shakhtar Donetsk ·
+          Forward · 22 ·
+          <span class="num">1,633</span> min /
+          <span class="num">26</span> apps</p>
+        <div class="tiles sample-stats">
+          <div class="tile"><span class="figure num">911</span>
+            <span class="caption">Export Index</span>
+            <span class="sub">UPL 25/26, position group</span></div>
+          <div class="tile"><span class="figure num">907</span><span class="caption">Latent Level</span><span class="sub">cohort average <span class="num">525</span>, n=49</span></div>
+        </div>
+        <p class="sample-case">A forward tested against the part that usually breaks a scoring record: whether the output survives the stronger half of the fixture list.</p>
+        <span class="btn btn-sm btn-ghost mt4"><span>Read the report →</span></span>
+      </a>
+      <a class="panel panel-hard" href="reports/bartosz-wolski-full-report.html" data-reveal>
+        <span class="eyebrow">Full Report · nine sections · published complete</span>
+        <h3 class="mt3">Bartosz Wolski</h3>
+        <p class="meta mt2">EKS · 25/26 · Motor Lublin ·
+          Midfielder · 29 ·
+          <span class="num">2,868</span> min /
+          <span class="num">34</span> apps</p>
+        <div class="tiles sample-stats">
+          <div class="tile"><span class="figure num">852</span>
+            <span class="caption">Export Index</span>
+            <span class="sub">EKS 25/26, position group</span></div>
+          <div class="tile"><span class="figure num">1289</span><span class="caption">Latent Level</span><span class="sub">cohort average <span class="num">755</span>, n=176</span></div>
+        </div>
+        <p class="sample-case">The highest rating in the sample set — and a report that opens by stating what it could not verify rather than padding the gap.</p>
+        <span class="btn btn-sm btn-ghost mt4"><span>Read the report →</span></span>
+      </a>
+      <a class="panel panel-hard" href="reports/adam-pearlman-full-report.html" data-reveal>
+        <span class="eyebrow">Full Report · nine sections · published complete</span>
+        <h3 class="mt3">Adam Pearlman</h3>
+        <p class="meta mt2">CPL · 2026 · Cavalry FC ·
+          Defender · 21 ·
+          <span class="num">1,388</span> min /
+          <span class="num">16</span> apps</p>
+        <div class="tiles sample-stats">
+          <div class="tile"><span class="figure num">875</span>
+            <span class="caption">Export Index</span>
+            <span class="sub">CPL 2026, position group</span></div>
+          <div class="tile"><span class="figure num">482</span><span class="caption">Latent Level</span><span class="sub">cohort average <span class="num">318</span>, n=44</span></div>
+        </div>
+        <p class="sample-case">A young defender in a thin peer group — so the cohort size sits next to the rating, because that is the number which qualifies it.</p>
+        <span class="btn btn-sm btn-ghost mt4"><span>Read the report →</span></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 03 · CTA ================================= -->
+<section class="sec wash" id="commission">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">Commission one</p>
+      <h2>Send a player. Get the data back in 48 hours.</h2>
+      <p class="lede">Send the player's Transfermarkt link and the decision the
+        report has to support. We reply within <span class="num">24</span> hours with
+        scope and a quote.</p>
+    </div>
+    <p><a class="btn btn-lg" href="index.html#enquire"><span>Request a report</span></a></p>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <a class="mark" href="index.html">Latent</a>
+        <p class="mt3">Hidden value, measured.</p>
+        <p class="mt2"><a href="mailto:hello@latentscouting.com">hello@latentscouting.com</a></p>
+      </div>
+      <div class="foot-col">
+        <h5>Data</h5>
+        <ul>
+          <li><a href="players/index.html">Player database</a></li>
+          <li><a href="methodology.html">Methodology</a></li>
+          <li><a href="ledger.html">Hit-rate ledger</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Reports</h5>
+        <ul>
+          <li><a href="full-report.html">Full report</a></li>
+          <li><a href="club-report.html">Club report</a></li>
+          <li><a href="index.html#enquire">Enquire</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="foot-note">
+      Every figure on this site is generated from our own match-level database and is
+      reproducible from it. Percentiles are computed within a single competition and
+      season and are never compared across competitions. Stated limits are published in
+      full on the <a href="methodology.html">methodology</a> page.
+      © <span class="num">2026</span> Latent Scouting.
+    </p>
+  </div>
+</footer>
+
+<script src="assets/motion.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design system — Latent</title>
+<meta name="description" content="Every component in the Latent design system, rendered. Reference for terminals D2–D6.">
+<meta name="theme-color" content="#FFFFFF">
+<link rel="stylesheet" href="../styles.css">
+<script>document.documentElement.classList.add('js')</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-nav">
+  <div class="wrap">
+    <a class="mark" href="../index.html">Latent</a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="../players/index.html">Players</a>
+      <a href="../full-report.html">Reports</a>
+      <a href="../methodology.html">Methodology</a>
+      <a href="#" aria-current="page">Style</a>
+    </nav>
+    <button class="btn btn-sm btn-square nav-cta" id="theme"><span>Theme</span></button>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="band-sky section-tight">
+  <div class="wrap">
+    <span class="eyebrow">Design system v3</span>
+    <h1 class="h-hero mt3">Component<br>reference</h1>
+    <p class="lede mt4">Every class D2–D6 may use. Nothing outside this file is approved.
+      Indigo and ink only — amber means a warning and nothing else.</p>
+    <div class="row mt5">
+      <a class="btn" href="#tables"><span>Tables</span></a>
+      <a class="btn btn-ghost" href="#bars"><span>Percentile bars</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">01 — Type</span>
+      <h2>Type roles</h2>
+      <p class="lede">Inter across headlines, labels and body; IBM Plex Mono with tabular
+        numerals for every figure.</p>
+    </div>
+    <h1>Heading one</h1>
+    <h2 class="mt4">Heading two</h2>
+    <h3 class="mt4">Heading three</h3>
+    <h4 class="mt4">Heading four</h4>
+    <p class="mt5">Body copy sits at 16px on a 1.6 line height. Numbers inside prose stay
+      monospaced and tabular — <span class="num">199,050</span> stat rows across
+      <span class="num">7</span> competitions and <span class="num">12,473</span>
+      player-seasons.</p>
+    <p class="meta mt3">Meta line — smallest supporting text.</p>
+    <p class="note mt2">Note line — for caveats attached to a figure.</p>
+  </div>
+</section>
+
+<section class="section band-carbon">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">02 — Stat tiles</span>
+      <h2>Scale, stated</h2>
+    </div>
+    <div class="tiles">
+      <div class="tile"><span class="figure">199,050</span><span class="caption">Stat rows</span></div>
+      <div class="tile"><span class="figure">4,642</span><span class="caption">Rankable players</span></div>
+      <div class="tile"><span class="figure">12,473</span><span class="caption">Player-seasons</span></div>
+      <div class="tile tile-accent"><span class="figure">7</span><span class="caption">Competitions</span><span class="sub">2020–2026</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="tables">
+  <div class="wrap">
+    <div class="section-head-split section-head">
+      <div>
+        <span class="eyebrow">03 — Data tables</span>
+        <h2>Data tables</h2>
+      </div>
+      <div class="row">
+        <span class="pill is-on">Forwards</span>
+        <span class="pill">U-23</span>
+        <span class="pill">900+ mins</span>
+      </div>
+    </div>
+    <div class="tbl-wrap">
+      <table class="tbl tbl-zebra tbl-hover">
+        <caption>Latent Level — forwards
+          <span class="cap-note">Ranked within one competition and season. Goalkeepers excluded.</span>
+        </caption>
+        <thead>
+          <tr>
+            <th class="rank">#</th>
+            <th>Player</th>
+            <th>Pos</th>
+            <th class="n"><button class="sort" aria-sort="descending">Level</button></th>
+            <th class="n">Mins</th>
+            <th class="n">G+A/90</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="rank">1</td><td class="who">Sample Player<span class="sub">Sample Club · 21</span></td><td>FW</td><td class="n">84</td><td class="n">2,140</td><td class="n">0.72</td></tr>
+          <tr><td class="rank">2</td><td class="who">Sample Player<span class="sub">Sample Club · 23</span></td><td>FW</td><td class="n">81</td><td class="n">1,905</td><td class="n">0.66</td></tr>
+          <tr><td class="rank">3</td><td class="who">Sample Player<span class="sub">Sample Club · 19</span></td><td>AM</td><td class="n">79</td><td class="n">1,332</td><td class="n">0.58</td></tr>
+        </tbody>
+        <tfoot><tr><td colspan="6">Level is an index, not a probability. See methodology.</td></tr></tfoot>
+      </table>
+    </div>
+
+    <h3 class="mt7">Coverage matrix cells</h3>
+    <div class="tbl-wrap mt4">
+      <table class="tbl tbl-compact">
+        <thead><tr><th>Metric</th><th class="n">2023</th><th class="n">2024</th><th class="n">2025</th></tr></thead>
+        <tbody>
+          <tr><td>Minutes</td><td class="cell-yes">✓</td><td class="cell-yes">✓</td><td class="cell-yes">✓</td></tr>
+          <tr><td>Carries</td><td class="cell-no">—</td><td class="cell-part">part</td><td class="cell-yes">✓</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="section band-paper" id="bars">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">04 — Percentile bars</span>
+      <h2>Percentile bars</h2>
+      <p class="lede">One hue, opacity carries rank — legible in greyscale and to
+        colourblind readers. Amber marks a thin sample, never anything else.</p>
+    </div>
+    <div class="panel panel-hard">
+      <div class="pbars">
+        <div class="pbar" data-tier="elite" style="--w:94%">
+          <span class="pb-label">Progressive carries</span><span class="pb-value">4.10</span>
+          <span class="pb-track"><span class="pb-fill"></span></span><span class="pb-pct">94</span>
+        </div>
+        <div class="pbar" data-tier="high" style="--w:78%">
+          <span class="pb-label">Shots on target</span><span class="pb-value">1.42</span>
+          <span class="pb-track"><span class="pb-fill"></span></span><span class="pb-pct">78</span>
+        </div>
+        <div class="pbar" data-tier="mid" style="--w:47%">
+          <span class="pb-label">Duels won</span><span class="pb-value">5.03</span>
+          <span class="pb-track"><span class="pb-fill"></span></span><span class="pb-pct">47</span>
+        </div>
+        <div class="pbar" data-tier="low" data-sample="thin" style="--w:16%">
+          <span class="pb-label">Interceptions</span><span class="pb-value">0.61</span>
+          <span class="pb-track"><span class="pb-fill"></span></span><span class="pb-pct">16</span>
+        </div>
+      </div>
+      <div class="pbar-scale"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
+      <p class="note mt3">* thin sample — the metric was collected in fewer than the
+        minutes gate requires. Treat as indicative only.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">05 — Chips, pills, callouts</span>
+      <h2>Status and caveats</h2>
+    </div>
+    <div class="row mb6">
+      <span class="chip"><span>Full report</span></span>
+      <span class="chip chip-solid"><span>New</span></span>
+      <span class="chip chip-ghost"><span>Per season</span></span>
+      <span class="chip chip-warn"><span>Low sample</span></span>
+      <span class="pill">2025 season</span>
+      <span class="pill is-on">Midfielders <span class="x">×</span></span>
+    </div>
+    <div class="grid cols-2">
+      <div class="callout">
+        <span class="callout-title">How this is computed</span>
+        Per-90 rates divide by the minutes in which the metric was actually collected,
+        with a <span class="num">270</span>-minute gate per metric.
+      </div>
+      <div class="callout callout-warn">
+        <span class="callout-title">Stated limit</span>
+        No contract data exists in either database. Nothing on this site implies
+        knowledge of a player's contract expiry.
+      </div>
+    </div>
+    <div class="callout callout-quiet mt5">
+      <span class="callout-title">Quiet</span>
+      For secondary asides that should not compete with the data.
+    </div>
+
+    <h3 class="mt7 mb4">Key / value receipts</h3>
+    <dl class="kv">
+      <dt>Source</dt><dd>Match-level ingest, own database</dd>
+      <dt>Cohort</dt><dd>One competition, one season, goalkeepers excluded</dd>
+      <dt>Updated</dt><dd><span class="num">2026-08-14</span></dd>
+    </dl>
+  </div>
+</section>
+
+<section class="section band-carbon">
+  <div class="wrap">
+    <div class="section-head"><span class="eyebrow">06 — Buttons &amp; forms</span><h2>Controls</h2></div>
+    <div class="row mb6">
+      <a class="btn" href="#"><span>Primary</span></a>
+      <a class="btn btn-ghost" href="#"><span>Ghost</span></a>
+      <a class="btn btn-sm" href="#"><span>Small</span></a>
+      <a class="btn btn-lg" href="#"><span>Large</span></a>
+    </div>
+    <div class="filters">
+      <label class="field"><span class="field-label">Search</span>
+        <input type="search" placeholder="Player name"></label>
+      <label class="field"><span class="field-label">Position</span>
+        <select><option>All</option><option>Forward</option></select></label>
+      <label class="field"><span class="field-label">Transfermarkt link <span class="field-req">*</span></span>
+        <input type="url" placeholder="https://"></label>
+      <button class="btn btn-sm"><span>Apply</span></button>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head"><span class="eyebrow">07 — Panels</span><h2>Panels &amp; cards</h2></div>
+    <div class="grid cols-3">
+      <div class="panel panel-hard"><h4>Hard panel</h4><p class="meta mt2">Offset shadow, no blur, ever.</p></div>
+      <a class="panel" href="#"><h4 class="h3">Link card</h4><p class="meta mt2">The whole card is the link.</p></a>
+      <div class="panel panel-flush">
+        <div class="panel-head"><span class="h3">Flush</span><span class="meta">head + body</span></div>
+        <div class="panel-body"><p class="meta">For tables and lists that reach the edge.</p></div>
+        <div class="panel-foot"><span>Footer left</span><span class="num">2026-08-14</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <a class="mark" href="../index.html">Latent</a>
+        <p class="mt3">Hidden value, measured.</p>
+      </div>
+      <div class="foot-col"><h5>Data</h5><ul>
+        <li><a href="../players/index.html">Player database</a></li>
+        <li><a href="../methodology.html">Methodology</a></li></ul></div>
+      <div class="foot-col"><h5>Reports</h5><ul>
+        <li><a href="../full-report.html">Full report</a></li>
+        <li><a href="../club-report.html">Club report</a></li></ul></div>
+    </div>
+    <p class="foot-note">This page is the design-system reference, not a public page.
+      Owner: D1. Documentation: <span class="num">site/STYLE.md</span>.</p>
+  </div>
+</footer>
+
+<script>
+// preview-only theme toggle so both themes can be checked side by side
+document.getElementById('theme').addEventListener('click', function () {
+  var r = document.documentElement;
+  var now = r.getAttribute('data-theme');
+  r.setAttribute('data-theme', now === 'light' ? 'dark' : 'light');
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,776 @@
+/* ============================================================================
+   LATENT — DESIGN SYSTEM v3
+   Owner: D1. Do not add colours, fonts or shadows in page files — request a
+   class in WARNINGS.md and D1 adds it here. Full docs: site/STYLE.md
+   Palette: WHITE ground, BLACK ink (#0A0A0A), SKY accents. Amber = warnings only.
+   Type: Inter upright for everything except figures, which are Manrope.
+   NOTE 2026-08-15: this file does not implement BRAND.md v3 (sky/carbon grounds,
+   sharp corners, Kanit/Saira/Barlow) — Vic approved white/black/sky + Inter for
+   the site and the reports. BRAND.md governs graphics/ only. See WARNINGS.md.
+   There is no dark mode on any surface. See the note above §2.
+   ========================================================================= */
+
+/* ---------------------------------------------------------------- 0. FONTS
+   Vendored (assets/fonts/), OFL. Zero external requests. latin + latin-ext
+   so Polish / Baltic / transliterated player names render correctly.        */
+
+@font-face { font-family:'Inter'; font-style:normal; font-weight:100 900; font-display:swap;
+  src:url('assets/fonts/inter-var-latin.woff2') format('woff2');
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+@font-face { font-family:'Inter'; font-style:normal; font-weight:100 900; font-display:swap;
+  src:url('assets/fonts/inter-var-latin-ext.woff2') format('woff2');
+  unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+/* Kanit, Saira and Barlow Condensed were removed on 2026-08-15 when the type
+   roles moved to Inter (Vic's call) — no font stack referenced them any more,
+   so their eight @font-face blocks and six woff2 files were dead weight. */
+
+/* Manrope is the FIGURE face (2026-08-15, Vic: the numbers read "robotic").
+   It replaced IBM Plex Mono, whose four static files were deleted with it. Its
+   digits are proportional by default, so every rule that uses --f-num must also
+   set tabular-nums — the baseline in §2 sets it globally, do not unset it. */
+@font-face { font-family:'Manrope'; font-style:normal; font-weight:200 800; font-display:swap;
+  src:url(assets/fonts/manrope-var-latin.woff2) format('woff2');
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+@font-face { font-family:'Manrope'; font-style:normal; font-weight:200 800; font-display:swap;
+  src:url(assets/fonts/manrope-var-latin-ext.woff2) format('woff2');
+  unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+
+/* IBM Plex Sans is the declared fallback behind Inter. It ships as one variable
+   file per subset — 400/500/600 all come from it, so the body face costs 65 KB
+   total, not 195 KB. */
+@font-face { font-family:'IBM Plex Sans'; font-style:normal; font-weight:100 700; font-display:swap;
+  src:url(assets/fonts/plex-sans-var-latin.woff2) format('woff2');
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+@font-face { font-family:'IBM Plex Sans'; font-style:normal; font-weight:100 700; font-display:swap;
+  src:url(assets/fonts/plex-sans-var-latin-ext.woff2) format('woff2');
+  unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+
+
+
+/* --------------------------------------------------------------- 1. TOKENS */
+
+:root {
+  /* --- brand constants: never themed, never overridden ------------------ */
+  --sky:        #2FA3EC;   /* brand sky: fills, bars, chips (7.1:1 vs black) */
+  --sky-bright: #5CBAF2;   /* hover / accent on black grounds                */
+  --sky-ink:    #0D6BAB;   /* text-weight sky: 5.7:1 white, 5.1:1 on the wash */
+  --sky-wash:   #E8F4FD;   /* tinted surface for the accent band             */
+  --carbon:     #0A0A0A;   /* ink: black                                     */
+  --white:      #FFFFFF;
+  --amber:      #FFD24A;   /* WARNINGS ONLY. Never decorative.              */
+
+  /* --- type scale ------------------------------------------------------- */
+  --f-mark:  'Inter', 'IBM Plex Sans', -apple-system, sans-serif;
+  --f-head:  'Inter', 'IBM Plex Sans', -apple-system, sans-serif;
+  --f-label: 'Inter', 'IBM Plex Sans', -apple-system, sans-serif;
+  --f-body:  'Inter', 'IBM Plex Sans', -apple-system, 'Helvetica Neue', sans-serif;
+  --f-num:   'Manrope', 'Inter', 'IBM Plex Sans', -apple-system, sans-serif;
+
+  --t-3xs: 11px;  --t-2xs: 12px;  --t-xs: 13px;   --t-sm: 14px;
+  --t-md:  16px;  --t-lg:  18px;  --t-xl: 21px;   --t-2xl: 26px;
+  --t-3xl: clamp(20px, 1.1rem + 1.6vw, 34px);
+  --t-4xl: clamp(24px, 1.2rem + 2.4vw, 46px);
+  --t-5xl: clamp(28px, 1.3rem + 3.6vw, 68px);
+  --t-6xl: clamp(32px, 1.4rem + 5.4vw, 104px);
+
+  /* --- space scale (4px base) ------------------------------------------- */
+  --s1: 4px;  --s2: 8px;   --s3: 12px;  --s4: 16px;  --s5: 24px;
+  --s6: 32px; --s7: 48px;  --s8: 64px;  --s9: 96px;  --s10: 128px;
+
+  /* --- geometry --------------------------------------------------------- */
+  --radius: 10px;          /* modern, soft-edged — replaced the hard 0      */
+  --radius-ctl: 8px;
+  --lean: 0deg;            /* the forward lean is retired with the italic   */
+  --wrap: 1180px;
+  --wrap-narrow: 760px;
+  --gut: var(--s5);
+
+  /* --- semantic surface tokens: DEFAULT = WHITE ------------------------ */
+  --bg:          #FFFFFF;
+  --surface:     #FFFFFF;  /* panels, cards, table bodies                   */
+  --surface-2:   #F4F7FA;  /* zebra rows, wells, inset                      */
+  --ink:         #0A0A0A;
+  --ink-2:       rgba(10,10,10,.72);
+  --ink-3:       rgba(10,10,10,.58);
+  --line:        rgba(10,10,10,.13);
+  --line-strong: rgba(10,10,10,.30);
+  --accent:      var(--sky-ink);
+  --accent-hover:#0A0A0A;
+  --on-accent:   #FFFFFF;
+  --warn-ink:    #0A0A0A;
+  --warn-bg:     #FFF3D2;
+  --shadow:      0 12px 30px -18px rgba(10,10,10,.40);
+  --focus:       var(--sky-ink);
+  color-scheme: light;
+}
+
+/* The site is white by design (Vic, 2026-08-15) — the default :root above is
+   already the light palette, so this block only needs to restate it for an OS
+   that asks for light. It must stay identical to :root, or the two disagree. */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg:          #FFFFFF;
+    --surface:     #FFFFFF;
+    --surface-2:   #F4F7FA;
+    --ink:         #0A0A0A;
+    --ink-2:       rgba(10,10,10,.74);
+    --ink-3:       rgba(10,10,10,.60);
+    --line:        rgba(10,10,10,.14);
+    --line-strong: rgba(10,10,10,.34);
+    --accent:      var(--sky-ink);
+    --accent-hover:#0A0A0A;
+    --on-accent:   #FFFFFF;
+    --warn-ink:    #0A0A0A;
+    --warn-bg:     #FFF3D2;
+    --shadow:      0 14px 34px -16px rgba(10,10,10,.34);
+    color-scheme: light;
+  }
+}
+:root[data-theme="light"] {
+  --bg:#FFFFFF; --surface:#FFFFFF; --surface-2:#F4F7FA;
+  --ink:#0A0A0A; --ink-2:rgba(10,10,10,.72); --ink-3:rgba(10,10,10,.58);
+  --line:rgba(10,10,10,.13); --line-strong:rgba(10,10,10,.30);
+  --accent:var(--sky-ink); --accent-hover:#0A0A0A; --on-accent:#FFFFFF;
+  --warn-ink:#0A0A0A; --warn-bg:#FFF3D2;
+  --shadow:0 12px 30px -18px rgba(10,10,10,.40); color-scheme:light;
+}
+/* There is no dark palette and no theme toggle (Vic, 2026-08-15: "white is the
+   design"). The [data-theme="dark"] block that used to sit here was unreachable
+   from the product but not from a stray attribute, and its twin in the report
+   engine was live — every rendered report shipped a near-black paper that any
+   machine set to dark would pick up. Both are gone. Do not add either back. */
+
+
+/* ------------------------------------------------------------ 2. BASELINE */
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+/* The nav is sticky at 64px, so every in-page anchor landed with its own heading
+   hidden underneath it — including the homepage's "Request a report" CTA and the
+   report viewer's section contents. scroll-padding is the fix that works for the
+   whole document at once; do not add per-section scroll-margin on top of it. */
+html { scroll-behavior:smooth; -webkit-text-size-adjust:100%; scroll-padding-top:84px; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: var(--t-md);
+  line-height: 1.6;
+  font-feature-settings: "tnum" 1;   /* tabular numerals everywhere */
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img, svg, video { max-width:100%; height:auto; display:block; }
+
+a { color: var(--accent); text-decoration:none; }
+a:hover { color: var(--accent-hover); text-decoration:underline; text-underline-offset:3px; }
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+::selection { background: var(--sky); color: #0A0A0A; }
+
+hr, .rule { border:0; border-top:1px solid var(--line); margin: var(--s6) 0; }
+.rule-strong { border-top:2px solid var(--line-strong); }
+
+.sr-only {
+  position:absolute; width:1px; height:1px; padding:0; overflow:hidden;
+  clip:rect(0 0 0 0); white-space:nowrap; border:0;
+}
+.skip-link {
+  position:absolute; left:-9999px; top:0; z-index:100;
+  background: var(--amber); color:#0A0A0A; padding: var(--s3) var(--s5);
+  font-family: var(--f-label); font-weight:700; text-transform:uppercase;
+  letter-spacing:.12em;
+}
+.skip-link:focus { left:0; }
+
+
+/* ------------------------------------------------------------ 3. TYPE ROLES */
+
+.mark {                       /* wordmark — Inter, upright, tightly tracked */
+  font-family: var(--f-mark); font-weight:700; font-style:normal;
+  text-transform:none; letter-spacing:-.03em; color: var(--ink);
+  line-height:1;
+}
+.mark:hover { text-decoration:none; }
+
+h1, h2, h3, h4, .h1, .h2, .h3, .h4 {
+  font-family: var(--f-head); font-weight:650; font-style:normal;
+  text-transform:none; line-height:1.06; letter-spacing:-.028em;
+  color: var(--ink); text-wrap:balance;
+}
+h1, .h1 { font-size: var(--t-5xl); }
+h2, .h2 { font-size: var(--t-4xl); }
+h3, .h3 { font-size: var(--t-2xl); line-height:1.0; }
+h4, .h4 { font-size: var(--t-lg);  line-height:1.1; }
+.h-hero { font-size: var(--t-6xl); }
+
+/* eyebrow / small caps label — the mark's bar precedes it */
+.eyebrow {
+  display:block;
+  font-family: var(--f-label); font-weight:700;
+  text-transform:uppercase; letter-spacing:.14em; font-weight:600;
+  font-size: var(--t-xs); line-height:1.2; color: var(--accent);
+}
+.eyebrow::before {
+  content:""; display:inline-block; width:14px; height:2px; border-radius:2px;
+  background: var(--accent);
+  margin-right: var(--s2); vertical-align:4px;
+}
+.eyebrow-plain::before { display:none; }
+
+.label {
+  font-family: var(--f-label); font-weight:600;
+  text-transform:uppercase; letter-spacing:.14em;
+  font-size: var(--t-2xs); color: var(--ink-3); line-height:1.3;
+}
+
+.lede { font-size: var(--t-lg); color: var(--ink-2); max-width: 62ch; }
+.meta { font-size: var(--t-xs); color: var(--ink-3); }
+.note { font-size: var(--t-xs); color: var(--ink-3); max-width: 78ch; }
+p + p { margin-top: var(--s4); }
+
+/* every figure on the site */
+.num {
+  font-family: var(--f-num); font-weight:500;
+  font-variant-numeric: tabular-nums; letter-spacing:-.01em;
+}
+.num-strong { font-weight:600; }
+.num-lg { font-size: var(--t-xl); }
+.num-xl { font-size: var(--t-3xl); font-weight:600; line-height:1; }
+
+.dim { color: var(--ink-3); }
+.strike { text-decoration:line-through; color: var(--ink-3); }
+.nowrap { white-space:nowrap; }
+
+
+/* ----------------------------------------------------------- 4. LAYOUT */
+
+.wrap { max-width: var(--wrap); margin:0 auto; padding:0 var(--gut); }
+.wrap-narrow { max-width: var(--wrap-narrow); margin:0 auto; padding:0 var(--gut); }
+
+/* editorial density, not startup whitespace — .section is deliberately tighter
+   than a marketing page. Use .section-lg only for a page's one hero band. */
+.section { padding: var(--s8) 0; }
+.section-lg { padding: var(--s9) 0; }
+.section-tight { padding: var(--s6) 0; }
+.section-head { margin-bottom: var(--s6); max-width: 78ch; }
+.section-head .eyebrow { margin-bottom: var(--s3); }
+.section-head .lede { margin-top: var(--s4); }
+.section-head-split {
+  display:flex; align-items:flex-end; justify-content:space-between;
+  gap: var(--s5); flex-wrap:wrap; max-width:none;
+}
+
+/* bands re-scope the token set, so any component dropped inside renders
+   correctly without the page author touching a colour. */
+.band { background: var(--bg); color: var(--ink); }
+.band-sky {                    /* accent band — sky wash, black ink */
+  --bg:var(--sky-wash); --surface:#FFFFFF; --surface-2:#D9EDFB;
+  --ink:#0A0A0A; --ink-2:rgba(10,10,10,.74); --ink-3:rgba(10,10,10,.60);
+  --line:rgba(10,10,10,.14); --line-strong:rgba(10,10,10,.32);
+  --accent:var(--sky-ink); --accent-hover:#0A0A0A; --on-accent:#FFFFFF;
+  --warn-ink:#0A0A0A; --warn-bg:#FFE9A8;
+  --shadow:0 12px 30px -18px rgba(10,10,10,.34); --focus:var(--sky-ink);
+  background:var(--sky-wash); color:#0A0A0A;
+}
+.band-carbon {                 /* was the dark slab — now white, per Vic */
+  --bg:#FFFFFF; --surface:#FFFFFF; --surface-2:#F4F7FA;
+  --ink:#0A0A0A; --ink-2:rgba(10,10,10,.72); --ink-3:rgba(10,10,10,.58);
+  --line:rgba(10,10,10,.13); --line-strong:rgba(10,10,10,.30);
+  --accent:var(--sky-ink); --accent-hover:#0A0A0A; --on-accent:#FFFFFF;
+  --warn-ink:#0A0A0A; --warn-bg:#FFF3D2;
+  --shadow:0 12px 30px -18px rgba(10,10,10,.40); --focus:var(--sky-ink);
+  background:#FFFFFF; color:#0A0A0A;
+}
+.band-paper {                  /* the only tonal shift — a hair off white */
+  --bg:#F7F9FB; --surface:#FFFFFF; --surface-2:#EEF3F8;
+  --ink:#0A0A0A; --ink-2:rgba(10,10,10,.72); --ink-3:rgba(10,10,10,.58);
+  --line:rgba(10,10,10,.13); --line-strong:rgba(10,10,10,.30);
+  --accent:var(--sky-ink); --accent-hover:#0A0A0A; --on-accent:#FFFFFF;
+  --warn-ink:#0A0A0A; --warn-bg:#FFF3D2;
+  --shadow:0 12px 30px -18px rgba(10,10,10,.40); --focus:var(--sky-ink);
+  background:#F7F9FB; color:#0A0A0A;
+}
+
+/* grids — .cols-N collapses to 1 column under 720px automatically */
+.grid { display:grid; gap: var(--s5); }
+.cols-2 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+.cols-3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
+.cols-4 { grid-template-columns: repeat(4, minmax(0,1fr)); }
+.cols-auto { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+.split { display:grid; grid-template-columns: 1.15fr .85fr; gap: var(--s7); align-items:center; }
+.row { display:flex; gap: var(--s3); flex-wrap:wrap; align-items:center; }
+.row-tight { gap: var(--s2); }
+.stack > * + * { margin-top: var(--s4); }
+.stack-lg > * + * { margin-top: var(--s6); }
+
+
+/* ------------------------------------------------------------- 5. SHELL */
+
+/* nav and footer are brand chrome: carbon in every theme, so the shell is
+   identical on every page. Markup: site/assets/shell.html */
+.site-nav {
+  background:#0A0A0A; color:#FFFFFF;
+  border-bottom: 1px solid rgba(255,255,255,.14);
+  position: sticky; top:0; z-index:50;
+}
+.site-nav .wrap {
+  display:flex; align-items:center; justify-content:space-between;
+  gap: var(--s5); min-height:64px;
+}
+.site-nav .mark { font-size:22px; color:#FFFFFF; }
+.site-nav .mark .dot { color: var(--sky); }
+.nav-links { display:flex; gap: var(--s5); align-items:center; flex-wrap:wrap; }
+.nav-links a {
+  font-family: var(--f-label); font-weight:600;
+  text-transform:uppercase; letter-spacing:.13em; font-size: var(--t-sm);
+  color: rgba(255,255,255,.72); padding: var(--s2) 0;
+  border-bottom:2px solid transparent;
+}
+.nav-links a:hover { color:#FFFFFF; text-decoration:none; border-bottom-color: var(--sky); }
+.nav-links a[aria-current="page"] { color:#FFFFFF; border-bottom-color: var(--sky); }
+.nav-cta { margin-left: var(--s2); }
+
+/* mobile: nav links wrap to a second scrollable line, never a hamburger */
+@media (max-width: 760px) {
+  .site-nav .wrap { flex-wrap:wrap; padding-top: var(--s3); padding-bottom: var(--s2); min-height:0; }
+  .nav-links {
+    order:3; width:100%; gap: var(--s4);
+    overflow-x:auto; flex-wrap:nowrap; scrollbar-width:none;
+    padding-bottom: var(--s1);
+  }
+  .nav-links::-webkit-scrollbar { display:none; }
+  .nav-links a { white-space:nowrap; }
+}
+
+.site-footer {
+  background:#0A0A0A; color: rgba(255,255,255,.62);
+  border-top: 3px solid var(--sky);
+  padding: var(--s8) 0 var(--s8);
+  margin-top: var(--s9);
+  font-size: var(--t-sm);
+}
+.site-footer a { color:#FFFFFF; }
+.site-footer a:hover { color: var(--sky-bright); }
+.site-footer .mark { color:#FFFFFF; font-size:20px; }
+.foot-grid {
+  display:grid; grid-template-columns: 1.4fr 1fr 1fr; gap: var(--s6);
+  align-items:start;
+}
+.foot-col h5 {
+  font-family: var(--f-label); font-weight:700; text-transform:uppercase;
+  letter-spacing:.16em; font-size: var(--t-2xs); color: rgba(255,255,255,.52);
+  margin-bottom: var(--s3);
+}
+.foot-col ul { list-style:none; display:grid; gap: var(--s2); }
+.foot-note {
+  margin-top: var(--s7); padding-top: var(--s5);
+  border-top:1px solid rgba(255,255,255,.14);
+  font-size: var(--t-xs); color: rgba(255,255,255,.52); max-width:80ch;
+}
+@media (max-width: 760px) { .foot-grid { grid-template-columns:1fr; gap: var(--s5); } }
+
+
+/* ------------------------------------------------------------ 6. BUTTONS */
+
+.btn {
+  display:inline-flex; align-items:center; justify-content:center; gap: var(--s2);
+  font-family: var(--f-label); font-weight:600;
+  text-transform:none; letter-spacing:-.01em; font-size: var(--t-sm);
+  line-height:1; padding: 12px var(--s5);
+  border:1px solid var(--accent); border-radius: var(--radius-ctl);
+  background: var(--accent); color: var(--on-accent);
+  cursor:pointer;
+  transition: background .12s linear, color .12s linear, border-color .12s linear;
+}
+.btn > * { }
+.btn:hover { text-decoration:none; background: var(--accent-hover); border-color: var(--accent-hover); color: var(--on-accent); }
+.btn-ghost { background:transparent; color: var(--ink); border-color: var(--line-strong); }
+.btn-ghost:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.btn-sm { font-size: var(--t-sm); padding: 9px var(--s4); }
+.btn-lg { font-size: var(--t-lg); padding: 18px var(--s6); }
+.btn-block { display:flex; width:100%; }
+.btn[disabled], .btn[aria-disabled="true"] { opacity:.45; pointer-events:none; }
+/* square variant for icon / toggle controls — no lean */
+.btn-square { transform:none; padding:10px var(--s3); }
+.btn-square > * { transform:none; }
+
+
+/* ------------------------------------------------------- 7. PANELS & CARDS */
+
+.panel {
+  background: var(--surface); color: var(--ink);
+  border:1px solid var(--line); border-radius: var(--radius);
+  padding: var(--s5);
+}
+.panel-hard { box-shadow: var(--shadow); border-color: var(--line-strong); }
+.panel-flush { padding:0; overflow:hidden; }
+.panel-head {
+  display:flex; align-items:baseline; justify-content:space-between; gap: var(--s4);
+  padding: var(--s4) var(--s5); border-bottom:1px solid var(--line);
+  background: var(--surface-2);
+}
+.panel-head h3, .panel-head .h3 { font-size: var(--t-lg); }
+.panel-body { padding: var(--s5); }
+.panel-foot {
+  padding: var(--s3) var(--s5); border-top:1px solid var(--line);
+  font-size: var(--t-xs); color: var(--ink-3);
+  display:flex; justify-content:space-between; gap: var(--s4); flex-wrap:wrap;
+}
+
+/* a card that is a link in its entirety */
+a.panel { display:block; }
+a.panel:hover { text-decoration:none; border-color: var(--accent); }
+a.panel:hover .h3, a.panel:hover h3 { color: var(--accent); }
+
+
+/* --------------------------------------------------------- 8. STAT TILES */
+
+.tiles { display:grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap:1px;
+         background: var(--line); border:1px solid var(--line); }
+.tile {
+  background: var(--surface); padding: var(--s5) var(--s4);
+  display:flex; flex-direction:column; gap: var(--s1);
+}
+.tile .figure {
+  font-family: var(--f-num); font-weight:600; font-variant-numeric: tabular-nums;
+  font-size: var(--t-3xl); line-height:1; color: var(--ink); letter-spacing:-.02em;
+}
+.tile .figure .unit { font-size:.5em; color: var(--ink-3); margin-left:2px; letter-spacing:0; }
+.tile .caption {
+  font-family: var(--f-label); font-weight:600; text-transform:uppercase;
+  letter-spacing:.15em; font-size: var(--t-2xs); color: var(--ink-3);
+}
+.tile .sub { font-size: var(--t-xs); color: var(--ink-3); }
+.tile-accent .figure { color: var(--accent); }
+
+/* single big number, e.g. a hero counter */
+.figure-hero {
+  font-family: var(--f-num); font-weight:600; font-variant-numeric: tabular-nums;
+  font-size: var(--t-5xl); line-height:.95; letter-spacing:-.03em; color: var(--ink);
+}
+
+
+/* ------------------------------------------------------- 9. DATA TABLES */
+
+.tbl-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+.tbl {
+  width:100%; border-collapse:collapse; background: var(--surface);
+  font-size: var(--t-sm); border:1px solid var(--line);
+}
+.tbl caption {
+  text-align:left; caption-side:top;
+  font-family: var(--f-head); font-weight:800; font-style:italic;
+  text-transform:uppercase; font-size: var(--t-2xl); line-height:1;
+  color: var(--ink); padding-bottom: var(--s3);
+}
+.tbl caption .cap-note {
+  display:block; font-family: var(--f-body); font-style:normal; font-weight:400;
+  text-transform:none; font-size: var(--t-xs); color: var(--ink-3);
+  letter-spacing:0; margin-top: var(--s2);
+}
+.tbl th {
+  font-family: var(--f-label); font-weight:700;
+  text-transform:uppercase; letter-spacing:.13em; font-size: var(--t-2xs);
+  color: var(--ink-3); text-align:left; white-space:nowrap;
+  padding: var(--s3) var(--s3); border-bottom:2px solid var(--line-strong);
+  background: var(--surface-2);
+}
+.tbl td {
+  padding: var(--s3); border-top:1px solid var(--line);
+  vertical-align: baseline; color: var(--ink);
+}
+.tbl tbody tr:first-child td { border-top:none; }
+.tbl .n, .tbl th.n { text-align:right; font-family: var(--f-num); font-variant-numeric: tabular-nums; }
+.tbl th.n { font-family: var(--f-label); }
+.tbl .rank { width:38px; color: var(--ink-3); font-family: var(--f-num); font-size: var(--t-xs); }
+.tbl .who { font-weight:600; }
+.tbl .who .sub { display:block; font-weight:400; font-size: var(--t-xs); color: var(--ink-3); }
+.tbl-zebra tbody tr:nth-child(even) td { background: var(--surface-2); }
+.tbl-hover tbody tr:hover td { background: var(--surface-2); }
+.tbl-compact td, .tbl-compact th { padding: var(--s2) var(--s3); }
+.tbl-flush { border-left:0; border-right:0; }
+.tbl tfoot td {
+  border-top:2px solid var(--line-strong); font-size: var(--t-xs);
+  color: var(--ink-3);
+}
+/* sticky header for long tables (player explorer) */
+.tbl-sticky thead th { position:sticky; top:0; z-index:2; }
+
+/* sortable columns — D3's explorer sets aria-sort on the th */
+.tbl th[aria-sort] button, .tbl th button.sort {
+  all:unset; cursor:pointer; display:inline-flex; align-items:center; gap:4px;
+  font:inherit; color:inherit; letter-spacing:inherit; text-transform:inherit;
+}
+.tbl th[aria-sort] button:focus-visible { outline:3px solid var(--focus); outline-offset:2px; }
+.tbl th[aria-sort="ascending"], .tbl th[aria-sort="descending"] { color: var(--ink); }
+.tbl th[aria-sort="ascending"] button::after  { content:"▲"; font-size:9px; }
+.tbl th[aria-sort="descending"] button::after { content:"▼"; font-size:9px; }
+.tbl th[aria-sort="none"] button::after { content:"↕"; font-size:10px; opacity:.4; }
+
+/* coverage matrix cells (D5) — single hue, no red/green.
+   Qualified with `.tbl td` deliberately: bare `.cell-yes` is (0,1,0) and loses to
+   `.tbl td { color: var(--ink) }` at (0,1,1), which rendered ink-on-accent (3.84:1,
+   below AA). These are only ever used inside a table, so match that specificity. */
+.tbl td.cell-yes,  .cell-yes  { background: var(--accent); color: var(--on-accent); text-align:center; font-weight:600; }
+.tbl td.cell-part, .cell-part { background: color-mix(in srgb, var(--accent) 32%, transparent); text-align:center; }
+.tbl td.cell-no,   .cell-no   { color: var(--ink-3); text-align:center; }
+
+
+/* --------------------------------------------------- 10. PERCENTILE BARS */
+
+.pbar {
+  display:grid; grid-template-columns: 148px 62px 1fr 42px;
+  align-items:center; gap: var(--s3);
+  padding: var(--s2) 0; border-top:1px solid var(--line);
+}
+.pbars > .pbar:first-child { border-top:none; }
+.pbar .pb-label { font-size: var(--t-xs); color: var(--ink-2); }
+.pbar .pb-value {
+  font-family: var(--f-num); font-size: var(--t-sm); text-align:right;
+  font-variant-numeric: tabular-nums; color: var(--ink);
+}
+.pbar .pb-track {
+  height:12px; background: var(--surface-2); overflow:hidden;
+  transform: skewX(var(--lean)); border:1px solid var(--line);
+}
+.pbar .pb-fill {
+  display:block; height:100%; width: var(--w, 0%);
+  background: var(--accent);
+  transition: width .8s cubic-bezier(.2,.7,.3,1);
+}
+.pbar .pb-pct {
+  font-family: var(--f-num); font-weight:600; font-size: var(--t-sm);
+  text-align:right; color: var(--ink); font-variant-numeric: tabular-nums;
+}
+/* tier ramp — one hue, opacity carries rank, so it survives colourblindness
+   and greyscale printing. data-tier goes on the .pbar. */
+.pbar[data-tier="elite"] .pb-fill { background: var(--accent); }
+.pbar[data-tier="high"]  .pb-fill { background: color-mix(in srgb, var(--accent) 74%, transparent); }
+.pbar[data-tier="mid"]   .pb-fill { background: color-mix(in srgb, var(--ink) 34%, transparent); }
+.pbar[data-tier="low"]   .pb-fill { background: color-mix(in srgb, var(--ink) 18%, transparent); }
+.pbar[data-tier="mid"] .pb-pct, .pbar[data-tier="low"] .pb-pct { color: var(--ink-2); }
+/* thin sample — amber is the only decoration that means something */
+.pbar[data-sample="thin"] .pb-track { border-color: var(--amber); }
+.pbar[data-sample="thin"] .pb-pct::after { content:"*"; color: var(--amber); margin-left:2px; }
+
+.pbar-scale {
+  display:flex; justify-content:space-between;
+  font-family: var(--f-num); font-size: var(--t-3xs); color: var(--ink-3);
+  padding-top: var(--s2); margin-top: var(--s2); border-top:1px solid var(--line);
+}
+:root {
+  /* mobile step-down for the space scale — see the 620px block below */
+}
+@media (max-width: 620px) {
+  :root {
+    --s5: 18px; --s6: 24px; --s7: 32px; --s8: 40px; --s9: 56px; --s10: 72px;
+    --gut: 16px;
+  }
+  body { font-size: 15px; }
+  .lede { font-size: var(--t-md); }
+  .tile .figure { font-size: var(--t-2xl); }
+  /* all four nav links must FIT 390px — the scrollable row clipped "Ledger",
+     which reads as broken rather than as something you can swipe. */
+  .nav-links { gap: 14px; }
+  .nav-links a { font-size: var(--t-2xs); letter-spacing:.06em; }
+  .site-nav .mark { font-size:19px; }
+  .pbar { grid-template-columns: 1fr 54px; gap: var(--s2) var(--s3); }
+  .pbar .pb-label { grid-column:1; }
+  .pbar .pb-value { grid-column:2; }
+  .pbar .pb-track { grid-column:1 / -1; }
+  .pbar .pb-pct { display:none; }
+}
+
+
+/* ----------------------------------------------------- 11. CHIPS & PILLS */
+
+.chip {
+  display:inline-flex; align-items:center; gap:6px;
+  font-family: var(--f-label); font-weight:700;
+  text-transform:uppercase; letter-spacing:.12em; font-size: var(--t-2xs);
+  line-height:1; padding:5px 10px 6px;
+  background: var(--accent); color: var(--on-accent);
+  transform: skewX(-8deg);
+}
+.chip > * { transform: skewX(8deg); }
+.chip-ghost { background:transparent; color: var(--ink-2); border:1px solid var(--line-strong); }
+.chip-solid { background: var(--ink); color: var(--bg); }
+.chip-warn  { background: var(--amber); color:#0A0A0A; }
+.chip-flat  { transform:none; } .chip-flat > * { transform:none; }
+
+/* pill: upright, for filter state and data labels (league, position, season) */
+.pill {
+  display:inline-flex; align-items:center; gap:6px;
+  font-family: var(--f-label); font-weight:600;
+  text-transform:uppercase; letter-spacing:.1em; font-size: var(--t-2xs);
+  padding:4px 9px; border:1px solid var(--line-strong); color: var(--ink-2);
+  background:transparent; border-radius: var(--radius);
+}
+.pill[aria-pressed="true"], .pill.is-on {
+  background: var(--accent); color: var(--on-accent); border-color: var(--accent);
+}
+.pill button, button.pill { cursor:pointer; font:inherit; }
+.pill .x { font-size: var(--t-sm); line-height:1; opacity:.7; }
+
+
+/* -------------------------------------------------------- 12. CALLOUTS */
+
+.callout {
+  border-left:4px solid var(--accent);
+  background: var(--surface); color: var(--ink);
+  padding: var(--s4) var(--s5); font-size: var(--t-sm);
+}
+.callout .callout-title {
+  font-family: var(--f-label); font-weight:700; text-transform:uppercase;
+  letter-spacing:.14em; font-size: var(--t-2xs); color: var(--ink-3);
+  display:block; margin-bottom: var(--s2);
+}
+/* the amber case: stated limits, thin samples, coverage gaps. Amber is a
+   border and a chip here — never body text on a light ground. */
+.callout-warn { border-left-color: var(--amber); background: var(--warn-bg); }
+.callout-warn .callout-title { color: var(--warn-ink); }
+.callout-quiet { border-left-color: var(--line-strong); background:transparent; color: var(--ink-2); }
+
+/* key/value receipt rows — methodology, profile headers */
+.kv { display:grid; grid-template-columns: max-content 1fr; gap: var(--s2) var(--s5); font-size: var(--t-sm); }
+.kv dt { font-family: var(--f-label); font-weight:600; text-transform:uppercase;
+         letter-spacing:.12em; font-size: var(--t-2xs); color: var(--ink-3); padding-top:3px; }
+.kv dd { color: var(--ink); }
+
+
+/* -------------------------------------------------- 13. FORMS & CONTROLS */
+
+label.field { display:block; }
+.field > .field-label {
+  display:block; font-family: var(--f-label); font-weight:600;
+  text-transform:uppercase; letter-spacing:.13em; font-size: var(--t-2xs);
+  color: var(--ink-3); margin-bottom:6px;
+}
+input[type=text], input[type=email], input[type=url], input[type=search],
+input[type=number], select, textarea {
+  width:100%; font-family: var(--f-body); font-size: var(--t-md);
+  background: var(--surface); color: var(--ink);
+  border:1px solid var(--line-strong); border-radius: var(--radius-ctl);
+  padding: 11px var(--s3); line-height:1.4;
+}
+select { cursor:pointer; }
+textarea { min-height:120px; resize:vertical; }
+input::placeholder, textarea::placeholder { color: var(--ink-3); }
+input:focus, select:focus, textarea:focus { border-color: var(--accent); }
+.field-note { font-size: var(--t-xs); color: var(--ink-3); margin-top:5px; }
+/* Amber is a warning colour on a dark ground; on white it measures 1.44:1, so the
+   required-field marker on the enquiry form was effectively invisible — on the one
+   field the whole funnel depends on (the Transfermarkt link). It carries ink now. */
+.field-req { color: var(--ink); font-weight:700; }
+
+.search {
+  display:flex; align-items:center; gap: var(--s2);
+  border:1px solid var(--line-strong); background: var(--surface);
+  padding: 0 var(--s3);
+}
+.search input { border:0; background:transparent; padding:12px 0; }
+.search input:focus { outline:none; }
+.search:focus-within { border-color: var(--accent); }
+
+.filters {
+  display:flex; gap: var(--s3); flex-wrap:wrap; align-items:flex-end;
+  padding: var(--s4); background: var(--surface); border:1px solid var(--line);
+}
+.filters .field { min-width:150px; }
+
+
+/* --------------------------------------------------- 14. NAV FRAGMENTS */
+
+/* sticky section contents (D4's report viewer, D5's methodology) */
+.anchor-nav {
+  position:sticky; top:80px; align-self:start;
+  border-left:2px solid var(--line); padding-left: var(--s4);
+  display:grid; gap: var(--s2); font-size: var(--t-sm);
+}
+.anchor-nav a { color: var(--ink-3); display:block; }
+.anchor-nav a:hover { color: var(--ink); text-decoration:none; }
+.anchor-nav a[aria-current="true"] { color: var(--accent); font-weight:600; }
+
+.crumbs { font-size: var(--t-xs); color: var(--ink-3); display:flex; gap: var(--s2); flex-wrap:wrap; }
+.crumbs a { color: var(--ink-3); }
+.crumbs a:hover { color: var(--ink); }
+.crumbs .sep { opacity:.5; }
+
+.pager { display:flex; gap: var(--s2); align-items:center; justify-content:center; padding: var(--s5) 0; }
+.pager button, .pager a {
+  font-family: var(--f-num); font-size: var(--t-sm); padding:7px 12px;
+  border:1px solid var(--line-strong); background:transparent; color: var(--ink-2);
+  cursor:pointer;
+}
+.pager [aria-current="page"] { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+
+
+/* ------------------------------------------------------------ 15. MOTION
+   Hooks only — the driver is D6's assets/motion.js. Everything degrades to
+   fully visible with JS off, and stops entirely under reduced-motion.       */
+
+[data-reveal] { opacity:0; transform: translateY(14px); }
+[data-reveal].is-in { opacity:1; transform:none; transition: opacity .5s ease, transform .5s cubic-bezier(.2,.7,.3,1); }
+.no-js [data-reveal], html:not(.js) [data-reveal] { opacity:1; transform:none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior:auto; }
+  *, *::before, *::after {
+    animation-duration:.001ms !important; animation-iteration-count:1 !important;
+    transition-duration:.001ms !important; scroll-behavior:auto !important;
+  }
+  [data-reveal] { opacity:1 !important; transform:none !important; }
+  .pbar .pb-fill { transition:none !important; }
+}
+
+
+/* -------------------------------------------------------- 16. UTILITIES */
+
+.mt0{margin-top:0}.mt2{margin-top:var(--s2)}.mt3{margin-top:var(--s3)}
+.mt4{margin-top:var(--s4)}.mt5{margin-top:var(--s5)}.mt6{margin-top:var(--s6)}
+.mt7{margin-top:var(--s7)}.mb0{margin-bottom:0}.mb3{margin-bottom:var(--s3)}
+.mb4{margin-bottom:var(--s4)}.mb5{margin-bottom:var(--s5)}.mb6{margin-bottom:var(--s6)}
+.tr{text-align:right}.tc{text-align:center}
+.flex-1{flex:1}.w-full{width:100%}
+.hide{display:none}
+@media (max-width:760px){ .hide-sm{display:none} }
+@media (min-width:761px){ .only-sm{display:none} }
+
+
+/* ------------------------------------------------------- 17. RESPONSIVE */
+
+@media (max-width: 980px) {
+  .split { grid-template-columns:1fr; gap: var(--s6); }
+  .cols-4 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+@media (max-width: 760px) {
+  :root { --gut: var(--s4); }
+  .section { padding: var(--s7) 0; }
+  .section-head { margin-bottom: var(--s6); }
+  .cols-2, .cols-3, .cols-4 { grid-template-columns:1fr; }
+  .anchor-nav { position:static; }
+  .btn { width:auto; }
+  .tbl { font-size: var(--t-xs); }
+}
+@media (max-width: 390px) {
+  .tiles { grid-template-columns:1fr; }
+  .btn { font-size: var(--t-sm); padding:12px var(--s4); }
+}
+
+
+/* ---------------------------------------------------------- 18. PRINT */
+
+@media print {
+  .site-nav, .site-footer, .btn, .anchor-nav, .pager { display:none !important; }
+  body { background:#fff; color:#000; }
+  .panel, .tbl { border-color:#999; box-shadow:none; }
+  a { color:#000; text-decoration:underline; }
+}

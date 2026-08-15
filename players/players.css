@@ -1,0 +1,197 @@
+/* Latent — page-unique layout for the player explorer, profiles and compare.
+   Owner: D3. The design system is site/styles.css (D1) and everything that
+   exists there is used from there: .tbl, .tiles, .pbars, .chip, .pill,
+   .callout, .filters, .field, .pager, .btn, bands.
+
+   What lives here is only what D1's component set does not cover — the
+   minutes-by-match strip, the Latent Level sparkline, and the two-sided
+   compare bar. No colour, font, shadow or radius literal appears below:
+   every value is a token, so both themes and all four bands stay correct. */
+
+/* ---------------------------------------------------------- profile hero */
+.phero .pmeta { letter-spacing: .1em; }
+.phero .tiles { margin-top: var(--s6); }
+.crumbs .sep { margin: 0 var(--s1); }
+
+/* one player's Level across seasons — the only cross-competition line we draw */
+.trendrow {
+  display: flex; align-items: center; gap: var(--s6);
+  flex-wrap: wrap; padding: var(--s4) 0;
+  border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+}
+.spark { flex: 0 0 auto; }
+.spark path { stroke: var(--accent); }
+.spark circle { fill: var(--ink); }
+.trendvals { display: flex; gap: var(--s6); flex-wrap: wrap; }
+.trendvals .tv { display: flex; flex-direction: column; gap: var(--s1); }
+
+/* minutes by match — one leaning bar per appearance, height = minutes played */
+.mins .label { display: flex; align-items: center; flex-wrap: wrap; gap: var(--s2); }
+.mins .mkey { color: var(--ink-3); letter-spacing: .06em; }
+.mins .mkey i {
+  display: inline-block; width: 10px; height: 10px;
+  transform: skewX(var(--lean)); vertical-align: -1px;
+  margin: 0 var(--s1) 0 var(--s3);
+}
+.mins .k1 { background: var(--accent); }
+.mins .k2 { background: color-mix(in srgb, var(--accent) 42%, transparent); }
+.mins .k3 { background: var(--ink); }
+.minstrip {
+  display: flex; align-items: flex-end; gap: 3px; height: 52px;
+  border-bottom: 2px solid var(--line-strong); padding-bottom: 1px;
+  overflow-x: auto; -webkit-overflow-scrolling: touch;
+}
+.mbar { width: 10px; flex: 0 0 auto; background: var(--accent); transform: skewX(var(--lean)); }
+.mbar.sub { background: color-mix(in srgb, var(--accent) 42%, transparent); }
+.mbar.ga { background: var(--ink); }
+
+.logbox { max-height: 480px; overflow-y: auto; }
+.lowlist { list-style: none; }
+.lowlist li {
+  font-size: var(--t-sm); color: var(--ink-2);
+  padding: var(--s2) 0; border-top: 1px solid var(--line);
+}
+
+/* collapsible sections — D1 has no disclosure component, so the summary is
+   built from the .label role rather than a colour of its own */
+details > summary {
+  cursor: pointer; list-style: none;
+  font-family: var(--f-label); font-weight: 700;
+  text-transform: uppercase; letter-spacing: .14em;
+  font-size: var(--t-2xs); color: var(--accent);
+}
+details > summary::-webkit-details-marker { display: none; }
+details > summary::before { content: "+"; margin-right: var(--s2); font-family: var(--f-num); }
+details[open] > summary::before { content: "−"; }
+details > summary:hover { color: var(--accent-hover); }
+
+/* ------------------------------------------------------------- explorer */
+.filters .fnarrow { min-width: 108px; max-width: 132px; }
+.filters .fcheck {
+  display: flex; align-items: center; gap: var(--s2);
+  padding-bottom: 11px; margin-left: auto;
+}
+.filters .fcheck input { width: 16px; height: 16px; accent-color: var(--accent); }
+.filters .fcheck span {
+  font-family: var(--f-label); font-weight: 600;
+  text-transform: uppercase; letter-spacing: .13em; font-size: var(--t-2xs);
+  color: var(--ink-2);
+}
+.filters #reset { margin-bottom: 1px; }
+.fstate { font-family: var(--f-num); font-size: var(--t-2xs); }
+
+.tbl .lgtag {
+  font-family: var(--f-label); font-weight: 700;
+  letter-spacing: .1em; font-size: var(--t-2xs); color: var(--ink-3);
+}
+.tbl tbody tr[data-h] { cursor: pointer; }
+/* the identity cell stays on two lines — a wrapped name doubles the row height
+   and the eye loses the column it was scanning */
+.tbl .who, .tbl .who .sub { white-space: nowrap; }
+.tbl .who a { color: var(--ink); }
+.tbl .who a:hover { color: var(--accent); }
+.linkbtn {
+  background: none; border: 0; padding: 0; font: inherit;
+  color: var(--accent); text-decoration: underline; cursor: pointer;
+}
+.pager .pnum { padding: 0 var(--s2); }
+/* the shell's nav is sticky at 64px, so a 0-offset sticky header would park
+   underneath it and vanish on a long scroll */
+#tbl.tbl-sticky thead th { top: 64px; }
+
+/* --------------------------------------------------------------- compare */
+.cmpside { position: relative; }
+.phits {
+  list-style: none; position: absolute; left: 0; right: 0; z-index: 5;
+  margin-top: var(--s1); max-height: 280px; overflow-y: auto;
+  background: var(--surface); border: 1px solid var(--line-strong);
+  box-shadow: var(--shadow);
+}
+.phits button {
+  display: block; width: 100%; text-align: left; cursor: pointer;
+  background: none; border: 0; border-bottom: 1px solid var(--line);
+  padding: var(--s2) var(--s3); font-family: var(--f-body);
+}
+.phits button:hover { background: var(--surface-2); }
+.phits b { display: block; font-size: var(--t-sm); color: var(--ink); }
+.phits span { font-size: var(--t-2xs); color: var(--ink-3); }
+.pchosen { margin-top: var(--s4); }
+.pcard { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--s3); }
+.pcname { display: block; color: var(--ink); }
+.pcname:hover { color: var(--accent); text-decoration: none; }
+.pcard .label { display: block; }
+
+.cmphead {
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+  gap: var(--s4); padding: var(--s5); background: var(--surface-2);
+  border: 1px solid var(--line); margin-bottom: var(--s4);
+}
+.ch { display: flex; flex-direction: column; }
+.ch.b { text-align: right; }
+.chvs { color: var(--accent); letter-spacing: .2em; }
+.cmptable th { text-transform: none; letter-spacing: .04em; font-family: var(--f-body); }
+.cmptable td { width: 34%; font-size: var(--t-md); }
+.cmptable td:first-child { text-align: left; }
+.cmptable td.up { color: var(--accent); font-weight: 600; }
+.cmptable td.dn { color: var(--ink-3); }
+
+/* the two-sided bar: left player grows right-to-left, right player left-to-right */
+.cmpbars { border: 1px solid var(--line); padding: var(--s4) var(--s5); background: var(--surface); }
+.cbrow {
+  display: grid; align-items: center; gap: var(--s3);
+  grid-template-columns: 56px 1fr 30px 152px 30px 1fr 56px;
+  padding: var(--s1) 0; border-top: 1px solid var(--line);
+}
+.cbrow:first-child { border-top: 0; }
+.cbv { font-family: var(--f-num); font-size: var(--t-xs); color: var(--ink); }
+.cbrow .cbv:first-child { text-align: right; }
+.cbl {
+  text-align: center; font-family: var(--f-label); font-weight: 600;
+  text-transform: uppercase; letter-spacing: .08em;
+  font-size: var(--t-2xs); color: var(--ink-2);
+}
+.cbp { font-family: var(--f-num); font-size: var(--t-2xs); color: var(--ink-3); text-align: center; }
+.cbt {
+  height: 12px; background: var(--surface-2); overflow: hidden;
+  transform: skewX(var(--lean)); border: 1px solid var(--line);
+}
+.cbt.l { display: flex; justify-content: flex-end; }
+.cbf { display: block; height: 100%; width: var(--w, 0%); transition: width .8s cubic-bezier(.2,.7,.3,1); }
+.cbf.a { background: color-mix(in srgb, var(--ink) 84%, transparent); }
+.cbf.b { background: var(--accent); }
+
+/* ------------------------------------------------------------ responsive */
+
+/* D1's .pbar drops .pb-pct under 620px to buy width. On a profile that removes
+   the printed percentile and leaves the bar length as the only signal, which
+   breaks the system's own "colour is never the only signal" floor — so here the
+   number moves in beside the value instead of disappearing. Requested as a
+   system change in WARNINGS.md; this override goes when D1 lands it. */
+@media (max-width: 620px) {
+  .pbars .pbar { grid-template-columns: 1fr auto 54px; }
+  .pbars .pbar .pb-label { grid-column: 1; }
+  .pbars .pbar .pb-pct { display: block; grid-column: 2; }
+  .pbars .pbar .pb-value { grid-column: 3; }
+  .pbars .pbar .pb-track { grid-column: 1 / -1; }
+}
+
+@media (max-width: 900px) {
+  .cbrow { grid-template-columns: 48px 1fr 26px 112px 26px 1fr 48px; gap: var(--s2); }
+}
+@media (max-width: 720px) {
+  .filters .fcheck { margin-left: 0; }
+  .cmphead { grid-template-columns: 1fr; gap: var(--s2); }
+  .ch.b { text-align: left; }
+  .cbrow {
+    grid-template-columns: 46px 1fr 1fr 46px;
+    grid-template-areas: "lbl lbl lbl lbl" "va ba bb vb";
+    gap: var(--s2);
+  }
+  .cbl { grid-area: lbl; text-align: left; }
+  .cbrow .cbp { display: none; }
+  .cbrow .cbv:first-child { grid-area: va; }
+  .cbrow .cbv:last-child { grid-area: vb; }
+  .cbt.l { grid-area: ba; }
+  .cbt.r { grid-area: bb; }
+  .trendrow { gap: var(--s4); }
+}
