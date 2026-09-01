@@ -1,0 +1,640 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The database · Latent</title>
+<meta name="description" content="13 competitions, 13,401 matches, 26,238 player-seasons: every season we hold and the date of the last match ingested. No claim without the table behind it.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230A0A0A'/%3E%3Cpath d='M17%2088L38%2088L52%2050L42%2024Z' fill='white'/%3E%3Cpath d='M35%2012L56%2012L85%2088L64%2088Z' fill='%232FA3EC'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#FFFFFF">
+<meta property="og:image" content="https://latentscouting.com/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preload" href="assets/fonts/inter-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="styles.css">
+<script>document.documentElement.classList.add('js')</script>
+<style>
+/* D2 · homepage layout only — colour/type/shadow all come from styles.css */
+
+/* ---- landing (FACTS-shaped: full bleed, centred, one call to action) ----
+   The only place on the site that runs an inverted ground. Everything below it
+   is the white register D1 owns; this band paints its own colours locally and
+   restores the page tokens on the way out, so nothing leaks downward. */
+.landing {
+  position: relative; isolation: isolate; overflow: hidden;
+  padding: clamp(64px, 13vh, 132px) 0 clamp(56px, 11vh, 116px);
+  text-align: center;
+}
+/* Flat carbon, no radial glow (2026-08-25: the top-glow read as the "radial
+   orb" AI tell on Vic's list; the flat ground was already documented here as
+   the honest fallback). The legibility-pocket scrims below stay — they are
+   functional (text over the scatter field), invisible as shapes. */
+.landing-ink {
+  background-color: #0A0A0A;
+  color: #FFFFFF;
+}
+.landing-paper { background-color: var(--sky-wash); color: var(--ink); }
+.landing .field {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  z-index: -1; pointer-events: none;
+}
+.landing-ink .field { fill: #FFFFFF; opacity: .17; }
+.landing-paper .field { fill: var(--sky-ink); opacity: .16; }
+/* the wordmark and the copy sit in a legibility pocket, so the scatter can run
+   at full density behind them without ever competing with the type */
+.landing-inner { position: relative; }
+.landing-ink .landing-inner::before {
+  content: ""; position: absolute; z-index: -1;
+  inset: -12% -6%;
+  background: radial-gradient(58% 52% at 50% 46%, rgba(10,10,10,.86) 0%,
+                              rgba(10,10,10,.62) 48%, rgba(10,10,10,0) 100%);
+}
+.landing-paper .landing-inner::before {
+  content: ""; position: absolute; z-index: -1;
+  inset: -12% -6%;
+  background: radial-gradient(58% 52% at 50% 46%, rgba(232,244,253,.92) 0%,
+                              rgba(232,244,253,.70) 48%, rgba(232,244,253,0) 100%);
+}
+/* FACTS's proportion, which is the reason their hero reads at a glance: the mark
+   is the dominant object and the sentence under it is small. Reversing that (big
+   headline, small mark) made the two compete — the nav already carries a wordmark
+   at 22px, so a mid-sized one here just looked like a second nav. */
+.landing-mark {
+  font-family: var(--f-mark); font-weight: 800;
+  font-size: clamp(46px, 2rem + 5.4vw, 104px);
+  letter-spacing: -.045em; line-height: .95;
+  color: var(--ink);
+  display: flex; align-items: center; justify-content: center; gap: .24em;
+}
+.landing-mark .mark-glyph { width: .88em; height: .88em; }
+.landing-ink .landing-mark { color: #FFFFFF; }
+.landing-mark .dot { color: var(--sky); }
+/* h1/h2/h3 carry `color: var(--ink)` from D1's baseline, so inheriting the band's
+   colour is not enough on the inverted ground — it has to be set outright, or the
+   headline renders black on black. This cost one screenshot; do not "simplify" it. */
+.landing-line {
+  font-family: var(--f-head); font-weight: 600;
+  font-size: clamp(17px, .9rem + .75vw, 25px);
+  letter-spacing: -.015em; line-height: 1.35;
+  margin: var(--s5) auto 0; max-width: 30ch; text-wrap: balance;
+  color: var(--ink);
+}
+.landing-ink .landing-line { color: #FFFFFF; }
+.landing-sub {
+  margin: var(--s5) auto 0; max-width: 60ch;
+  font-size: var(--t-md); line-height: 1.65;
+  color: var(--ink-2);
+}
+.landing-ink .landing-sub { color: rgba(255,255,255,.78); }
+.landing-cta {
+  display: flex; gap: var(--s4); justify-content: center; flex-wrap: wrap;
+  margin-top: var(--s7);
+}
+.landing-meta {
+  margin-top: var(--s6); font-size: var(--t-xs);
+  letter-spacing: .04em;
+}
+.landing-ink .landing-meta { color: rgba(255,255,255,.60); }
+.landing-paper .landing-meta { color: var(--ink-3); }
+/* the inverted ground needs its own button skins — D1's ghost button is drawn
+   for black-on-white and disappears entirely on a dark panel */
+.landing-ink .btn { background: var(--sky); color: #0A0A0A; border-color: var(--sky); }
+.landing-ink .btn:hover { background: #FFFFFF; border-color: #FFFFFF; color: #0A0A0A; }
+.landing-ink .btn-ghost {
+  background: transparent; color: #FFFFFF; border-color: rgba(255,255,255,.42);
+}
+.landing-ink .btn-ghost:hover {
+  background: rgba(255,255,255,.10); border-color: #FFFFFF; color: #FFFFFF;
+}
+.landing-ink .btn:focus-visible, .landing-ink .btn-ghost:focus-visible {
+  outline: 3px solid #FFFFFF; outline-offset: 3px;
+}
+@media (max-width: 620px) {
+  .landing-cta .btn { width: 100%; justify-content: center; }
+}
+
+/* ---- proof strip (FACTS runs client logos here; we run the database) ---- */
+.strip { padding: var(--s6) 0; }
+.strip-grid {
+  display: grid; grid-template-columns: repeat(5, minmax(0,1fr));
+  gap: var(--s5); align-items: start; text-align: center;
+}
+.strip-cell { display: flex; flex-direction: column; gap: var(--s1); }
+.strip-cell .figure {
+  font-family: var(--f-num); font-weight: 700;
+  font-size: clamp(20px, .8rem + 1.3vw, 30px); letter-spacing: -.02em;
+  line-height: 1.1; color: var(--ink);
+}
+.strip-cell .caption {
+  font-size: var(--t-2xs); text-transform: uppercase; letter-spacing: .12em;
+  color: var(--ink-3);
+}
+@media (max-width: 860px) {
+  .strip-grid { grid-template-columns: repeat(2, minmax(0,1fr)); gap: var(--s5) var(--s4); }
+  .strip-cell:last-child { grid-column: 1 / -1; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   DECK REGISTER — everything below the landing panel
+   Lifted from the "Who Pays Latent" deck (Vic, 2026-08-15: "i like the style
+   of that more than the website's content itself... i think its the minimalism
+   that makes it so nice"). The deck already ran D1's tokens, so nothing here
+   introduces a colour or a face — what changes is DENSITY:
+
+     · one idea per section, and one component under it
+     · sections breathe at clamp(72px, 11vh, 132px) instead of a fixed step
+     · headings run to 50px; ledes cap at 60ch and stop
+     · caveats become .foot small print, never a boxed callout mid-page
+     · figures are a sky rule and a number, not a bordered tile
+     · the ground barely moves: mostly white, tint alternating, wash once,
+       ink once at the close
+
+   The one rule to keep: this scope MUST NOT delete a stated limit. Every
+   caveat that used to sit in a .callout is still on the page — it moved into
+   .foot. Cutting the number of words is the brief; cutting the honesty is not.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.sec { padding: clamp(72px,11vh,132px) 0; border-bottom: 1px solid var(--line); }
+.sec:last-of-type { border-bottom: 0; }
+.sec.tint { background: var(--surface-2); border-bottom-color: transparent; }
+.sec.wash { background: var(--sky-wash); border-bottom-color: transparent; }
+/* Inverting a band means inverting the ACCENT too, not just the ink. --sky-ink is
+   tuned to clear AA on white and measures 3.5:1 on carbon, so links inside this
+   band (the Instagram/X lines) failed until --accent moved to --sky-bright. Any
+   future inverted surface must do the same. */
+.sec.ink {
+  --surface: #141414; --surface-2: #1C1C1C;
+  --ink: #FFFFFF; --ink-2: rgba(255,255,255,.76); --ink-3: rgba(255,255,255,.56);
+  --line: rgba(255,255,255,.16); --line-strong: rgba(255,255,255,.34);
+  --accent: var(--sky-bright); --accent-hover: #FFFFFF; --on-accent: #0A0A0A;
+  --focus: var(--sky-bright);
+  background: var(--carbon); color: #FFFFFF; border-bottom-color: transparent;
+}
+.sec.ink a { color: var(--sky-bright); }
+.sec.ink .btn { background: var(--sky); border-color: var(--sky); color: #0A0A0A; }
+.sec.ink .btn:hover { background: #FFFFFF; border-color: #FFFFFF; color: #0A0A0A; }
+.sec.ink .btn-ghost { background: transparent; color: #FFFFFF; border-color: rgba(255,255,255,.42); }
+.sec.ink .btn-ghost:hover { background: rgba(255,255,255,.10); border-color: #FFFFFF; color: #FFFFFF; }
+.sec.ink .eyebrow { color: var(--sky-bright); }
+.sec.ink .stat { border-left-color: var(--sky-bright); }
+
+.sec .eyebrow { display:block; margin-bottom: var(--s4); }
+.sec h2 {
+  font-size: clamp(27px, 1.5rem + 1.9vw, 50px); font-weight: 800;
+  line-height: 1.04; letter-spacing: -.03em; margin-bottom: var(--s4);
+  text-wrap: balance; max-width: 26ch;
+}
+.sec .lede {
+  font-size: clamp(17px, 1rem + .5vw, 22px); line-height: 1.45;
+  letter-spacing: -.011em; color: var(--ink-2); max-width: 60ch;
+}
+.sec .head { margin-bottom: clamp(28px, 5vh, 56px); }
+
+/* small print under a component: where every stated limit now lives */
+.foot {
+  margin-top: clamp(22px, 3.5vh, 34px); padding-top: var(--s3);
+  border-top: 1px solid var(--line);
+  font-size: var(--t-2xs); line-height: 1.55; color: var(--ink-3); max-width: 88ch;
+}
+.foot a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.foot + .foot { margin-top: var(--s3); border-top: 0; padding-top: 0; }
+
+/* a figure is a sky rule and a number — no box, no shadow */
+.stat { border-left: 3px solid var(--sky); padding-left: var(--s3); }
+.stat .v {
+  display: block; font-family: var(--f-num); font-variant-numeric: tabular-nums;
+  font-weight: 800; font-size: clamp(26px, 1.3rem + 1.5vw, 42px);
+  line-height: 1.02; letter-spacing: -.03em; color: var(--ink);
+}
+.stat .k {
+  display: block; font-size: 12.5px; line-height: 1.35;
+  color: var(--ink-3); margin-top: var(--s1);
+}
+
+ul.tick { list-style: none; padding: 0; margin: 0; display: grid; gap: 9px; }
+ul.tick li {
+  position: relative; padding-left: 22px; font-size: 15px;
+  line-height: 1.45; color: var(--ink-2);
+}
+ul.tick li::before {
+  content: ""; position: absolute; left: 0; top: .55em;
+  width: 9px; height: 9px; background: var(--sky); border-radius: 2px;
+}
+ul.tick li b { color: var(--ink); font-weight: 600; }
+
+.quote {
+  border-left: 3px solid var(--sky); padding-left: var(--s5);
+  font-size: clamp(19px, 1rem + .9vw, 30px); line-height: 1.3;
+  letter-spacing: -.02em; font-weight: 600; color: var(--ink);
+  max-width: 24ch;
+}
+.sec.ink .quote { border-left-color: var(--sky-bright); }
+
+/* cards: hairline, one sky edge, nothing else */
+.deck-card {
+  display: flex; flex-direction: column; align-items: flex-start;
+  background: var(--surface); border: 1px solid var(--line);
+  border-top: 4px solid var(--sky); border-radius: var(--radius);
+  padding: clamp(18px,1.8vw,26px);
+}
+.deck-card h3 { font-size: var(--t-xl); letter-spacing: -.018em; margin-bottom: var(--s3); }
+.deck-card p { font-size: 14.5px; color: var(--ink-2); }
+.deck-card .kicker {
+  display: block; font-family: var(--f-num); font-variant-numeric: tabular-nums;
+  font-weight: 800; font-size: var(--t-3xs); letter-spacing: .1em;
+  color: var(--sky-ink); margin-bottom: var(--s3);
+}
+/* The CTA sits on a common baseline across the row: `margin-top:auto` eats the
+   leftover height in the flex column. The minimum gap has to come from the
+   element ABOVE it — a `* + .btn { margin-top }` rule would out-specify `auto`
+   and drop each button back to natural flow, which staggers them by card. */
+.deck-card p, .deck-card ul.tick { margin-bottom: var(--s5); }
+.deck-card .btn { margin-top: auto; }
+.deck-card.quiet { border-top-color: var(--line-strong); background: transparent; }
+
+.grid-2 { display:grid; gap: clamp(14px,1.6vw,22px); grid-template-columns: repeat(2,minmax(0,1fr)); }
+.grid-3 { display:grid; gap: clamp(14px,1.6vw,22px); grid-template-columns: repeat(3,minmax(0,1fr)); }
+.grid-4 { display:grid; gap: clamp(14px,1.6vw,22px); grid-template-columns: repeat(4,minmax(0,1fr)); }
+.stat-row { display:grid; gap: clamp(16px,2vw,28px); grid-template-columns: repeat(4,minmax(0,1fr)); }
+.deck-split {
+  display: grid; grid-template-columns: minmax(0,.92fr) minmax(0,1.08fr);
+  gap: clamp(28px,4vw,64px); align-items: start;
+}
+@media (max-width: 940px) {
+  .grid-3, .grid-4, .stat-row { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .deck-split { grid-template-columns: minmax(0,1fr); gap: var(--s7); }
+}
+@media (max-width: 620px) {
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: minmax(0,1fr); }
+  .sec { padding: var(--s8) 0; }
+}
+
+/* tables lose their chrome: hairline rules, no zebra, no wrapper card */
+.sec .tbl-wrap { border: 0; border-radius: 0; background: transparent; overflow-x: auto; }
+.sec .tbl { border-collapse: collapse; width: 100%; }
+.sec .tbl th, .sec .tbl td {
+  border-bottom: 1px solid var(--line); padding: 13px 14px; background: transparent;
+}
+.sec .tbl thead th {
+  font-size: var(--t-3xs); text-transform: uppercase; letter-spacing: .13em;
+  color: var(--ink-3); font-weight: 700; border-bottom: 1px solid var(--line-strong);
+}
+.sec .tbl tbody tr:hover { background: var(--surface-2); }
+.sec .tbl tfoot td { border-bottom: 0; border-top: 1px solid var(--line-strong); font-weight: 600; }
+.sec .tbl caption {
+  text-align: left; padding: 0 0 var(--s3); font-weight: 700;
+  font-size: var(--t-md); letter-spacing: -.01em; color: var(--ink);
+}
+.sec .tbl caption .cap-note {
+  display: block; font-weight: 400; font-size: var(--t-2xs);
+  letter-spacing: 0; color: var(--ink-3); margin-top: 3px;
+}
+.board-grid { grid-template-columns: repeat(auto-fill, minmax(290px,1fr)); gap: clamp(24px,3vw,44px); }
+
+.live-split .livecard { box-shadow: var(--shadow); }
+
+/* the enquiry card carries its own field rhythm: D1's .field has no vertical
+   margin of its own, so without this every label sits on the input above it */
+.enq-card { background: var(--surface); border-radius: var(--radius); padding: clamp(22px,2.4vw,38px); }
+/* The `>` is load-bearing. Without it, `.field + .field` also matches the two
+   fields INSIDE a .field-pair, so the right-hand one takes a 24px top margin and
+   the pair renders visibly staggered — labels and inputs one line out of step. */
+.enq-card > .field + .field,
+.enq-card > .field-pair + .field,
+.enq-card > .field + .field-pair,
+.enq-card > .field-pair + .field-pair { margin-top: var(--s5); }
+.field-pair { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s4); align-items: start; }
+@media (max-width: 620px) { .field-pair { grid-template-columns: 1fr; } }
+
+/* The close is an ink band and the footer is ink too, so D1's footer margin was
+   drawing a white stripe between two black surfaces. This CSS block is inlined
+   only into the pages this file emits, so the bare sibling selector never
+   reaches the rest of the site, which still wants the margin. */
+main + .site-footer { margin-top: 0; }
+
+/* board captions are competition codes, not prose — D1 sets tables in italic */
+.sec .tbl caption { font-style: normal; }
+.livecard .pbars { margin-top: var(--s4); }
+.livecard .lvl { display: flex; align-items: baseline; gap: var(--s3); flex-wrap: wrap;
+                 margin-top: var(--s4); padding-top: var(--s4); border-top: 1px solid var(--line); }
+.board-grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--s6) var(--s5); }
+.sample-stats { margin-top: var(--s4); }
+.sample-case { margin-top: var(--s4); }
+.cadence { margin-top: var(--s6); }
+.enq-grid { grid-template-columns: 1.25fr .75fr; align-items: start; gap: var(--s6); }
+/* spacing between the form's own rows only — never between the two halves of a
+   pair, which must stay top-aligned with each other */
+.enq-grid form > .field + .field,
+.enq-grid form > .field-pair + .field,
+.enq-grid form > .field + .field-pair,
+.enq-grid form > .field-pair + .field-pair { margin-top: var(--s4); }
+.field-pair { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s4); align-items: start; }
+@media (max-width: 980px) { .enq-grid { grid-template-columns: 1fr; } }
+@media (max-width: 620px) { .field-pair { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-nav">
+  <div class="wrap">
+    <a class="mark" href="index.html"><svg class="mark-glyph" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><path class="g-leg" d="M17 88 L38 88 L52 50 L42 24 Z"/><path class="g-main" d="M35 12 L56 12 L85 88 L64 88 Z"/></svg>Latent</a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="players/index.html">Players</a>
+      <a href="full-report.html">Reports</a>
+      <a href="methodology.html">Methodology</a>
+      <a href="ledger.html">Ledger</a>
+    </nav>
+    <a class="btn btn-sm nav-cta" href="index.html#enquire"><span>Enquire</span></a>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ============================ 01 · COUNTERS ============================ -->
+<section class="sec">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">The database</p>
+      <h2>Every number here is a live read</h2>
+      <p class="lede">Every figure is queried from the match database at build
+        time.</p>
+    </div>
+    <div class="stat-row">
+        <div class="stat"><span class="v">407,495</span><span class="k">Player-match stat lines</span></div>
+        <div class="stat"><span class="v">26,238</span><span class="k">Player-seasons derived</span></div>
+        <div class="stat"><span class="v">8,924</span><span class="k">Rankable players</span></div>
+        <div class="stat"><span class="v">13</span><span class="k">Competitions ingested</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 04 · COVERAGE =========================== -->
+<section class="sec tint" id="coverage">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">No claim without the table behind it</p>
+      <h2>What is actually in the database</h2>
+      <p class="lede">Every competition, every season, and the date of the last
+        match ingested.</p>
+    </div>
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead>
+          <tr><th scope="col">Code</th><th scope="col" class="n">Seasons</th>
+            <th scope="col" class="n">Span</th><th scope="col" class="n">Matches</th>
+            <th scope="col" class="n">Player-seasons</th><th scope="col" class="n">Rankable</th>
+            <th scope="col" class="n">Last match</th></tr>
+        </thead>
+        <tbody>
+            <tr><td class="who num">USLC</td><td class="n">7</td><td class="n">2020–2026</td><td class="n">2,752</td><td class="n">4,972</td><td class="n">1,725</td><td class="n">27 Aug 2026</td></tr>
+            <tr><td class="who num">SRB</td><td class="n">7</td><td class="n">20/21–26/27</td><td class="n">1,913</td><td class="n">3,731</td><td class="n">1,273</td><td class="n">23 Aug 2026</td></tr>
+            <tr><td class="who num">EKS</td><td class="n">6</td><td class="n">21/22–26/27</td><td class="n">1,568</td><td class="n">3,075</td><td class="n">1,109</td><td class="n">23 Aug 2026</td></tr>
+            <tr><td class="who num">ROU</td><td class="n">5</td><td class="n">22/23–26/27</td><td class="n">1,329</td><td class="n">2,467</td><td class="n">910</td><td class="n">24 Aug 2026</td></tr>
+            <tr><td class="who num">CZE</td><td class="n">5</td><td class="n">22/23–26/27</td><td class="n">1,156</td><td class="n">2,400</td><td class="n">758</td><td class="n">23 Aug 2026</td></tr>
+            <tr><td class="who num">CRO</td><td class="n">7</td><td class="n">20/21–26/27</td><td class="n">1,099</td><td class="n">2,300</td><td class="n">761</td><td class="n">23 Aug 2026</td></tr>
+            <tr><td class="who num">LAT</td><td class="n">4</td><td class="n">2023–2026</td><td class="n">678</td><td class="n">1,218</td><td class="n">495</td><td class="n">25 Aug 2026</td></tr>
+            <tr><td class="who num">LIT</td><td class="n">4</td><td class="n">2023–2026</td><td class="n">670</td><td class="n">1,149</td><td class="n">507</td><td class="n">24 Aug 2026</td></tr>
+            <tr><td class="who num">EST</td><td class="n">4</td><td class="n">2023–2026</td><td class="n">663</td><td class="n">1,134</td><td class="n">414</td><td class="n">26 Aug 2026</td></tr>
+            <tr><td class="who num">HUN</td><td class="n">4</td><td class="n">23/24–26/27</td><td class="n">622</td><td class="n">1,404</td><td class="n">546</td><td class="n">23 Aug 2026</td></tr>
+            <tr><td class="who num">SVK</td><td class="n">4</td><td class="n">23/24–26/27</td><td class="n">613</td><td class="n">1,355</td><td class="n">532</td><td class="n">23 Aug 2026</td></tr>
+            <tr><td class="who num">UPL</td><td class="n">2</td><td class="n">25/26–26/27</td><td class="n">266</td><td class="n">834</td><td class="n">384</td><td class="n">17 Aug 2026</td></tr>
+            <tr><td class="who num">CPL</td><td class="n">1</td><td class="n">2026</td><td class="n">72</td><td class="n">199</td><td class="n">151</td><td class="n">23 Aug 2026</td></tr>
+        </tbody>
+        <tfoot>
+            <tr><td class="who num">All</td><td class="n">60</td><td class="n">—</td><td class="n">13,401</td><td class="n">26,238</td><td class="n">8,924</td><td class="n">27 Aug 2026</td></tr>
+        </tfoot>
+      </table>
+    </div>
+    <p class="foot">Rankable: past <span class="num">270</span> minutes in
+      a season. Of <span class="num">26,238</span> player-seasons,
+      <span class="num">17,363</span> carry an Export Index and
+      <span class="num">17,363</span> a Latent Level; the rest miss the
+      minutes or ten-player cohort floor, or are goalkeepers, unranked because the
+      index holds no goalkeeping actions.
+      <a href="methodology.html">Stated limits in full</a>.</p>
+  </div>
+</section>
+
+<!-- ============================ 05 · EXPORT INDEX ======================= -->
+<section class="sec" id="index">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">The flagship number</p>
+      <h2>One score per player</h2>
+      <p class="lede">Per-90 output ranked inside one competition, season and
+        position group, age-adjusted: who is statistically ready for a move up.</p>
+    </div>
+    <div class="grid-3 board-grid" data-reveal-group>
+      <table class="tbl tbl-hover" data-reveal>
+        <caption>EKS<span class="cap-note">26/27 · top 5 of <span class="num">111</span> players ranked in this competition and season</span></caption>
+        <tbody>
+          <tr><td class="rank">01</td><td class="who">Marko Božić<span class="sub">Wisła Kraków · MF · 28</span></td><td class="n"><span class="chip"><span class="num">839</span></span></td></tr>
+          <tr><td class="rank">02</td><td class="who">Mario Garcia<span class="sub">Widzew Łódź · DF · 22</span></td><td class="n"><span class="chip"><span class="num">838</span></span></td></tr>
+          <tr><td class="rank">03</td><td class="who">Rafał Augustyniak<span class="sub">Legia Warszawa · DF · 32</span></td><td class="n"><span class="chip"><span class="num">820</span></span></td></tr>
+          <tr><td class="rank">04</td><td class="who">Piotr Samiec-Talar<span class="sub">Śląsk Wrocław · MF · 24</span></td><td class="n"><span class="chip"><span class="num">804</span></span></td></tr>
+          <tr><td class="rank">05</td><td class="who">Rúben Vinagre<span class="sub">Legia Warszawa · DF · 27</span></td><td class="n"><span class="chip"><span class="num">767</span></span></td></tr>
+        </tbody>
+      </table>
+      <table class="tbl tbl-hover" data-reveal>
+        <caption>CZE<span class="cap-note">26/27 · top 5 of <span class="num">104</span> players ranked in this competition and season</span></caption>
+        <tbody>
+          <tr><td class="rank">01</td><td class="who">Wiktor Nowak<span class="sub">SK Slavia Praha · MF · 21</span></td><td class="n"><span class="chip"><span class="num">842</span></span></td></tr>
+          <tr><td class="rank">02</td><td class="who">Mubarak Suleiman<span class="sub">SK Slavia Praha · MF · 19</span></td><td class="n"><span class="chip"><span class="num">805</span></span></td></tr>
+          <tr><td class="rank">03</td><td class="who">Martin Šubert<span class="sub">Mladá Boleslav · MF · 24</span></td><td class="n"><span class="chip"><span class="num">790</span></span></td></tr>
+          <tr><td class="rank">04</td><td class="who">Abdoulaye Sylla<span class="sub">SK Sigma Olomouc · DF · 26</span></td><td class="n"><span class="chip"><span class="num">782</span></span></td></tr>
+          <tr><td class="rank">05</td><td class="who">Simon Sloncik<span class="sub">1. FC Slovácko · DF · 19</span></td><td class="n"><span class="chip"><span class="num">760</span></span></td></tr>
+        </tbody>
+      </table>
+      <table class="tbl tbl-hover" data-reveal>
+        <caption>CRO<span class="cap-note">26/27 · top 5 of <span class="num">47</span> players ranked in this competition and season</span></caption>
+        <tbody>
+          <tr><td class="rank">01</td><td class="who">Šimun Hrgović<span class="sub">HNK Hajduk Split · DF · 22</span></td><td class="n"><span class="chip"><span class="num">901</span></span></td></tr>
+          <tr><td class="rank">02</td><td class="who">Domagoj Bukvić<span class="sub">NK Osijek · MF · 22</span></td><td class="n"><span class="chip"><span class="num">870</span></span></td></tr>
+          <tr><td class="rank">03</td><td class="who">Roko Jurišić<span class="sub">NK Osijek · DF · 24</span></td><td class="n"><span class="chip"><span class="num">775</span></span></td></tr>
+          <tr><td class="rank">04</td><td class="who">Rokas Pukštas<span class="sub">HNK Hajduk Split · MF · 22</span></td><td class="n"><span class="chip"><span class="num">735</span></span></td></tr>
+          <tr><td class="rank">05</td><td class="who">Vedran Celjak<span class="sub">NK Rudeš · DF · 35</span></td><td class="n"><span class="chip"><span class="num">723</span></span></td></tr>
+        </tbody>
+      </table>
+      <table class="tbl tbl-hover" data-reveal>
+        <caption>UPL<span class="cap-note">26/27 · top 5 of <span class="num">25</span> players ranked in this competition and season</span></caption>
+        <tbody>
+          <tr><td class="rank">01</td><td class="who">Jan Jurčec<span class="sub">FC Kryvbas Kryvyi Rih · DF · 25</span></td><td class="n"><span class="chip"><span class="num">775</span></span></td></tr>
+          <tr><td class="rank">02</td><td class="who">Sergiy Chobotenko<span class="sub">Polissya Zhytomyr · DF · 29</span></td><td class="n"><span class="chip"><span class="num">710</span></span></td></tr>
+          <tr><td class="rank">03</td><td class="who">Illia Krupskyi<span class="sub">FC Kharkiv · DF · 21</span></td><td class="n"><span class="chip"><span class="num">679</span></span></td></tr>
+          <tr><td class="rank">04</td><td class="who">Vladislav Baboglo<span class="sub">Karpaty Lviv · DF · 27</span></td><td class="n"><span class="chip"><span class="num">640</span></span></td></tr>
+          <tr><td class="rank">05</td><td class="who">Borys Krushynskyi<span class="sub">Polissya Zhytomyr · DF · 24</span></td><td class="n"><span class="chip"><span class="num">599</span></span></td></tr>
+        </tbody>
+      </table>
+      <table class="tbl tbl-hover" data-reveal>
+        <caption>HUN<span class="cap-note">26/27 · top 5 of <span class="num">92</span> players ranked in this competition and season</span></caption>
+        <tbody>
+          <tr><td class="rank">01</td><td class="who">Zalán Kerezsi<span class="sub">MTK Budapest · FW · 23</span></td><td class="n"><span class="chip"><span class="num">862</span></span></td></tr>
+          <tr><td class="rank">02</td><td class="who">Krisztofer Horváth<span class="sub">Újpest · MF · 24</span></td><td class="n"><span class="chip"><span class="num">853</span></span></td></tr>
+          <tr><td class="rank">03</td><td class="who">Marko Matanović<span class="sub">Kisvárda FC · MF · 26</span></td><td class="n"><span class="chip"><span class="num">815</span></span></td></tr>
+          <tr><td class="rank">04</td><td class="who">József Szalai<span class="sub">Paksi FC · FW · 23</span></td><td class="n"><span class="chip"><span class="num">803</span></span></td></tr>
+          <tr><td class="rank">05</td><td class="who">Gábor Jurek<span class="sub">MTK Budapest · MF · 22</span></td><td class="n"><span class="chip"><span class="num">791</span></span></td></tr>
+        </tbody>
+      </table>
+      <table class="tbl tbl-hover" data-reveal>
+        <caption>ROU<span class="cap-note">26/27 · top 5 of <span class="num">155</span> players ranked in this competition and season</span></caption>
+        <tbody>
+          <tr><td class="rank">01</td><td class="who">Danny Armstrong<span class="sub">FC Dinamo București · FW · 28</span></td><td class="n"><span class="chip"><span class="num">872</span></span></td></tr>
+          <tr><td class="rank">02</td><td class="who">Carlos Mora<span class="sub">Universitatea Craiova · MF · 25</span></td><td class="n"><span class="chip"><span class="num">809</span></span></td></tr>
+          <tr><td class="rank">03</td><td class="who">Matteo Ahlinvi<span class="sub">FCV Farul Constanța · FW · 27</span></td><td class="n"><span class="chip"><span class="num">796</span></span></td></tr>
+          <tr><td class="rank">04</td><td class="who">Olimpiu Moruțan<span class="sub">FC Rapid București · MF · 27</span></td><td class="n"><span class="chip"><span class="num">753</span></span></td></tr>
+          <tr><td class="rank">05</td><td class="who">Dmytro Pospelov<span class="sub">UTA Arad · DF · 34</span></td><td class="n"><span class="chip"><span class="num">733</span></span></td></tr>
+        </tbody>
+      </table>
+      <table class="tbl tbl-hover" data-reveal>
+        <caption>SRB<span class="cap-note">26/27 · top 5 of <span class="num">121</span> players ranked in this competition and season</span></caption>
+        <tbody>
+          <tr><td class="rank">01</td><td class="who">Milan Vukotić<span class="sub">FK Partizan · MF · 23</span></td><td class="n"><span class="chip"><span class="num">900</span></span></td></tr>
+          <tr><td class="rank">02</td><td class="who">Milan Roganović<span class="sub">FK Partizan · DF · 20</span></td><td class="n"><span class="chip"><span class="num">893</span></span></td></tr>
+          <tr><td class="rank">03</td><td class="who">Jovan Šljivić<span class="sub">OFK Beograd Mozzart Bet · MF · 20</span></td><td class="n"><span class="chip"><span class="num">794</span></span></td></tr>
+          <tr><td class="rank">04</td><td class="who">Mohamed Cissé<span class="sub">FK Radnički 1923 · FW · 25</span></td><td class="n"><span class="chip"><span class="num">779</span></span></td></tr>
+          <tr><td class="rank">05</td><td class="who">Aderoju Hameed Ayinde<span class="sub">OFK Beograd Mozzart Bet · MF · 21</span></td><td class="n"><span class="chip"><span class="num">765</span></span></td></tr>
+        </tbody>
+      </table>
+      <table class="tbl tbl-hover" data-reveal>
+        <caption>SVK<span class="cap-note">26/27 · top 5 of <span class="num">89</span> players ranked in this competition and season</span></caption>
+        <tbody>
+          <tr><td class="rank">01</td><td class="who">Peter Kováčik<span class="sub">FK Železiarne Podbrezová · MF · 24</span></td><td class="n"><span class="chip"><span class="num">948</span></span></td></tr>
+          <tr><td class="rank">02</td><td class="who">Giorgi Gagua<span class="sub">DAC 1904 · FW · 24</span></td><td class="n"><span class="chip"><span class="num">937</span></span></td></tr>
+          <tr><td class="rank">03</td><td class="who">Krisztián Bari<span class="sub">MŠK Žilina · MF · 25</span></td><td class="n"><span class="chip"><span class="num">834</span></span></td></tr>
+          <tr><td class="rank">04</td><td class="who">Erik Sabo<span class="sub">FC Spartak Trnava · DF · 34</span></td><td class="n"><span class="chip"><span class="num">775</span></span></td></tr>
+          <tr><td class="rank">05</td><td class="who">Eynel Soares<span class="sub">AS Trenčín · MF · 27</span></td><td class="n"><span class="chip"><span class="num">766</span></span></td></tr>
+        </tbody>
+      </table>
+      <table class="tbl tbl-hover" data-reveal>
+        <caption>USLC<span class="cap-note">2026 · top 5 of <span class="num">435</span> players ranked in this competition and season</span></caption>
+        <tbody>
+          <tr><td class="rank">01</td><td class="who">Mattheus<span class="sub">FC Tampa Bay Rowdies · MF · 32</span></td><td class="n"><span class="chip"><span class="num">882</span></span></td></tr>
+          <tr><td class="rank">02</td><td class="who">Sadam  Masereka<span class="sub">Colorado Springs Switchbacks FC · MF · 21</span></td><td class="n"><span class="chip"><span class="num">853</span></span></td></tr>
+          <tr><td class="rank">03</td><td class="who">Jorge Hernandez<span class="sub">San Antonio FC · MF · 25</span></td><td class="n"><span class="chip"><span class="num">848</span></span></td></tr>
+          <tr><td class="rank">04</td><td class="who">CJ Olney Jr.<span class="sub">Brooklyn FC · MF · 19</span></td><td class="n"><span class="chip"><span class="num">840</span></span></td></tr>
+          <tr><td class="rank">05</td><td class="who">Owen Damm<span class="sub">FC Tulsa · DF · 23</span></td><td class="n"><span class="chip"><span class="num">834</span></span></td></tr>
+        </tbody>
+      </table>
+      <table class="tbl tbl-hover" data-reveal>
+        <caption>LIT<span class="cap-note">2026 · top 5 of <span class="num">185</span> players ranked in this competition and season</span></caption>
+        <tbody>
+          <tr><td class="rank">01</td><td class="who">Stanislav Bilenkyi<span class="sub">FK Žalgiris · FW · 28</span></td><td class="n"><span class="chip"><span class="num">895</span></span></td></tr>
+          <tr><td class="rank">02</td><td class="who">Jeudi Stevenson<span class="sub">FK Transinvest · FW · 21</span></td><td class="n"><span class="chip"><span class="num">881</span></span></td></tr>
+          <tr><td class="rank">03</td><td class="who">Rati Grigalava<span class="sub">FK Sūduva Marijampolė · DF · 20</span></td><td class="n"><span class="chip"><span class="num">875</span></span></td></tr>
+          <tr><td class="rank">04</td><td class="who">Yuri Kendysh<span class="sub">FK Žalgiris · DF · 36</span></td><td class="n"><span class="chip"><span class="num">862</span></span></td></tr>
+          <tr><td class="rank">05</td><td class="who">Ibrahim Cissé<span class="sub">Džiugas Telšiai · DF · 22</span></td><td class="n"><span class="chip"><span class="num">854</span></span></td></tr>
+        </tbody>
+      </table>
+      <table class="tbl tbl-hover" data-reveal>
+        <caption>LAT<span class="cap-note">2026 · top 5 of <span class="num">197</span> players ranked in this competition and season</span></caption>
+        <tbody>
+          <tr><td class="rank">01</td><td class="who">Fellipe Vieira Cardoso<span class="sub">FK Liepaja · MF · 21</span></td><td class="n"><span class="chip"><span class="num">1012</span></span></td></tr>
+          <tr><td class="rank">02</td><td class="who">Raki Aouani<span class="sub">Riga FC · MF · 21</span></td><td class="n"><span class="chip"><span class="num">982</span></span></td></tr>
+          <tr><td class="rank">03</td><td class="who">Salah Oulad M'Hand<span class="sub">Riga FC · MF · 23</span></td><td class="n"><span class="chip"><span class="num">966</span></span></td></tr>
+          <tr><td class="rank">04</td><td class="who">Eduards Daskevics<span class="sub">FK Auda · MF · 24</span></td><td class="n"><span class="chip"><span class="num">963</span></span></td></tr>
+          <tr><td class="rank">05</td><td class="who">Iago Siqueira Augusto<span class="sub">Riga FC · MF · 26</span></td><td class="n"><span class="chip"><span class="num">935</span></span></td></tr>
+        </tbody>
+      </table>
+      <table class="tbl tbl-hover" data-reveal>
+        <caption>CPL<span class="cap-note">2026 · top 5 of <span class="num">138</span> players ranked in this competition and season</span></caption>
+        <tbody>
+          <tr><td class="rank">01</td><td class="who">Adam Pearlman<span class="sub">Cavalry FC · DF · 21</span></td><td class="n"><span class="chip"><span class="num">937</span></span></td></tr>
+          <tr><td class="rank">02</td><td class="who">Sean Rea<span class="sub">FC Supra Du Quebec · MF · 24</span></td><td class="n"><span class="chip"><span class="num">862</span></span></td></tr>
+          <tr><td class="rank">03</td><td class="who">Aghilas Sadek<span class="sub">Forge FC · MF · 18</span></td><td class="n"><span class="chip"><span class="num">848</span></span></td></tr>
+          <tr><td class="rank">04</td><td class="who">Goteh Ntignee<span class="sub">Cavalry FC · MF · 24</span></td><td class="n"><span class="chip"><span class="num">831</span></span></td></tr>
+          <tr><td class="rank">05</td><td class="who">Morey Doner<span class="sub">Vancouver FC · DF · 32</span></td><td class="n"><span class="chip"><span class="num">791</span></span></td></tr>
+        </tbody>
+      </table>
+      <table class="tbl tbl-hover" data-reveal>
+        <caption>EST<span class="cap-note">2026 · top 5 of <span class="num">185</span> players ranked in this competition and season</span></caption>
+        <tbody>
+          <tr><td class="rank">01</td><td class="who">Sander Alamaa<span class="sub">Flora Tallinn · MF · 18</span></td><td class="n"><span class="chip"><span class="num">1121</span></span></td></tr>
+          <tr><td class="rank">02</td><td class="who">Bubacarr Tambedou<span class="sub">FCI Levadia Tallinn · FW · 24</span></td><td class="n"><span class="chip"><span class="num">969</span></span></td></tr>
+          <tr><td class="rank">03</td><td class="who">Maksimilian Skvortsov<span class="sub">FCI Levadia Tallinn · MF · 18</span></td><td class="n"><span class="chip"><span class="num">909</span></span></td></tr>
+          <tr><td class="rank">04</td><td class="who">Mihkel Ainsalu<span class="sub">FCI Levadia Tallinn · MF · 30</span></td><td class="n"><span class="chip"><span class="num">901</span></span></td></tr>
+          <tr><td class="rank">05</td><td class="who">Tony Varjund<span class="sub">Flora Tallinn · MF · 19</span></td><td class="n"><span class="chip"><span class="num">898</span></span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="foot">An index, not a percentage: it currently runs
+      <span class="num">59</span>–<span
+      class="num">1121</span>, read only against its own board.
+      Percentiles never cross competitions, so these are 13 separate
+      rankings and a higher number on one board does not beat a lower number on
+      another — the Latent Level, not the index, is what crosses. Boards run in
+      order of the coefficient the Level fits for each competition, strongest first.
+      <span class="num">270</span>-minute and ten-player floors
+      apply; goalkeepers are not ranked. Latest rankable season per competition.
+      <a href="methodology.html">Full computation rules</a>.</p>
+    <p style="margin-top:clamp(28px,4vh,44px)"><a class="btn btn-ghost"
+      href="players/index.html"><span>Browse all 8,924 player
+      profiles</span></a></p>
+  </div>
+</section>
+
+<!-- ============================ 09 · THESIS ============================= -->
+<section class="sec tint" id="thesis">
+  <div class="wrap deck-split">
+    <div>
+      <p class="eyebrow">The thesis</p>
+      <p class="quote">Underscouted is not the same as untalented.</p>
+    </div>
+    <div>
+      <p class="lede">The big platforms index a thousand competitions and genuinely
+        watch a few dozen. Everywhere else, players are priced on highlight reels and
+        word of mouth, and sellers outnumber analysts. That mispricing is structural,
+        and it is where we work.</p>
+      <p class="lede" style="margin-top:var(--s5)">So every number here carries its own
+        limits. Per-90s computed only over the minutes in which a stat was actually
+        collected. Percentiles only where ten players clear the floor. A rating
+        published next to its cohort size and its backtest. Nothing on this site is a
+        number we could not reproduce for you on request.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <a class="mark" href="index.html"><svg class="mark-glyph" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><path class="g-leg" d="M17 88 L38 88 L52 50 L42 24 Z"/><path class="g-main" d="M35 12 L56 12 L85 88 L64 88 Z"/></svg>Latent</a>
+        <p class="mt3">Hidden value, measured.</p>
+        <p class="mt2"><a href="mailto:info@latentscouting.com">info@latentscouting.com</a></p>
+      </div>
+      <div class="foot-col">
+        <h5>Data</h5>
+        <ul>
+          <li><a href="players/index.html">Player database</a></li>
+          <li><a href="methodology.html">Methodology</a></li>
+          <li><a href="ledger.html">Hit-rate ledger</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Reports</h5>
+        <ul>
+          <li><a href="full-report.html">Full report</a></li>
+          <li><a href="club-report.html">Club report</a></li>
+          <li><a href="index.html#enquire">Enquire</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="foot-note">
+      Every figure on this site is generated from our own match-level database and is
+      reproducible from it. Percentiles are computed within a single competition and
+      season and are never compared across competitions. Stated limits are published in
+      full on the <a href="methodology.html">methodology</a> page.
+      © <span class="num">2026</span> Latent Scouting ·
+      <a href="terms.html">Terms</a> ·
+      <a href="privacy.html">Privacy</a>
+    </p>
+  </div>
+</footer>
+
+<script src="assets/motion.js" defer></script>
+</body>
+</html>

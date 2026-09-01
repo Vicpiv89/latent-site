@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Compare players · Latent</title>
+<meta name="description" content="Put two players side by side: per-90s, percentiles where the cohort allows it, and an honest warning where it does not.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230A0A0A'/%3E%3Cpath d='M17%2088L38%2088L52%2050L42%2024Z' fill='white'/%3E%3Cpath d='M35%2012L56%2012L85%2088L64%2088Z' fill='%232FA3EC'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#FFFFFF">
+<meta property="og:image" content="https://latentscouting.com/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="../assets/fonts/inter-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="players.css">
+<link rel="preload" href="index.json" as="fetch" type="application/json">
+<script>document.documentElement.classList.add('js')</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-nav">
+  <div class="wrap">
+    <a class="mark" href="../index.html"><svg class="mark-glyph" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><path class="g-leg" d="M17 88 L38 88 L52 50 L42 24 Z"/><path class="g-main" d="M35 12 L56 12 L85 88 L64 88 Z"/></svg>Latent</a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="index.html" aria-current="page">Players</a>
+      <a href="../full-report.html">Reports</a>
+      <a href="../methodology.html">Methodology</a>
+      <a href="../ledger.html">Ledger</a>
+    </nav>
+    <a class="btn btn-sm nav-cta" href="../index.html#enquire"><span>Enquire</span></a>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="section-tight compare">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Two players, one screen</span>
+      <h1 class="mt3">Compare</h1>
+      <p class="lede">Pick two players and a season each. Percentile bars appear only when
+        both seasons sit in the same competition, season and position cohort, the one
+        case in which comparing percentiles means anything. Everywhere else you get the
+        raw per-90s, which always do.</p>
+    </div>
+
+    <div class="grid cols-2">
+      <div class="cmpside" data-side="a">
+        <label class="field"><span class="field-label">Player A</span>
+          <input class="psearch" type="search" placeholder="Search a player…"
+                 autocomplete="off" aria-label="Search for player A"></label>
+        <ul class="phits" hidden></ul>
+        <div class="pchosen" hidden></div>
+      </div>
+      <div class="cmpside" data-side="b">
+        <label class="field"><span class="field-label">Player B</span>
+          <input class="psearch" type="search" placeholder="Search a player…"
+                 autocomplete="off" aria-label="Search for player B"></label>
+        <ul class="phits" hidden></ul>
+        <div class="pchosen" hidden></div>
+      </div>
+    </div>
+
+    <div id="cmpout" class="mt6"></div>
+    <p class="note mt6">Coverage: USL Championship 2020–2026 · 7 seasons · Serbian SuperLiga 20/21–26/27 · 7 seasons · Ekstraklasa 21/22–26/27 · 6 seasons · Romanian SuperLiga 22/23–26/27 · 5 seasons · Czech First League 22/23–26/27 · 5 seasons · Croatian Football League 20/21–26/27 · 7 seasons · Slovak First League 23/24–26/27 · 4 seasons · Nemzeti Bajnokság I 23/24–26/27 · 4 seasons · Virsliga 2023–2026 · 4 seasons · A Lyga 2023–2026 · 4 seasons · Meistriliiga 2023–2026 · 4 seasons · Ukrainian Premier League 25/26–26/27 · 2 seasons · Canadian Premier League 2026 · 1 season. Nothing earlier exists in our data.</p>
+  </div>
+</section>
+<script src="compare.js" defer></script>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <a class="mark" href="../index.html"><svg class="mark-glyph" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><path class="g-leg" d="M17 88 L38 88 L52 50 L42 24 Z"/><path class="g-main" d="M35 12 L56 12 L85 88 L64 88 Z"/></svg>Latent</a>
+        <p class="mt3">Hidden value, measured.</p>
+        <p class="mt2"><a href="mailto:info@latentscouting.com">info@latentscouting.com</a></p>
+      </div>
+      <div class="foot-col">
+        <h5>Data</h5>
+        <ul>
+          <li><a href="index.html">Player explorer</a></li>
+          <li><a href="compare.html">Compare two players</a></li>
+          <li><a href="../methodology.html">Methodology</a></li>
+          <li><a href="../ledger.html">Hit-rate ledger</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Reports</h5>
+        <ul>
+          <li><a href="../full-report.html">Full report</a></li>
+          <li><a href="../club-report.html">Club report</a></li>
+          <li><a href="../index.html#enquire">Enquire</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="foot-note">
+      Every figure on this site is generated from our own match-level database and is
+      reproducible from it. Percentiles are computed within a single competition and
+      season and are never compared across competitions. Stated limits are published in
+      full on the <a href="../methodology.html">methodology</a> page.
+      © <span class="num">2026</span> Latent Scouting.
+    </p>
+  </div>
+</footer>
+
+<script src="../assets/motion.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,681 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Latent · Scouting intelligence, measured</title>
+<meta name="description" content="407,495 player-match stat lines rebuilt into per-90s, within-competition percentiles and one export-readiness score across 13 competitions. The method and the limits are published.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230A0A0A'/%3E%3Cpath d='M17%2088L38%2088L52%2050L42%2024Z' fill='white'/%3E%3Cpath d='M35%2012L56%2012L85%2088L64%2088Z' fill='%232FA3EC'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#FFFFFF">
+<meta property="og:image" content="https://latentscouting.com/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preload" href="assets/fonts/inter-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="styles.css">
+<script>document.documentElement.classList.add('js')</script>
+<meta property="og:title" content="Latent · Scouting intelligence, measured">
+<meta property="og:description" content="407,495 player-match stat lines rebuilt into per-90s, within-competition percentiles and one export-readiness score across 13 competitions. The method and the limits are published.">
+<meta property="og:type" content="website">
+<style>
+/* D2 · homepage layout only — colour/type/shadow all come from styles.css */
+
+/* ---- landing (FACTS-shaped: full bleed, centred, one call to action) ----
+   The only place on the site that runs an inverted ground. Everything below it
+   is the white register D1 owns; this band paints its own colours locally and
+   restores the page tokens on the way out, so nothing leaks downward. */
+.landing {
+  position: relative; isolation: isolate; overflow: hidden;
+  padding: clamp(64px, 13vh, 132px) 0 clamp(56px, 11vh, 116px);
+  text-align: center;
+}
+/* Flat carbon, no radial glow (2026-08-25: the top-glow read as the "radial
+   orb" AI tell on Vic's list; the flat ground was already documented here as
+   the honest fallback). The legibility-pocket scrims below stay — they are
+   functional (text over the scatter field), invisible as shapes. */
+.landing-ink {
+  background-color: #0A0A0A;
+  color: #FFFFFF;
+}
+.landing-paper { background-color: var(--sky-wash); color: var(--ink); }
+.landing .field {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  z-index: -1; pointer-events: none;
+}
+.landing-ink .field { fill: #FFFFFF; opacity: .17; }
+.landing-paper .field { fill: var(--sky-ink); opacity: .16; }
+/* the wordmark and the copy sit in a legibility pocket, so the scatter can run
+   at full density behind them without ever competing with the type */
+.landing-inner { position: relative; }
+.landing-ink .landing-inner::before {
+  content: ""; position: absolute; z-index: -1;
+  inset: -12% -6%;
+  background: radial-gradient(58% 52% at 50% 46%, rgba(10,10,10,.86) 0%,
+                              rgba(10,10,10,.62) 48%, rgba(10,10,10,0) 100%);
+}
+.landing-paper .landing-inner::before {
+  content: ""; position: absolute; z-index: -1;
+  inset: -12% -6%;
+  background: radial-gradient(58% 52% at 50% 46%, rgba(232,244,253,.92) 0%,
+                              rgba(232,244,253,.70) 48%, rgba(232,244,253,0) 100%);
+}
+/* FACTS's proportion, which is the reason their hero reads at a glance: the mark
+   is the dominant object and the sentence under it is small. Reversing that (big
+   headline, small mark) made the two compete — the nav already carries a wordmark
+   at 22px, so a mid-sized one here just looked like a second nav. */
+.landing-mark {
+  font-family: var(--f-mark); font-weight: 800;
+  font-size: clamp(46px, 2rem + 5.4vw, 104px);
+  letter-spacing: -.045em; line-height: .95;
+  color: var(--ink);
+  display: flex; align-items: center; justify-content: center; gap: .24em;
+}
+.landing-mark .mark-glyph { width: .88em; height: .88em; }
+.landing-ink .landing-mark { color: #FFFFFF; }
+.landing-mark .dot { color: var(--sky); }
+/* h1/h2/h3 carry `color: var(--ink)` from D1's baseline, so inheriting the band's
+   colour is not enough on the inverted ground — it has to be set outright, or the
+   headline renders black on black. This cost one screenshot; do not "simplify" it. */
+.landing-line {
+  font-family: var(--f-head); font-weight: 600;
+  font-size: clamp(17px, .9rem + .75vw, 25px);
+  letter-spacing: -.015em; line-height: 1.35;
+  margin: var(--s5) auto 0; max-width: 30ch; text-wrap: balance;
+  color: var(--ink);
+}
+.landing-ink .landing-line { color: #FFFFFF; }
+.landing-sub {
+  margin: var(--s5) auto 0; max-width: 60ch;
+  font-size: var(--t-md); line-height: 1.65;
+  color: var(--ink-2);
+}
+.landing-ink .landing-sub { color: rgba(255,255,255,.78); }
+.landing-cta {
+  display: flex; gap: var(--s4); justify-content: center; flex-wrap: wrap;
+  margin-top: var(--s7);
+}
+.landing-meta {
+  margin-top: var(--s6); font-size: var(--t-xs);
+  letter-spacing: .04em;
+}
+.landing-ink .landing-meta { color: rgba(255,255,255,.60); }
+.landing-paper .landing-meta { color: var(--ink-3); }
+/* the inverted ground needs its own button skins — D1's ghost button is drawn
+   for black-on-white and disappears entirely on a dark panel */
+.landing-ink .btn { background: var(--sky); color: #0A0A0A; border-color: var(--sky); }
+.landing-ink .btn:hover { background: #FFFFFF; border-color: #FFFFFF; color: #0A0A0A; }
+.landing-ink .btn-ghost {
+  background: transparent; color: #FFFFFF; border-color: rgba(255,255,255,.42);
+}
+.landing-ink .btn-ghost:hover {
+  background: rgba(255,255,255,.10); border-color: #FFFFFF; color: #FFFFFF;
+}
+.landing-ink .btn:focus-visible, .landing-ink .btn-ghost:focus-visible {
+  outline: 3px solid #FFFFFF; outline-offset: 3px;
+}
+@media (max-width: 620px) {
+  .landing-cta .btn { width: 100%; justify-content: center; }
+}
+
+/* ---- proof strip (FACTS runs client logos here; we run the database) ---- */
+.strip { padding: var(--s6) 0; }
+.strip-grid {
+  display: grid; grid-template-columns: repeat(5, minmax(0,1fr));
+  gap: var(--s5); align-items: start; text-align: center;
+}
+.strip-cell { display: flex; flex-direction: column; gap: var(--s1); }
+.strip-cell .figure {
+  font-family: var(--f-num); font-weight: 700;
+  font-size: clamp(20px, .8rem + 1.3vw, 30px); letter-spacing: -.02em;
+  line-height: 1.1; color: var(--ink);
+}
+.strip-cell .caption {
+  font-size: var(--t-2xs); text-transform: uppercase; letter-spacing: .12em;
+  color: var(--ink-3);
+}
+@media (max-width: 860px) {
+  .strip-grid { grid-template-columns: repeat(2, minmax(0,1fr)); gap: var(--s5) var(--s4); }
+  .strip-cell:last-child { grid-column: 1 / -1; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   DECK REGISTER — everything below the landing panel
+   Lifted from the "Who Pays Latent" deck (Vic, 2026-08-15: "i like the style
+   of that more than the website's content itself... i think its the minimalism
+   that makes it so nice"). The deck already ran D1's tokens, so nothing here
+   introduces a colour or a face — what changes is DENSITY:
+
+     · one idea per section, and one component under it
+     · sections breathe at clamp(72px, 11vh, 132px) instead of a fixed step
+     · headings run to 50px; ledes cap at 60ch and stop
+     · caveats become .foot small print, never a boxed callout mid-page
+     · figures are a sky rule and a number, not a bordered tile
+     · the ground barely moves: mostly white, tint alternating, wash once,
+       ink once at the close
+
+   The one rule to keep: this scope MUST NOT delete a stated limit. Every
+   caveat that used to sit in a .callout is still on the page — it moved into
+   .foot. Cutting the number of words is the brief; cutting the honesty is not.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.sec { padding: clamp(72px,11vh,132px) 0; border-bottom: 1px solid var(--line); }
+.sec:last-of-type { border-bottom: 0; }
+.sec.tint { background: var(--surface-2); border-bottom-color: transparent; }
+.sec.wash { background: var(--sky-wash); border-bottom-color: transparent; }
+/* Inverting a band means inverting the ACCENT too, not just the ink. --sky-ink is
+   tuned to clear AA on white and measures 3.5:1 on carbon, so links inside this
+   band (the Instagram/X lines) failed until --accent moved to --sky-bright. Any
+   future inverted surface must do the same. */
+.sec.ink {
+  --surface: #141414; --surface-2: #1C1C1C;
+  --ink: #FFFFFF; --ink-2: rgba(255,255,255,.76); --ink-3: rgba(255,255,255,.56);
+  --line: rgba(255,255,255,.16); --line-strong: rgba(255,255,255,.34);
+  --accent: var(--sky-bright); --accent-hover: #FFFFFF; --on-accent: #0A0A0A;
+  --focus: var(--sky-bright);
+  background: var(--carbon); color: #FFFFFF; border-bottom-color: transparent;
+}
+.sec.ink a { color: var(--sky-bright); }
+.sec.ink .btn { background: var(--sky); border-color: var(--sky); color: #0A0A0A; }
+.sec.ink .btn:hover { background: #FFFFFF; border-color: #FFFFFF; color: #0A0A0A; }
+.sec.ink .btn-ghost { background: transparent; color: #FFFFFF; border-color: rgba(255,255,255,.42); }
+.sec.ink .btn-ghost:hover { background: rgba(255,255,255,.10); border-color: #FFFFFF; color: #FFFFFF; }
+.sec.ink .eyebrow { color: var(--sky-bright); }
+.sec.ink .stat { border-left-color: var(--sky-bright); }
+
+.sec .eyebrow { display:block; margin-bottom: var(--s4); }
+.sec h2 {
+  font-size: clamp(27px, 1.5rem + 1.9vw, 50px); font-weight: 800;
+  line-height: 1.04; letter-spacing: -.03em; margin-bottom: var(--s4);
+  text-wrap: balance; max-width: 26ch;
+}
+.sec .lede {
+  font-size: clamp(17px, 1rem + .5vw, 22px); line-height: 1.45;
+  letter-spacing: -.011em; color: var(--ink-2); max-width: 60ch;
+}
+.sec .head { margin-bottom: clamp(28px, 5vh, 56px); }
+
+/* small print under a component: where every stated limit now lives */
+.foot {
+  margin-top: clamp(22px, 3.5vh, 34px); padding-top: var(--s3);
+  border-top: 1px solid var(--line);
+  font-size: var(--t-2xs); line-height: 1.55; color: var(--ink-3); max-width: 88ch;
+}
+.foot a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.foot + .foot { margin-top: var(--s3); border-top: 0; padding-top: 0; }
+
+/* a figure is a sky rule and a number — no box, no shadow */
+.stat { border-left: 3px solid var(--sky); padding-left: var(--s3); }
+.stat .v {
+  display: block; font-family: var(--f-num); font-variant-numeric: tabular-nums;
+  font-weight: 800; font-size: clamp(26px, 1.3rem + 1.5vw, 42px);
+  line-height: 1.02; letter-spacing: -.03em; color: var(--ink);
+}
+.stat .k {
+  display: block; font-size: 12.5px; line-height: 1.35;
+  color: var(--ink-3); margin-top: var(--s1);
+}
+
+ul.tick { list-style: none; padding: 0; margin: 0; display: grid; gap: 9px; }
+ul.tick li {
+  position: relative; padding-left: 22px; font-size: 15px;
+  line-height: 1.45; color: var(--ink-2);
+}
+ul.tick li::before {
+  content: ""; position: absolute; left: 0; top: .55em;
+  width: 9px; height: 9px; background: var(--sky); border-radius: 2px;
+}
+ul.tick li b { color: var(--ink); font-weight: 600; }
+
+.quote {
+  border-left: 3px solid var(--sky); padding-left: var(--s5);
+  font-size: clamp(19px, 1rem + .9vw, 30px); line-height: 1.3;
+  letter-spacing: -.02em; font-weight: 600; color: var(--ink);
+  max-width: 24ch;
+}
+.sec.ink .quote { border-left-color: var(--sky-bright); }
+
+/* cards: hairline, one sky edge, nothing else */
+.deck-card {
+  display: flex; flex-direction: column; align-items: flex-start;
+  background: var(--surface); border: 1px solid var(--line);
+  border-top: 4px solid var(--sky); border-radius: var(--radius);
+  padding: clamp(18px,1.8vw,26px);
+}
+.deck-card h3 { font-size: var(--t-xl); letter-spacing: -.018em; margin-bottom: var(--s3); }
+.deck-card p { font-size: 14.5px; color: var(--ink-2); }
+.deck-card .kicker {
+  display: block; font-family: var(--f-num); font-variant-numeric: tabular-nums;
+  font-weight: 800; font-size: var(--t-3xs); letter-spacing: .1em;
+  color: var(--sky-ink); margin-bottom: var(--s3);
+}
+/* The CTA sits on a common baseline across the row: `margin-top:auto` eats the
+   leftover height in the flex column. The minimum gap has to come from the
+   element ABOVE it — a `* + .btn { margin-top }` rule would out-specify `auto`
+   and drop each button back to natural flow, which staggers them by card. */
+.deck-card p, .deck-card ul.tick { margin-bottom: var(--s5); }
+.deck-card .btn { margin-top: auto; }
+.deck-card.quiet { border-top-color: var(--line-strong); background: transparent; }
+
+.grid-2 { display:grid; gap: clamp(14px,1.6vw,22px); grid-template-columns: repeat(2,minmax(0,1fr)); }
+.grid-3 { display:grid; gap: clamp(14px,1.6vw,22px); grid-template-columns: repeat(3,minmax(0,1fr)); }
+.grid-4 { display:grid; gap: clamp(14px,1.6vw,22px); grid-template-columns: repeat(4,minmax(0,1fr)); }
+.stat-row { display:grid; gap: clamp(16px,2vw,28px); grid-template-columns: repeat(4,minmax(0,1fr)); }
+.deck-split {
+  display: grid; grid-template-columns: minmax(0,.92fr) minmax(0,1.08fr);
+  gap: clamp(28px,4vw,64px); align-items: start;
+}
+@media (max-width: 940px) {
+  .grid-3, .grid-4, .stat-row { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .deck-split { grid-template-columns: minmax(0,1fr); gap: var(--s7); }
+}
+@media (max-width: 620px) {
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: minmax(0,1fr); }
+  .sec { padding: var(--s8) 0; }
+}
+
+/* tables lose their chrome: hairline rules, no zebra, no wrapper card */
+.sec .tbl-wrap { border: 0; border-radius: 0; background: transparent; overflow-x: auto; }
+.sec .tbl { border-collapse: collapse; width: 100%; }
+.sec .tbl th, .sec .tbl td {
+  border-bottom: 1px solid var(--line); padding: 13px 14px; background: transparent;
+}
+.sec .tbl thead th {
+  font-size: var(--t-3xs); text-transform: uppercase; letter-spacing: .13em;
+  color: var(--ink-3); font-weight: 700; border-bottom: 1px solid var(--line-strong);
+}
+.sec .tbl tbody tr:hover { background: var(--surface-2); }
+.sec .tbl tfoot td { border-bottom: 0; border-top: 1px solid var(--line-strong); font-weight: 600; }
+.sec .tbl caption {
+  text-align: left; padding: 0 0 var(--s3); font-weight: 700;
+  font-size: var(--t-md); letter-spacing: -.01em; color: var(--ink);
+}
+.sec .tbl caption .cap-note {
+  display: block; font-weight: 400; font-size: var(--t-2xs);
+  letter-spacing: 0; color: var(--ink-3); margin-top: 3px;
+}
+.board-grid { grid-template-columns: repeat(auto-fill, minmax(290px,1fr)); gap: clamp(24px,3vw,44px); }
+
+.live-split .livecard { box-shadow: var(--shadow); }
+
+/* the enquiry card carries its own field rhythm: D1's .field has no vertical
+   margin of its own, so without this every label sits on the input above it */
+.enq-card { background: var(--surface); border-radius: var(--radius); padding: clamp(22px,2.4vw,38px); }
+/* The `>` is load-bearing. Without it, `.field + .field` also matches the two
+   fields INSIDE a .field-pair, so the right-hand one takes a 24px top margin and
+   the pair renders visibly staggered — labels and inputs one line out of step. */
+.enq-card > .field + .field,
+.enq-card > .field-pair + .field,
+.enq-card > .field + .field-pair,
+.enq-card > .field-pair + .field-pair { margin-top: var(--s5); }
+.field-pair { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s4); align-items: start; }
+@media (max-width: 620px) { .field-pair { grid-template-columns: 1fr; } }
+
+/* The close is an ink band and the footer is ink too, so D1's footer margin was
+   drawing a white stripe between two black surfaces. This CSS block is inlined
+   only into the pages this file emits, so the bare sibling selector never
+   reaches the rest of the site, which still wants the margin. */
+main + .site-footer { margin-top: 0; }
+
+/* board captions are competition codes, not prose — D1 sets tables in italic */
+.sec .tbl caption { font-style: normal; }
+.livecard .pbars { margin-top: var(--s4); }
+.livecard .lvl { display: flex; align-items: baseline; gap: var(--s3); flex-wrap: wrap;
+                 margin-top: var(--s4); padding-top: var(--s4); border-top: 1px solid var(--line); }
+.board-grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--s6) var(--s5); }
+.sample-stats { margin-top: var(--s4); }
+.sample-case { margin-top: var(--s4); }
+.cadence { margin-top: var(--s6); }
+.enq-grid { grid-template-columns: 1.25fr .75fr; align-items: start; gap: var(--s6); }
+/* spacing between the form's own rows only — never between the two halves of a
+   pair, which must stay top-aligned with each other */
+.enq-grid form > .field + .field,
+.enq-grid form > .field-pair + .field,
+.enq-grid form > .field + .field-pair,
+.enq-grid form > .field-pair + .field-pair { margin-top: var(--s4); }
+.field-pair { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s4); align-items: start; }
+@media (max-width: 980px) { .enq-grid { grid-template-columns: 1fr; } }
+@media (max-width: 620px) { .field-pair { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-nav">
+  <div class="wrap">
+    <a class="mark" href="index.html"><svg class="mark-glyph" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><path class="g-leg" d="M17 88 L38 88 L52 50 L42 24 Z"/><path class="g-main" d="M35 12 L56 12 L85 88 L64 88 Z"/></svg>Latent</a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="players/index.html">Players</a>
+      <a href="full-report.html">Reports</a>
+      <a href="methodology.html">Methodology</a>
+      <a href="ledger.html">Ledger</a>
+    </nav>
+    <a class="btn btn-sm nav-cta" href="index.html#enquire"><span>Enquire</span></a>
+  </div>
+</header>
+
+<main id="main">
+
+
+<!-- ============================ LANDING — full-bleed, one message ======== -->
+<section class="landing landing-ink">
+<svg class="field" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><g><circle cx="21.1" cy="57.4" r="0.55"/><circle cx="56.9" cy="38.2" r="0.32"/><circle cx="63.3" cy="40.1" r="0.32"/><circle cx="80.3" cy="22.1" r="0.32"/><circle cx="60.5" cy="62.6" r="0.32"/><circle cx="9.0" cy="65.1" r="0.32"/><circle cx="32.5" cy="77.3" r="0.32"/><circle cx="22.5" cy="75.0" r="0.55"/><circle cx="60.9" cy="63.6" r="0.32"/><circle cx="8.9" cy="36.8" r="0.32"/><circle cx="7.3" cy="55.9" r="0.32"/><circle cx="8.8" cy="38.2" r="0.32"/><circle cx="18.7" cy="27.3" r="0.32"/><circle cx="31.7" cy="37.3" r="0.32"/><circle cx="30.0" cy="46.7" r="0.55"/><circle cx="15.9" cy="69.3" r="0.32"/><circle cx="66.0" cy="71.1" r="0.32"/><circle cx="66.8" cy="64.6" r="0.32"/><circle cx="38.0" cy="29.7" r="0.32"/><circle cx="9.3" cy="91.6" r="0.32"/><circle cx="8.3" cy="69.5" r="0.32"/><circle cx="23.7" cy="40.1" r="0.55"/><circle cx="50.5" cy="57.4" r="0.32"/><circle cx="10.2" cy="57.6" r="0.32"/><circle cx="82.4" cy="54.4" r="0.32"/><circle cx="40.1" cy="46.3" r="0.32"/><circle cx="21.6" cy="61.4" r="0.32"/><circle cx="7.9" cy="46.1" r="0.32"/><circle cx="26.6" cy="85.0" r="0.55"/><circle cx="65.1" cy="54.7" r="0.32"/><circle cx="10.7" cy="93.0" r="0.32"/><circle cx="40.9" cy="51.2" r="0.32"/><circle cx="72.6" cy="41.3" r="0.32"/><circle cx="2.4" cy="74.1" r="0.32"/><circle cx="27.8" cy="44.5" r="0.32"/><circle cx="27.5" cy="58.0" r="0.55"/><circle cx="44.2" cy="40.5" r="0.32"/><circle cx="56.8" cy="71.5" r="0.32"/><circle cx="39.4" cy="82.9" r="0.32"/><circle cx="34.7" cy="66.8" r="0.32"/><circle cx="51.1" cy="56.8" r="0.32"/><circle cx="9.3" cy="67.0" r="0.32"/><circle cx="33.9" cy="64.0" r="0.55"/><circle cx="27.8" cy="39.0" r="0.32"/><circle cx="68.9" cy="53.5" r="0.32"/><circle cx="49.7" cy="70.0" r="0.32"/><circle cx="47.3" cy="41.9" r="0.32"/><circle cx="2.8" cy="80.4" r="0.32"/><circle cx="71.3" cy="45.1" r="0.32"/><circle cx="6.2" cy="85.3" r="0.55"/><circle cx="33.1" cy="45.6" r="0.32"/><circle cx="22.7" cy="57.4" r="0.32"/><circle cx="13.6" cy="67.0" r="0.32"/><circle cx="6.6" cy="33.5" r="0.32"/><circle cx="8.6" cy="49.6" r="0.32"/><circle cx="55.3" cy="55.0" r="0.32"/><circle cx="23.4" cy="71.4" r="0.55"/><circle cx="24.1" cy="40.6" r="0.32"/><circle cx="12.7" cy="79.4" r="0.32"/><circle cx="93.5" cy="36.3" r="0.32"/><circle cx="77.5" cy="26.9" r="0.32"/><circle cx="8.7" cy="48.0" r="0.32"/><circle cx="9.2" cy="38.3" r="0.32"/><circle cx="15.3" cy="39.2" r="0.55"/><circle cx="35.4" cy="56.3" r="0.32"/><circle cx="39.0" cy="69.4" r="0.32"/><circle cx="33.2" cy="46.9" r="0.32"/><circle cx="11.5" cy="71.0" r="0.32"/><circle cx="21.5" cy="68.2" r="0.32"/><circle cx="37.6" cy="37.7" r="0.32"/><circle cx="44.7" cy="43.0" r="0.55"/><circle cx="68.7" cy="29.4" r="0.32"/><circle cx="73.2" cy="26.2" r="0.32"/><circle cx="57.8" cy="21.3" r="0.32"/><circle cx="13.8" cy="31.4" r="0.32"/><circle cx="23.4" cy="60.8" r="0.32"/><circle cx="40.1" cy="70.1" r="0.32"/><circle cx="67.6" cy="58.2" r="0.55"/><circle cx="56.8" cy="33.6" r="0.32"/><circle cx="30.9" cy="52.7" r="0.32"/><circle cx="10.5" cy="67.6" r="0.32"/><circle cx="57.8" cy="48.3" r="0.32"/><circle cx="56.7" cy="30.4" r="0.32"/><circle cx="26.0" cy="48.7" r="0.32"/><circle cx="5.7" cy="80.5" r="0.55"/><circle cx="16.9" cy="51.6" r="0.32"/><circle cx="45.6" cy="49.0" r="0.32"/><circle cx="62.9" cy="59.3" r="0.32"/><circle cx="67.1" cy="63.1" r="0.32"/><circle cx="19.4" cy="86.7" r="0.32"/><circle cx="16.5" cy="82.3" r="0.32"/><circle cx="10.2" cy="58.2" r="0.55"/><circle cx="2.0" cy="52.5" r="0.32"/><circle cx="17.4" cy="32.4" r="0.32"/><circle cx="44.5" cy="31.6" r="0.32"/><circle cx="18.2" cy="62.8" r="0.32"/><circle cx="42.0" cy="23.5" r="0.32"/><circle cx="49.1" cy="33.1" r="0.32"/><circle cx="65.7" cy="30.4" r="0.55"/><circle cx="26.9" cy="26.0" r="0.32"/><circle cx="3.2" cy="27.6" r="0.32"/><circle cx="36.8" cy="47.2" r="0.32"/><circle cx="2.4" cy="49.1" r="0.32"/><circle cx="44.3" cy="58.0" r="0.32"/><circle cx="68.1" cy="41.7" r="0.32"/><circle cx="26.0" cy="28.5" r="0.55"/><circle cx="44.3" cy="32.2" r="0.32"/><circle cx="47.7" cy="22.0" r="0.32"/><circle cx="51.5" cy="70.5" r="0.32"/><circle cx="64.0" cy="61.6" r="0.32"/><circle cx="23.4" cy="46.9" r="0.32"/><circle cx="28.9" cy="58.5" r="0.32"/><circle cx="33.6" cy="27.8" r="0.55"/><circle cx="9.6" cy="59.0" r="0.32"/><circle cx="48.5" cy="40.2" r="0.32"/><circle cx="14.2" cy="25.3" r="0.32"/><circle cx="23.0" cy="50.3" r="0.32"/><circle cx="33.4" cy="22.6" r="0.32"/><circle cx="21.6" cy="33.1" r="0.32"/><circle cx="76.6" cy="20.4" r="0.55"/><circle cx="39.1" cy="59.2" r="0.32"/><circle cx="17.2" cy="67.7" r="0.32"/><circle cx="44.2" cy="53.0" r="0.32"/><circle cx="57.4" cy="52.0" r="0.32"/><circle cx="3.9" cy="47.5" r="0.32"/><circle cx="6.6" cy="55.5" r="0.32"/><circle cx="31.2" cy="76.8" r="0.55"/><circle cx="77.9" cy="55.3" r="0.32"/><circle cx="75.3" cy="56.5" r="0.32"/><circle cx="65.8" cy="43.7" r="0.32"/><circle cx="47.4" cy="66.3" r="0.32"/><circle cx="62.6" cy="60.4" r="0.32"/><circle cx="47.9" cy="51.8" r="0.32"/><circle cx="37.0" cy="49.3" r="0.55"/><circle cx="32.6" cy="56.5" r="0.32"/><circle cx="13.7" cy="92.6" r="0.32"/><circle cx="19.8" cy="82.3" r="0.32"/><circle cx="19.9" cy="30.1" r="0.32"/><circle cx="52.7" cy="35.3" r="0.32"/><circle cx="64.8" cy="32.3" r="0.32"/><circle cx="19.3" cy="71.3" r="0.55"/><circle cx="58.3" cy="38.6" r="0.32"/><circle cx="51.9" cy="54.4" r="0.32"/><circle cx="11.6" cy="91.0" r="0.32"/><circle cx="27.5" cy="64.5" r="0.32"/><circle cx="43.0" cy="18.9" r="0.32"/><circle cx="59.5" cy="40.6" r="0.32"/><circle cx="53.7" cy="19.6" r="0.55"/><circle cx="13.6" cy="47.9" r="0.32"/><circle cx="33.6" cy="67.4" r="0.32"/><circle cx="81.8" cy="39.5" r="0.32"/><circle cx="7.4" cy="51.9" r="0.32"/><circle cx="8.4" cy="65.9" r="0.32"/><circle cx="39.1" cy="45.4" r="0.32"/><circle cx="39.3" cy="52.2" r="0.55"/><circle cx="72.8" cy="57.2" r="0.32"/><circle cx="7.9" cy="40.0" r="0.32"/><circle cx="53.0" cy="60.3" r="0.32"/><circle cx="80.1" cy="44.8" r="0.32"/><circle cx="34.9" cy="77.7" r="0.32"/><circle cx="22.5" cy="78.5" r="0.32"/><circle cx="9.2" cy="68.4" r="0.55"/><circle cx="38.3" cy="33.7" r="0.32"/><circle cx="47.9" cy="46.9" r="0.32"/><circle cx="27.4" cy="28.5" r="0.32"/><circle cx="4.8" cy="41.7" r="0.32"/><circle cx="9.3" cy="67.3" r="0.32"/><circle cx="58.7" cy="48.8" r="0.32"/><circle cx="44.7" cy="28.7" r="0.55"/><circle cx="39.3" cy="48.1" r="0.32"/><circle cx="3.2" cy="53.7" r="0.32"/><circle cx="45.4" cy="75.5" r="0.32"/><circle cx="44.8" cy="40.4" r="0.32"/><circle cx="23.3" cy="82.0" r="0.32"/><circle cx="27.6" cy="52.7" r="0.32"/><circle cx="2.8" cy="70.2" r="0.55"/><circle cx="51.1" cy="47.8" r="0.32"/><circle cx="65.1" cy="46.2" r="0.32"/><circle cx="69.6" cy="55.4" r="0.32"/><circle cx="49.6" cy="68.2" r="0.32"/><circle cx="11.2" cy="87.0" r="0.32"/><circle cx="19.7" cy="47.4" r="0.32"/><circle cx="35.8" cy="19.4" r="0.55"/><circle cx="3.7" cy="60.3" r="0.32"/><circle cx="18.2" cy="30.1" r="0.32"/><circle cx="4.8" cy="62.3" r="0.32"/><circle cx="63.6" cy="11.1" r="0.32"/><circle cx="19.5" cy="21.9" r="0.32"/><circle cx="18.9" cy="62.1" r="0.32"/><circle cx="42.8" cy="48.0" r="0.55"/><circle cx="38.1" cy="49.6" r="0.32"/><circle cx="4.4" cy="45.2" r="0.32"/><circle cx="31.7" cy="57.9" r="0.32"/><circle cx="47.1" cy="79.2" r="0.32"/><circle cx="70.4" cy="43.6" r="0.32"/><circle cx="71.6" cy="57.3" r="0.32"/><circle cx="50.2" cy="61.7" r="0.55"/><circle cx="31.2" cy="39.3" r="0.32"/><circle cx="35.0" cy="68.3" r="0.32"/><circle cx="29.4" cy="67.5" r="0.32"/><circle cx="8.4" cy="90.8" r="0.32"/><circle cx="43.9" cy="64.4" r="0.32"/><circle cx="61.1" cy="63.9" r="0.32"/><circle cx="68.9" cy="53.4" r="0.55"/><circle cx="46.9" cy="71.1" r="0.32"/><circle cx="31.4" cy="49.4" r="0.32"/><circle cx="14.6" cy="55.3" r="0.32"/><circle cx="69.4" cy="62.6" r="0.32"/><circle cx="40.1" cy="59.8" r="0.32"/><circle cx="2.7" cy="79.9" r="0.32"/><circle cx="60.3" cy="39.8" r="0.55"/><circle cx="54.9" cy="57.0" r="0.32"/><circle cx="25.6" cy="66.0" r="0.32"/><circle cx="10.6" cy="60.1" r="0.32"/><circle cx="21.1" cy="62.8" r="0.32"/><circle cx="4.0" cy="29.0" r="0.32"/><circle cx="38.0" cy="61.4" r="0.32"/><circle cx="23.9" cy="49.2" r="0.55"/><circle cx="2.9" cy="86.7" r="0.32"/><circle cx="29.0" cy="78.9" r="0.32"/><circle cx="40.9" cy="48.4" r="0.32"/><circle cx="32.0" cy="72.3" r="0.32"/><circle cx="5.0" cy="70.5" r="0.32"/><circle cx="56.1" cy="60.7" r="0.32"/><circle cx="40.7" cy="34.7" r="0.55"/><circle cx="18.5" cy="31.0" r="0.32"/><circle cx="19.3" cy="34.9" r="0.32"/><circle cx="16.7" cy="33.9" r="0.32"/><circle cx="76.8" cy="58.7" r="0.32"/><circle cx="72.4" cy="51.7" r="0.32"/><circle cx="58.9" cy="59.8" r="0.32"/><circle cx="77.2" cy="4.0" r="0.55"/><circle cx="56.1" cy="28.6" r="0.32"/><circle cx="73.2" cy="32.8" r="0.32"/><circle cx="28.6" cy="39.1" r="0.32"/><circle cx="41.5" cy="83.0" r="0.32"/><circle cx="52.4" cy="79.5" r="0.32"/><circle cx="71.5" cy="64.9" r="0.32"/><circle cx="7.0" cy="63.9" r="0.55"/><circle cx="82.0" cy="77.0" r="0.32"/><circle cx="11.0" cy="80.3" r="0.32"/><circle cx="65.7" cy="71.6" r="0.32"/><circle cx="38.4" cy="58.9" r="0.32"/><circle cx="69.7" cy="59.0" r="0.32"/><circle cx="65.6" cy="41.8" r="0.32"/><circle cx="19.6" cy="46.2" r="0.55"/><circle cx="14.0" cy="51.6" r="0.32"/><circle cx="4.3" cy="65.5" r="0.32"/><circle cx="53.5" cy="44.1" r="0.32"/><circle cx="9.6" cy="75.3" r="0.32"/><circle cx="4.8" cy="73.7" r="0.32"/><circle cx="4.2" cy="78.8" r="0.32"/><circle cx="25.1" cy="53.0" r="0.55"/><circle cx="82.0" cy="23.0" r="0.32"/><circle cx="33.2" cy="53.5" r="0.32"/><circle cx="46.3" cy="42.6" r="0.32"/><circle cx="63.1" cy="45.0" r="0.32"/><circle cx="56.4" cy="54.3" r="0.32"/><circle cx="85.2" cy="44.4" r="0.32"/><circle cx="59.0" cy="36.8" r="0.55"/><circle cx="30.3" cy="28.9" r="0.32"/><circle cx="2.9" cy="92.3" r="0.32"/><circle cx="22.9" cy="51.6" r="0.32"/><circle cx="2.0" cy="76.5" r="0.32"/><circle cx="17.5" cy="71.2" r="0.32"/><circle cx="54.6" cy="74.6" r="0.32"/><circle cx="32.6" cy="83.5" r="0.55"/><circle cx="42.1" cy="64.6" r="0.32"/><circle cx="12.9" cy="82.2" r="0.32"/><circle cx="6.3" cy="57.9" r="0.32"/><circle cx="21.2" cy="36.7" r="0.32"/><circle cx="61.0" cy="39.6" r="0.32"/><circle cx="70.4" cy="61.6" r="0.32"/><circle cx="26.8" cy="40.1" r="0.55"/><circle cx="18.5" cy="31.4" r="0.32"/><circle cx="76.2" cy="33.0" r="0.32"/><circle cx="35.5" cy="29.5" r="0.32"/><circle cx="52.6" cy="43.6" r="0.32"/><circle cx="25.8" cy="11.5" r="0.32"/><circle cx="3.7" cy="27.8" r="0.32"/><circle cx="49.4" cy="15.8" r="0.55"/><circle cx="38.2" cy="12.9" r="0.32"/><circle cx="37.3" cy="65.0" r="0.32"/><circle cx="65.7" cy="55.0" r="0.32"/><circle cx="50.4" cy="59.4" r="0.32"/><circle cx="7.4" cy="72.8" r="0.32"/><circle cx="71.2" cy="52.4" r="0.32"/><circle cx="45.5" cy="64.4" r="0.55"/><circle cx="15.0" cy="66.0" r="0.32"/><circle cx="19.4" cy="30.4" r="0.32"/><circle cx="8.0" cy="57.6" r="0.32"/><circle cx="3.6" cy="84.5" r="0.32"/><circle cx="6.9" cy="55.5" r="0.32"/><circle cx="63.3" cy="26.4" r="0.32"/><circle cx="66.0" cy="55.5" r="0.55"/><circle cx="19.4" cy="39.5" r="0.32"/><circle cx="10.9" cy="72.0" r="0.32"/><circle cx="29.9" cy="74.3" r="0.32"/><circle cx="13.2" cy="78.0" r="0.32"/><circle cx="36.3" cy="48.7" r="0.32"/><circle cx="47.2" cy="67.0" r="0.32"/><circle cx="63.6" cy="68.5" r="0.55"/><circle cx="41.6" cy="83.6" r="0.32"/><circle cx="29.7" cy="80.6" r="0.32"/><circle cx="6.5" cy="51.7" r="0.32"/><circle cx="39.1" cy="49.8" r="0.32"/><circle cx="14.2" cy="65.5" r="0.32"/><circle cx="76.7" cy="29.4" r="0.32"/><circle cx="2.5" cy="56.4" r="0.55"/><circle cx="19.9" cy="74.8" r="0.32"/><circle cx="10.9" cy="48.5" r="0.32"/><circle cx="12.3" cy="67.5" r="0.32"/><circle cx="12.0" cy="87.6" r="0.32"/><circle cx="28.8" cy="44.2" r="0.32"/><circle cx="38.8" cy="66.7" r="0.32"/><circle cx="74.0" cy="54.0" r="0.55"/><circle cx="4.7" cy="36.7" r="0.32"/><circle cx="21.0" cy="56.5" r="0.32"/><circle cx="66.4" cy="63.6" r="0.32"/><circle cx="66.3" cy="43.7" r="0.32"/><circle cx="27.0" cy="65.0" r="0.32"/><circle cx="27.1" cy="65.0" r="0.32"/><circle cx="48.0" cy="56.8" r="0.55"/><circle cx="23.9" cy="44.6" r="0.32"/><circle cx="49.4" cy="65.3" r="0.32"/><circle cx="54.9" cy="45.4" r="0.32"/><circle cx="33.1" cy="59.0" r="0.32"/><circle cx="36.7" cy="17.4" r="0.32"/><circle cx="2.7" cy="59.1" r="0.32"/><circle cx="13.8" cy="53.4" r="0.55"/><circle cx="8.2" cy="78.0" r="0.32"/><circle cx="82.1" cy="60.0" r="0.32"/><circle cx="61.9" cy="63.9" r="0.32"/><circle cx="18.2" cy="69.7" r="0.32"/><circle cx="16.4" cy="71.6" r="0.32"/><circle cx="25.8" cy="75.7" r="0.32"/><circle cx="85.3" cy="60.0" r="0.55"/><circle cx="61.2" cy="36.3" r="0.32"/><circle cx="4.7" cy="34.9" r="0.32"/><circle cx="22.8" cy="56.4" r="0.32"/><circle cx="35.4" cy="82.6" r="0.32"/><circle cx="26.3" cy="51.0" r="0.32"/><circle cx="7.4" cy="50.2" r="0.32"/><circle cx="28.1" cy="82.5" r="0.55"/><circle cx="11.7" cy="57.2" r="0.32"/><circle cx="59.7" cy="48.0" r="0.32"/><circle cx="40.1" cy="36.0" r="0.32"/><circle cx="36.0" cy="36.4" r="0.32"/><circle cx="29.0" cy="56.5" r="0.32"/><circle cx="6.1" cy="40.8" r="0.32"/><circle cx="32.5" cy="49.0" r="0.55"/><circle cx="51.3" cy="64.1" r="0.32"/><circle cx="72.4" cy="44.5" r="0.32"/><circle cx="81.1" cy="43.0" r="0.32"/><circle cx="76.5" cy="55.7" r="0.32"/><circle cx="39.2" cy="63.2" r="0.32"/><circle cx="3.9" cy="30.0" r="0.32"/><circle cx="21.3" cy="26.6" r="0.55"/><circle cx="30.2" cy="54.1" r="0.32"/><circle cx="2.1" cy="38.7" r="0.32"/><circle cx="63.8" cy="75.7" r="0.32"/><circle cx="47.5" cy="58.3" r="0.32"/><circle cx="69.9" cy="68.3" r="0.32"/><circle cx="63.2" cy="72.8" r="0.32"/><circle cx="4.7" cy="49.6" r="0.55"/><circle cx="26.6" cy="54.9" r="0.32"/><circle cx="33.4" cy="68.1" r="0.32"/><circle cx="12.3" cy="82.6" r="0.32"/><circle cx="12.2" cy="49.9" r="0.32"/><circle cx="5.8" cy="62.1" r="0.32"/><circle cx="58.8" cy="51.5" r="0.32"/><circle cx="30.3" cy="55.2" r="0.55"/><circle cx="28.6" cy="49.8" r="0.32"/><circle cx="24.5" cy="56.6" r="0.32"/><circle cx="18.6" cy="27.2" r="0.32"/><circle cx="74.8" cy="18.6" r="0.32"/><circle cx="82.0" cy="54.5" r="0.32"/><circle cx="84.8" cy="43.5" r="0.32"/><circle cx="81.2" cy="53.0" r="0.55"/><circle cx="11.2" cy="62.0" r="0.32"/><circle cx="18.5" cy="76.8" r="0.32"/><circle cx="51.0" cy="76.1" r="0.32"/><circle cx="14.9" cy="73.2" r="0.32"/><circle cx="16.2" cy="74.4" r="0.32"/><circle cx="45.3" cy="36.0" r="0.32"/><circle cx="7.1" cy="55.4" r="0.55"/><circle cx="2.0" cy="33.2" r="0.32"/><circle cx="15.2" cy="48.4" r="0.32"/><circle cx="73.0" cy="30.1" r="0.32"/><circle cx="53.4" cy="37.2" r="0.32"/><circle cx="36.8" cy="29.0" r="0.32"/><circle cx="62.3" cy="31.9" r="0.32"/><circle cx="27.4" cy="52.9" r="0.55"/><circle cx="33.9" cy="16.0" r="0.32"/><circle cx="28.5" cy="71.4" r="0.32"/><circle cx="33.3" cy="39.6" r="0.32"/><circle cx="3.6" cy="42.3" r="0.32"/><circle cx="4.2" cy="37.1" r="0.32"/><circle cx="7.2" cy="16.4" r="0.32"/><circle cx="18.5" cy="58.1" r="0.55"/><circle cx="9.0" cy="40.9" r="0.32"/><circle cx="13.8" cy="78.8" r="0.32"/><circle cx="28.2" cy="44.6" r="0.32"/><circle cx="46.7" cy="75.7" r="0.32"/><circle cx="23.1" cy="46.1" r="0.32"/><circle cx="58.1" cy="71.1" r="0.32"/><circle cx="4.2" cy="85.2" r="0.55"/><circle cx="70.7" cy="43.7" r="0.32"/><circle cx="23.3" cy="63.0" r="0.32"/><circle cx="27.6" cy="66.0" r="0.32"/><circle cx="65.1" cy="93.5" r="0.32"/><circle cx="4.6" cy="42.8" r="0.32"/><circle cx="5.4" cy="37.1" r="0.32"/><circle cx="18.2" cy="30.7" r="0.55"/><circle cx="16.1" cy="59.6" r="0.32"/><circle cx="17.2" cy="42.9" r="0.32"/><circle cx="34.6" cy="62.8" r="0.32"/><circle cx="64.8" cy="43.7" r="0.32"/><circle cx="73.2" cy="50.2" r="0.32"/><circle cx="22.6" cy="53.6" r="0.32"/><circle cx="2.6" cy="66.4" r="0.55"/><circle cx="22.3" cy="41.0" r="0.32"/><circle cx="11.3" cy="47.3" r="0.32"/><circle cx="69.3" cy="36.3" r="0.32"/><circle cx="2.0" cy="47.9" r="0.32"/><circle cx="12.8" cy="39.3" r="0.32"/><circle cx="46.9" cy="47.9" r="0.32"/><circle cx="4.8" cy="58.3" r="0.55"/><circle cx="17.1" cy="39.0" r="0.32"/><circle cx="71.6" cy="42.9" r="0.32"/><circle cx="82.0" cy="34.7" r="0.32"/><circle cx="27.9" cy="96.3" r="0.32"/><circle cx="49.0" cy="48.0" r="0.32"/><circle cx="37.0" cy="63.5" r="0.32"/><circle cx="26.5" cy="70.7" r="0.55"/><circle cx="44.1" cy="62.3" r="0.32"/><circle cx="2.9" cy="52.8" r="0.32"/><circle cx="36.5" cy="81.1" r="0.32"/><circle cx="9.9" cy="35.2" r="0.32"/><circle cx="39.5" cy="13.4" r="0.32"/><circle cx="15.7" cy="49.1" r="0.32"/><circle cx="29.9" cy="43.7" r="0.55"/><circle cx="59.7" cy="54.0" r="0.32"/><circle cx="3.2" cy="63.2" r="0.32"/><circle cx="50.9" cy="65.1" r="0.32"/><circle cx="6.5" cy="81.4" r="0.32"/><circle cx="82.0" cy="35.3" r="0.32"/><circle cx="63.8" cy="49.4" r="0.32"/><circle cx="52.5" cy="86.1" r="0.55"/><circle cx="34.3" cy="72.5" r="0.32"/><circle cx="38.5" cy="39.5" r="0.32"/><circle cx="34.3" cy="62.8" r="0.32"/><circle cx="62.1" cy="67.0" r="0.32"/><circle cx="48.9" cy="70.5" r="0.32"/><circle cx="18.4" cy="87.6" r="0.32"/><circle cx="6.7" cy="56.7" r="0.55"/><circle cx="36.8" cy="77.7" r="0.32"/><circle cx="24.8" cy="65.1" r="0.32"/><circle cx="78.6" cy="58.5" r="0.32"/><circle cx="60.8" cy="11.3" r="0.32"/><circle cx="19.7" cy="27.0" r="0.32"/><circle cx="21.3" cy="82.2" r="0.32"/><circle cx="58.0" cy="39.6" r="0.55"/><circle cx="21.8" cy="51.1" r="0.32"/><circle cx="15.6" cy="74.2" r="0.32"/><circle cx="12.3" cy="67.8" r="0.32"/><circle cx="21.8" cy="48.3" r="0.32"/><circle cx="7.1" cy="60.3" r="0.32"/><circle cx="2.4" cy="93.9" r="0.32"/><circle cx="76.1" cy="64.2" r="0.55"/><circle cx="21.7" cy="49.6" r="0.32"/><circle cx="54.5" cy="70.9" r="0.32"/><circle cx="32.5" cy="30.0" r="0.32"/><circle cx="26.0" cy="43.7" r="0.32"/><circle cx="26.1" cy="33.4" r="0.32"/><circle cx="13.6" cy="43.5" r="0.32"/><circle cx="2.2" cy="73.7" r="0.55"/><circle cx="4.1" cy="68.8" r="0.32"/><circle cx="22.3" cy="52.2" r="0.32"/><circle cx="14.6" cy="63.8" r="0.32"/><circle cx="41.3" cy="36.5" r="0.32"/><circle cx="17.1" cy="53.5" r="0.32"/><circle cx="59.9" cy="53.0" r="0.32"/><circle cx="74.2" cy="56.1" r="0.55"/><circle cx="80.7" cy="45.1" r="0.32"/><circle cx="84.2" cy="35.9" r="0.32"/><circle cx="11.8" cy="59.0" r="0.32"/><circle cx="31.5" cy="46.3" r="0.32"/><circle cx="27.8" cy="58.7" r="0.32"/><circle cx="65.1" cy="42.4" r="0.32"/><circle cx="43.2" cy="33.5" r="0.55"/><circle cx="30.4" cy="37.1" r="0.32"/><circle cx="62.1" cy="69.7" r="0.32"/><circle cx="3.4" cy="88.9" r="0.32"/><circle cx="25.4" cy="71.2" r="0.32"/><circle cx="12.0" cy="73.6" r="0.32"/><circle cx="2.0" cy="44.2" r="0.32"/><circle cx="30.0" cy="70.2" r="0.55"/><circle cx="43.5" cy="58.6" r="0.32"/><circle cx="47.8" cy="37.2" r="0.32"/><circle cx="33.5" cy="45.4" r="0.32"/><circle cx="15.2" cy="40.8" r="0.32"/><circle cx="3.6" cy="98.0" r="0.32"/><circle cx="32.1" cy="46.3" r="0.32"/><circle cx="46.0" cy="66.1" r="0.55"/><circle cx="12.7" cy="22.9" r="0.32"/><circle cx="7.4" cy="40.7" r="0.32"/><circle cx="46.7" cy="46.1" r="0.32"/><circle cx="52.1" cy="56.6" r="0.32"/><circle cx="13.4" cy="46.6" r="0.32"/><circle cx="4.2" cy="50.8" r="0.32"/><circle cx="47.3" cy="35.8" r="0.55"/><circle cx="14.5" cy="57.7" r="0.32"/><circle cx="64.7" cy="37.2" r="0.32"/><circle cx="5.5" cy="46.4" r="0.32"/><circle cx="38.4" cy="73.1" r="0.32"/><circle cx="98.0" cy="67.2" r="0.32"/><circle cx="74.6" cy="33.0" r="0.32"/><circle cx="7.0" cy="70.3" r="0.55"/><circle cx="12.6" cy="14.9" r="0.32"/><circle cx="2.2" cy="68.1" r="0.32"/><circle cx="40.4" cy="17.4" r="0.32"/><circle cx="30.2" cy="61.0" r="0.32"/><circle cx="4.0" cy="67.2" r="0.32"/><circle cx="31.0" cy="37.7" r="0.32"/><circle cx="34.8" cy="74.3" r="0.55"/><circle cx="15.0" cy="50.6" r="0.32"/><circle cx="67.7" cy="43.8" r="0.32"/><circle cx="59.2" cy="64.0" r="0.32"/><circle cx="70.0" cy="42.3" r="0.32"/><circle cx="32.3" cy="38.7" r="0.32"/><circle cx="60.7" cy="63.6" r="0.32"/><circle cx="2.4" cy="49.6" r="0.55"/><circle cx="9.9" cy="73.2" r="0.32"/><circle cx="11.4" cy="60.1" r="0.32"/><circle cx="70.1" cy="75.6" r="0.32"/><circle cx="74.6" cy="80.7" r="0.32"/><circle cx="7.5" cy="23.4" r="0.32"/><circle cx="59.7" cy="35.1" r="0.32"/><circle cx="3.9" cy="78.0" r="0.55"/><circle cx="42.2" cy="33.1" r="0.32"/><circle cx="36.3" cy="44.2" r="0.32"/><circle cx="24.5" cy="62.3" r="0.32"/><circle cx="51.3" cy="49.6" r="0.32"/><circle cx="53.4" cy="52.4" r="0.32"/><circle cx="4.8" cy="53.8" r="0.32"/><circle cx="53.1" cy="39.8" r="0.55"/><circle cx="14.0" cy="49.1" r="0.32"/><circle cx="40.1" cy="74.8" r="0.32"/><circle cx="34.3" cy="79.5" r="0.32"/><circle cx="71.0" cy="82.4" r="0.32"/><circle cx="24.7" cy="44.2" r="0.32"/><circle cx="22.0" cy="51.6" r="0.32"/><circle cx="35.7" cy="67.4" r="0.55"/><circle cx="12.5" cy="69.6" r="0.32"/><circle cx="20.9" cy="3.9" r="0.32"/><circle cx="22.4" cy="5.8" r="0.32"/><circle cx="41.4" cy="80.6" r="0.32"/><circle cx="16.4" cy="67.5" r="0.32"/><circle cx="66.1" cy="61.9" r="0.32"/><circle cx="18.5" cy="73.7" r="0.55"/><circle cx="41.3" cy="61.2" r="0.32"/><circle cx="13.9" cy="47.9" r="0.32"/><circle cx="16.5" cy="57.5" r="0.32"/><circle cx="13.3" cy="7.7" r="0.32"/><circle cx="7.0" cy="72.3" r="0.32"/><circle cx="5.4" cy="80.3" r="0.32"/><circle cx="22.7" cy="61.7" r="0.55"/><circle cx="22.8" cy="63.1" r="0.32"/><circle cx="34.1" cy="71.2" r="0.32"/><circle cx="3.2" cy="63.1" r="0.32"/><circle cx="73.4" cy="42.5" r="0.32"/><circle cx="11.7" cy="67.3" r="0.32"/><circle cx="18.7" cy="67.9" r="0.32"/><circle cx="52.2" cy="33.3" r="0.55"/><circle cx="7.5" cy="51.2" r="0.32"/><circle cx="62.3" cy="68.3" r="0.32"/><circle cx="4.5" cy="63.6" r="0.32"/><circle cx="2.1" cy="59.5" r="0.32"/><circle cx="26.0" cy="79.6" r="0.32"/><circle cx="41.9" cy="66.9" r="0.32"/><circle cx="25.6" cy="66.5" r="0.55"/><circle cx="62.9" cy="63.2" r="0.32"/><circle cx="27.7" cy="83.2" r="0.32"/><circle cx="17.1" cy="27.7" r="0.32"/><circle cx="13.7" cy="30.3" r="0.32"/><circle cx="2.8" cy="65.8" r="0.32"/><circle cx="3.3" cy="43.9" r="0.32"/><circle cx="3.8" cy="72.5" r="0.55"/><circle cx="32.6" cy="46.4" r="0.32"/><circle cx="20.7" cy="63.6" r="0.32"/><circle cx="15.2" cy="53.1" r="0.32"/><circle cx="6.0" cy="59.2" r="0.32"/><circle cx="59.2" cy="66.8" r="0.32"/><circle cx="64.1" cy="46.4" r="0.32"/><circle cx="2.1" cy="86.8" r="0.55"/><circle cx="43.9" cy="31.6" r="0.32"/><circle cx="24.5" cy="31.3" r="0.32"/><circle cx="12.2" cy="88.4" r="0.32"/><circle cx="27.0" cy="69.0" r="0.32"/><circle cx="30.1" cy="49.8" r="0.32"/><circle cx="8.2" cy="73.4" r="0.32"/><circle cx="56.9" cy="50.8" r="0.55"/><circle cx="45.0" cy="62.9" r="0.32"/><circle cx="26.3" cy="54.5" r="0.32"/><circle cx="25.2" cy="64.7" r="0.32"/><circle cx="80.3" cy="56.7" r="0.32"/><circle cx="34.6" cy="50.9" r="0.32"/><circle cx="42.7" cy="42.0" r="0.32"/><circle cx="38.5" cy="53.7" r="0.55"/><circle cx="28.1" cy="32.2" r="0.32"/><circle cx="2.1" cy="5.6" r="0.32"/><circle cx="39.8" cy="30.4" r="0.32"/><circle cx="63.8" cy="37.7" r="0.32"/><circle cx="35.2" cy="50.8" r="0.32"/><circle cx="24.8" cy="73.6" r="0.32"/><circle cx="20.2" cy="63.0" r="0.55"/><circle cx="62.5" cy="60.0" r="0.32"/><circle cx="60.0" cy="49.9" r="0.32"/><circle cx="54.4" cy="11.8" r="0.32"/><circle cx="29.1" cy="71.6" r="0.32"/><circle cx="31.1" cy="92.7" r="0.32"/><circle cx="11.2" cy="51.9" r="0.32"/><circle cx="25.0" cy="61.1" r="0.55"/><circle cx="5.6" cy="78.5" r="0.32"/><circle cx="71.1" cy="48.3" r="0.32"/><circle cx="43.4" cy="62.3" r="0.32"/><circle cx="48.2" cy="66.8" r="0.32"/><circle cx="37.9" cy="60.4" r="0.32"/><circle cx="10.1" cy="46.6" r="0.32"/><circle cx="59.9" cy="69.5" r="0.55"/><circle cx="59.2" cy="55.5" r="0.32"/><circle cx="6.4" cy="51.1" r="0.32"/><circle cx="69.0" cy="75.7" r="0.32"/><circle cx="57.8" cy="43.3" r="0.32"/><circle cx="20.9" cy="43.6" r="0.32"/><circle cx="9.3" cy="80.2" r="0.32"/><circle cx="44.2" cy="55.4" r="0.55"/><circle cx="81.6" cy="60.7" r="0.32"/><circle cx="68.4" cy="60.2" r="0.32"/><circle cx="46.6" cy="60.4" r="0.32"/><circle cx="19.0" cy="69.0" r="0.32"/><circle cx="50.6" cy="66.9" r="0.32"/><circle cx="27.4" cy="50.3" r="0.32"/><circle cx="28.3" cy="64.6" r="0.55"/><circle cx="39.4" cy="42.7" r="0.32"/><circle cx="21.6" cy="63.7" r="0.32"/><circle cx="18.9" cy="50.4" r="0.32"/><circle cx="7.1" cy="65.1" r="0.32"/><circle cx="45.0" cy="65.3" r="0.32"/><circle cx="4.0" cy="58.5" r="0.32"/><circle cx="28.7" cy="73.7" r="0.55"/><circle cx="27.2" cy="84.9" r="0.32"/><circle cx="63.3" cy="71.6" r="0.32"/><circle cx="22.5" cy="49.3" r="0.32"/><circle cx="20.5" cy="36.8" r="0.32"/><circle cx="38.9" cy="12.0" r="0.32"/><circle cx="33.5" cy="60.0" r="0.32"/><circle cx="32.6" cy="89.5" r="0.55"/><circle cx="66.5" cy="51.2" r="0.32"/><circle cx="83.4" cy="72.3" r="0.32"/><circle cx="56.4" cy="76.9" r="0.32"/><circle cx="72.0" cy="37.3" r="0.32"/><circle cx="30.3" cy="33.6" r="0.32"/><circle cx="57.3" cy="22.2" r="0.32"/><circle cx="44.7" cy="23.8" r="0.55"/><circle cx="24.9" cy="56.7" r="0.32"/><circle cx="2.0" cy="63.1" r="0.32"/><circle cx="2.8" cy="70.0" r="0.32"/><circle cx="48.5" cy="19.9" r="0.32"/><circle cx="3.9" cy="47.3" r="0.32"/><circle cx="47.0" cy="62.9" r="0.32"/><circle cx="35.5" cy="54.8" r="0.55"/><circle cx="48.2" cy="59.8" r="0.32"/><circle cx="31.4" cy="63.0" r="0.32"/><circle cx="8.1" cy="68.7" r="0.32"/><circle cx="10.4" cy="42.6" r="0.32"/><circle cx="6.7" cy="30.4" r="0.32"/><circle cx="14.4" cy="93.0" r="0.32"/><circle cx="23.5" cy="69.7" r="0.55"/><circle cx="64.6" cy="61.2" r="0.32"/><circle cx="7.4" cy="41.9" r="0.32"/><circle cx="16.0" cy="59.1" r="0.32"/><circle cx="59.4" cy="70.1" r="0.32"/><circle cx="64.6" cy="35.0" r="0.32"/><circle cx="15.0" cy="26.7" r="0.32"/><circle cx="40.4" cy="54.6" r="0.55"/><circle cx="31.0" cy="20.5" r="0.32"/><circle cx="27.5" cy="45.1" r="0.32"/><circle cx="28.9" cy="53.7" r="0.32"/><circle cx="50.5" cy="68.6" r="0.32"/><circle cx="58.7" cy="48.3" r="0.32"/><circle cx="54.8" cy="38.6" r="0.32"/><circle cx="30.0" cy="63.2" r="0.55"/><circle cx="13.8" cy="63.2" r="0.32"/><circle cx="21.6" cy="42.9" r="0.32"/><circle cx="55.8" cy="49.2" r="0.32"/><circle cx="70.6" cy="62.6" r="0.32"/><circle cx="74.3" cy="59.6" r="0.32"/><circle cx="48.6" cy="53.7" r="0.32"/><circle cx="67.6" cy="57.0" r="0.55"/><circle cx="26.7" cy="39.3" r="0.32"/><circle cx="7.2" cy="33.4" r="0.32"/><circle cx="88.3" cy="51.6" r="0.32"/><circle cx="34.4" cy="54.4" r="0.32"/><circle cx="25.8" cy="47.3" r="0.32"/><circle cx="41.0" cy="70.4" r="0.32"/><circle cx="10.2" cy="67.2" r="0.55"/><circle cx="24.5" cy="63.0" r="0.32"/><circle cx="3.9" cy="74.9" r="0.32"/><circle cx="5.1" cy="79.6" r="0.32"/><circle cx="22.9" cy="39.1" r="0.32"/><circle cx="11.6" cy="25.4" r="0.32"/><circle cx="11.3" cy="15.8" r="0.32"/><circle cx="18.9" cy="63.2" r="0.55"/><circle cx="55.2" cy="86.2" r="0.32"/><circle cx="24.7" cy="74.1" r="0.32"/><circle cx="59.4" cy="75.6" r="0.32"/><circle cx="61.9" cy="69.3" r="0.32"/><circle cx="20.5" cy="34.6" r="0.32"/><circle cx="7.4" cy="66.7" r="0.32"/><circle cx="45.2" cy="42.1" r="0.55"/><circle cx="25.9" cy="65.0" r="0.32"/><circle cx="53.6" cy="58.7" r="0.32"/><circle cx="2.5" cy="77.8" r="0.32"/><circle cx="56.4" cy="87.1" r="0.32"/><circle cx="31.0" cy="81.9" r="0.32"/><circle cx="19.5" cy="89.3" r="0.32"/><circle cx="43.1" cy="37.6" r="0.55"/><circle cx="13.7" cy="67.4" r="0.32"/><circle cx="5.0" cy="50.2" r="0.32"/><circle cx="32.4" cy="49.3" r="0.32"/><circle cx="82.6" cy="50.6" r="0.32"/><circle cx="9.0" cy="79.3" r="0.32"/><circle cx="13.6" cy="37.4" r="0.32"/><circle cx="25.0" cy="51.8" r="0.55"/><circle cx="65.4" cy="22.0" r="0.32"/><circle cx="39.0" cy="36.3" r="0.32"/><circle cx="51.0" cy="82.1" r="0.32"/><circle cx="31.3" cy="91.6" r="0.32"/><circle cx="32.6" cy="56.2" r="0.32"/><circle cx="73.9" cy="58.1" r="0.32"/><circle cx="66.8" cy="57.4" r="0.55"/><circle cx="67.6" cy="76.9" r="0.32"/><circle cx="25.1" cy="64.4" r="0.32"/><circle cx="12.8" cy="78.3" r="0.32"/><circle cx="3.2" cy="85.3" r="0.32"/><circle cx="32.2" cy="48.4" r="0.32"/><circle cx="39.8" cy="45.6" r="0.32"/><circle cx="21.5" cy="54.0" r="0.55"/><circle cx="39.9" cy="54.0" r="0.32"/><circle cx="64.5" cy="43.9" r="0.32"/><circle cx="33.1" cy="64.0" r="0.32"/><circle cx="38.5" cy="54.9" r="0.32"/><circle cx="41.2" cy="48.5" r="0.32"/><circle cx="10.9" cy="50.9" r="0.32"/><circle cx="21.8" cy="43.8" r="0.55"/><circle cx="56.5" cy="47.4" r="0.32"/><circle cx="19.3" cy="57.1" r="0.32"/><circle cx="45.4" cy="12.7" r="0.32"/><circle cx="62.9" cy="33.0" r="0.32"/><circle cx="54.0" cy="45.5" r="0.32"/><circle cx="56.2" cy="45.7" r="0.32"/><circle cx="21.0" cy="37.1" r="0.55"/><circle cx="22.3" cy="54.8" r="0.32"/><circle cx="44.6" cy="44.3" r="0.32"/><circle cx="30.5" cy="43.2" r="0.32"/><circle cx="33.8" cy="14.4" r="0.32"/><circle cx="23.8" cy="36.5" r="0.32"/><circle cx="21.0" cy="46.6" r="0.32"/><circle cx="33.8" cy="64.0" r="0.55"/><circle cx="15.0" cy="70.9" r="0.32"/><circle cx="20.0" cy="73.9" r="0.32"/><circle cx="47.2" cy="43.2" r="0.32"/><circle cx="32.8" cy="58.5" r="0.32"/><circle cx="2.4" cy="76.2" r="0.32"/><circle cx="5.5" cy="68.5" r="0.32"/><circle cx="59.4" cy="55.7" r="0.55"/><circle cx="2.0" cy="50.7" r="0.32"/><circle cx="12.8" cy="56.8" r="0.32"/><circle cx="2.8" cy="36.2" r="0.32"/><circle cx="9.3" cy="57.1" r="0.32"/><circle cx="42.3" cy="69.2" r="0.32"/><circle cx="37.6" cy="66.4" r="0.32"/><circle cx="3.4" cy="59.8" r="0.55"/><circle cx="18.0" cy="66.5" r="0.32"/><circle cx="7.4" cy="56.6" r="0.32"/><circle cx="15.2" cy="18.7" r="0.32"/><circle cx="16.8" cy="35.1" r="0.32"/><circle cx="34.8" cy="41.9" r="0.32"/><circle cx="50.2" cy="35.1" r="0.32"/><circle cx="88.1" cy="10.9" r="0.55"/><circle cx="27.8" cy="47.8" r="0.32"/><circle cx="36.3" cy="65.0" r="0.32"/><circle cx="69.8" cy="72.5" r="0.32"/><circle cx="21.7" cy="90.7" r="0.32"/><circle cx="28.5" cy="61.0" r="0.32"/><circle cx="37.1" cy="78.0" r="0.32"/><circle cx="25.4" cy="64.1" r="0.55"/><circle cx="53.1" cy="48.7" r="0.32"/><circle cx="63.3" cy="67.5" r="0.32"/><circle cx="9.1" cy="66.8" r="0.32"/><circle cx="17.5" cy="31.4" r="0.32"/><circle cx="5.1" cy="73.4" r="0.32"/><circle cx="31.7" cy="70.0" r="0.32"/><circle cx="48.6" cy="53.9" r="0.55"/><circle cx="43.5" cy="40.5" r="0.32"/><circle cx="8.1" cy="55.2" r="0.32"/><circle cx="7.9" cy="53.5" r="0.32"/><circle cx="53.7" cy="53.6" r="0.32"/><circle cx="10.9" cy="21.6" r="0.32"/><circle cx="73.5" cy="28.9" r="0.32"/><circle cx="44.1" cy="66.0" r="0.55"/><circle cx="35.5" cy="58.5" r="0.32"/><circle cx="50.3" cy="53.1" r="0.32"/><circle cx="54.9" cy="28.6" r="0.32"/><circle cx="15.9" cy="41.0" r="0.32"/><circle cx="87.5" cy="52.8" r="0.32"/><circle cx="35.8" cy="54.7" r="0.32"/><circle cx="35.5" cy="74.4" r="0.55"/><circle cx="10.8" cy="90.5" r="0.32"/><circle cx="7.5" cy="65.3" r="0.32"/><circle cx="23.0" cy="49.1" r="0.32"/><circle cx="37.9" cy="58.7" r="0.32"/><circle cx="38.3" cy="40.2" r="0.32"/><circle cx="63.9" cy="38.0" r="0.32"/><circle cx="84.0" cy="39.5" r="0.55"/><circle cx="36.4" cy="61.9" r="0.32"/><circle cx="70.7" cy="30.7" r="0.32"/><circle cx="74.0" cy="44.5" r="0.32"/><circle cx="35.8" cy="56.1" r="0.32"/><circle cx="31.4" cy="54.8" r="0.32"/><circle cx="53.9" cy="78.7" r="0.32"/><circle cx="6.3" cy="47.2" r="0.55"/><circle cx="74.0" cy="46.1" r="0.32"/><circle cx="81.2" cy="59.9" r="0.32"/><circle cx="49.5" cy="19.3" r="0.32"/><circle cx="24.7" cy="73.9" r="0.32"/><circle cx="54.9" cy="48.5" r="0.32"/><circle cx="44.1" cy="52.1" r="0.32"/><circle cx="8.7" cy="70.4" r="0.55"/><circle cx="18.1" cy="29.7" r="0.32"/><circle cx="69.7" cy="43.5" r="0.32"/><circle cx="56.2" cy="28.1" r="0.32"/><circle cx="23.0" cy="37.8" r="0.32"/><circle cx="4.4" cy="56.4" r="0.32"/><circle cx="61.7" cy="44.7" r="0.32"/><circle cx="7.9" cy="84.4" r="0.55"/><circle cx="12.6" cy="80.8" r="0.32"/><circle cx="7.4" cy="90.8" r="0.32"/><circle cx="66.9" cy="59.4" r="0.32"/><circle cx="3.5" cy="72.9" r="0.32"/><circle cx="11.1" cy="63.8" r="0.32"/><circle cx="22.9" cy="63.2" r="0.32"/><circle cx="3.7" cy="76.4" r="0.55"/><circle cx="8.0" cy="63.3" r="0.32"/><circle cx="21.5" cy="60.0" r="0.32"/><circle cx="16.8" cy="72.1" r="0.32"/><circle cx="68.6" cy="74.0" r="0.32"/><circle cx="29.9" cy="94.4" r="0.32"/><circle cx="7.3" cy="86.2" r="0.32"/><circle cx="25.4" cy="31.6" r="0.55"/><circle cx="32.3" cy="79.6" r="0.32"/><circle cx="13.5" cy="83.5" r="0.32"/><circle cx="3.8" cy="46.6" r="0.32"/><circle cx="43.8" cy="67.7" r="0.32"/><circle cx="22.3" cy="59.4" r="0.32"/><circle cx="52.4" cy="80.1" r="0.32"/><circle cx="44.1" cy="34.3" r="0.55"/><circle cx="17.4" cy="54.5" r="0.32"/><circle cx="74.9" cy="72.0" r="0.32"/><circle cx="6.7" cy="72.2" r="0.32"/><circle cx="55.3" cy="57.3" r="0.32"/><circle cx="6.2" cy="47.2" r="0.32"/><circle cx="13.9" cy="53.8" r="0.32"/><circle cx="55.0" cy="24.2" r="0.55"/><circle cx="17.8" cy="39.8" r="0.32"/><circle cx="18.5" cy="78.3" r="0.32"/><circle cx="45.3" cy="63.8" r="0.32"/><circle cx="31.0" cy="62.2" r="0.32"/><circle cx="31.3" cy="70.0" r="0.32"/><circle cx="28.8" cy="70.9" r="0.32"/><circle cx="47.6" cy="63.2" r="0.55"/><circle cx="66.9" cy="44.2" r="0.32"/><circle cx="8.2" cy="60.3" r="0.32"/><circle cx="64.3" cy="68.3" r="0.32"/><circle cx="24.1" cy="60.1" r="0.32"/><circle cx="38.9" cy="58.5" r="0.32"/><circle cx="4.7" cy="45.7" r="0.32"/><circle cx="24.9" cy="81.2" r="0.55"/><circle cx="19.0" cy="36.7" r="0.32"/><circle cx="33.7" cy="24.4" r="0.32"/><circle cx="2.2" cy="64.6" r="0.32"/><circle cx="7.7" cy="74.7" r="0.32"/><circle cx="58.9" cy="27.0" r="0.32"/><circle cx="79.6" cy="25.3" r="0.32"/><circle cx="66.5" cy="56.1" r="0.55"/><circle cx="38.5" cy="58.9" r="0.32"/><circle cx="21.4" cy="63.7" r="0.32"/><circle cx="5.9" cy="68.1" r="0.32"/><circle cx="61.5" cy="20.4" r="0.32"/><circle cx="62.0" cy="15.2" r="0.32"/><circle cx="6.9" cy="57.1" r="0.32"/><circle cx="69.5" cy="69.4" r="0.55"/><circle cx="2.0" cy="68.1" r="0.32"/><circle cx="52.9" cy="48.1" r="0.32"/><circle cx="28.1" cy="41.6" r="0.32"/><circle cx="24.8" cy="48.3" r="0.32"/><circle cx="40.0" cy="64.2" r="0.32"/><circle cx="6.1" cy="73.4" r="0.32"/><circle cx="41.4" cy="35.8" r="0.55"/><circle cx="40.7" cy="54.7" r="0.32"/><circle cx="16.6" cy="54.3" r="0.32"/><circle cx="8.2" cy="59.8" r="0.32"/><circle cx="41.6" cy="50.9" r="0.32"/><circle cx="31.1" cy="86.0" r="0.32"/><circle cx="26.6" cy="47.9" r="0.32"/><circle cx="42.5" cy="74.7" r="0.55"/><circle cx="16.2" cy="49.2" r="0.32"/><circle cx="51.4" cy="58.0" r="0.32"/><circle cx="18.5" cy="72.4" r="0.32"/><circle cx="18.7" cy="18.8" r="0.32"/><circle cx="37.5" cy="31.0" r="0.32"/><circle cx="37.4" cy="2.0" r="0.32"/><circle cx="9.2" cy="25.1" r="0.55"/><circle cx="4.9" cy="68.7" r="0.32"/><circle cx="3.2" cy="31.7" r="0.32"/><circle cx="46.0" cy="43.6" r="0.32"/><circle cx="12.9" cy="69.4" r="0.32"/><circle cx="47.0" cy="35.1" r="0.32"/><circle cx="6.7" cy="48.4" r="0.32"/><circle cx="16.1" cy="64.0" r="0.55"/><circle cx="5.4" cy="46.7" r="0.32"/><circle cx="61.5" cy="53.1" r="0.32"/><circle cx="55.7" cy="68.7" r="0.32"/><circle cx="33.9" cy="76.9" r="0.32"/><circle cx="4.8" cy="35.3" r="0.32"/><circle cx="74.6" cy="37.4" r="0.32"/><circle cx="13.6" cy="31.3" r="0.55"/><circle cx="73.1" cy="47.3" r="0.32"/><circle cx="61.4" cy="50.4" r="0.32"/><circle cx="52.5" cy="58.2" r="0.32"/><circle cx="34.1" cy="56.1" r="0.32"/><circle cx="86.5" cy="7.5" r="0.32"/><circle cx="85.0" cy="22.9" r="0.32"/><circle cx="68.7" cy="26.7" r="0.55"/><circle cx="72.6" cy="29.4" r="0.32"/><circle cx="50.6" cy="35.1" r="0.32"/><circle cx="11.4" cy="43.9" r="0.32"/><circle cx="40.4" cy="46.7" r="0.32"/><circle cx="15.1" cy="56.7" r="0.32"/><circle cx="48.4" cy="59.3" r="0.32"/><circle cx="13.2" cy="50.0" r="0.55"/><circle cx="23.4" cy="60.0" r="0.32"/><circle cx="14.1" cy="62.8" r="0.32"/><circle cx="14.4" cy="45.9" r="0.32"/><circle cx="17.2" cy="8.6" r="0.32"/><circle cx="16.4" cy="13.9" r="0.32"/><circle cx="30.4" cy="48.2" r="0.32"/><circle cx="4.8" cy="62.4" r="0.55"/><circle cx="15.3" cy="69.2" r="0.32"/><circle cx="11.8" cy="20.2" r="0.32"/><circle cx="15.9" cy="74.6" r="0.32"/><circle cx="46.9" cy="57.9" r="0.32"/><circle cx="52.9" cy="57.2" r="0.32"/><circle cx="16.0" cy="61.8" r="0.32"/><circle cx="49.7" cy="77.6" r="0.55"/><circle cx="60.9" cy="88.9" r="0.32"/><circle cx="15.7" cy="78.4" r="0.32"/><circle cx="3.6" cy="52.4" r="0.32"/><circle cx="24.4" cy="64.6" r="0.32"/><circle cx="72.8" cy="55.7" r="0.32"/><circle cx="60.1" cy="43.5" r="0.32"/><circle cx="78.7" cy="55.8" r="0.55"/><circle cx="62.9" cy="42.6" r="0.32"/><circle cx="58.7" cy="74.3" r="0.32"/><circle cx="46.8" cy="50.3" r="0.32"/><circle cx="75.1" cy="54.4" r="0.32"/><circle cx="50.0" cy="50.6" r="0.32"/><circle cx="7.1" cy="92.6" r="0.32"/><circle cx="33.6" cy="80.6" r="0.55"/><circle cx="7.4" cy="72.0" r="0.32"/><circle cx="37.8" cy="35.8" r="0.32"/><circle cx="53.6" cy="59.1" r="0.32"/><circle cx="8.1" cy="45.4" r="0.32"/><circle cx="35.4" cy="46.0" r="0.32"/><circle cx="63.9" cy="50.9" r="0.32"/><circle cx="30.2" cy="49.8" r="0.55"/><circle cx="41.0" cy="30.6" r="0.32"/><circle cx="33.4" cy="69.6" r="0.32"/><circle cx="58.1" cy="35.2" r="0.32"/><circle cx="76.0" cy="38.2" r="0.32"/><circle cx="60.0" cy="47.0" r="0.32"/><circle cx="3.6" cy="64.4" r="0.32"/><circle cx="3.9" cy="70.9" r="0.55"/><circle cx="59.7" cy="27.8" r="0.32"/><circle cx="34.1" cy="44.7" r="0.32"/><circle cx="13.9" cy="63.6" r="0.32"/><circle cx="76.7" cy="49.1" r="0.32"/><circle cx="66.4" cy="68.6" r="0.32"/><circle cx="67.0" cy="38.4" r="0.32"/><circle cx="31.1" cy="54.9" r="0.55"/><circle cx="15.5" cy="66.1" r="0.32"/><circle cx="7.1" cy="81.9" r="0.32"/><circle cx="24.0" cy="41.5" r="0.32"/><circle cx="36.5" cy="48.3" r="0.32"/><circle cx="14.7" cy="59.3" r="0.32"/><circle cx="41.8" cy="54.1" r="0.32"/><circle cx="19.4" cy="72.1" r="0.55"/><circle cx="22.5" cy="82.4" r="0.32"/><circle cx="71.9" cy="33.2" r="0.32"/><circle cx="50.5" cy="47.8" r="0.32"/><circle cx="68.9" cy="57.0" r="0.32"/><circle cx="64.6" cy="32.4" r="0.32"/><circle cx="75.8" cy="41.3" r="0.32"/><circle cx="34.4" cy="61.2" r="0.55"/><circle cx="88.9" cy="65.9" r="0.32"/><circle cx="2.8" cy="51.0" r="0.32"/><circle cx="23.9" cy="70.3" r="0.32"/><circle cx="17.9" cy="41.4" r="0.32"/><circle cx="53.0" cy="52.6" r="0.32"/><circle cx="35.6" cy="66.3" r="0.32"/><circle cx="68.6" cy="25.7" r="0.55"/><circle cx="2.6" cy="42.8" r="0.32"/><circle cx="58.1" cy="18.7" r="0.32"/><circle cx="3.2" cy="13.3" r="0.32"/><circle cx="8.8" cy="69.3" r="0.32"/><circle cx="3.3" cy="52.8" r="0.32"/><circle cx="9.8" cy="63.8" r="0.32"/><circle cx="9.9" cy="92.8" r="0.55"/><circle cx="5.8" cy="44.8" r="0.32"/><circle cx="20.9" cy="12.2" r="0.32"/><circle cx="28.9" cy="54.6" r="0.32"/><circle cx="18.6" cy="51.1" r="0.32"/><circle cx="63.4" cy="30.0" r="0.32"/><circle cx="56.0" cy="37.1" r="0.32"/><circle cx="40.2" cy="43.6" r="0.55"/><circle cx="4.6" cy="49.2" r="0.32"/><circle cx="33.9" cy="35.4" r="0.32"/><circle cx="8.2" cy="70.9" r="0.32"/><circle cx="25.6" cy="61.7" r="0.32"/><circle cx="2.4" cy="53.8" r="0.32"/><circle cx="7.3" cy="94.9" r="0.32"/><circle cx="47.2" cy="47.4" r="0.55"/><circle cx="66.1" cy="40.2" r="0.32"/><circle cx="5.7" cy="30.7" r="0.32"/><circle cx="26.5" cy="89.4" r="0.32"/><circle cx="34.0" cy="86.7" r="0.32"/><circle cx="23.6" cy="65.5" r="0.32"/><circle cx="57.5" cy="75.1" r="0.32"/><circle cx="4.5" cy="60.2" r="0.55"/><circle cx="21.7" cy="74.6" r="0.32"/><circle cx="4.7" cy="69.3" r="0.32"/><circle cx="28.7" cy="42.6" r="0.32"/><circle cx="8.5" cy="74.3" r="0.32"/><circle cx="18.5" cy="50.9" r="0.32"/><circle cx="30.7" cy="40.1" r="0.32"/><circle cx="39.8" cy="35.4" r="0.55"/><circle cx="3.6" cy="36.4" r="0.32"/><circle cx="42.0" cy="77.5" r="0.32"/><circle cx="9.4" cy="59.9" r="0.32"/><circle cx="22.3" cy="59.1" r="0.32"/><circle cx="42.4" cy="55.6" r="0.32"/><circle cx="7.1" cy="24.5" r="0.32"/><circle cx="2.7" cy="45.7" r="0.55"/><circle cx="27.6" cy="42.4" r="0.32"/><circle cx="71.7" cy="38.6" r="0.32"/><circle cx="6.3" cy="55.3" r="0.32"/><circle cx="69.9" cy="35.2" r="0.32"/><circle cx="49.3" cy="39.1" r="0.32"/><circle cx="42.7" cy="35.6" r="0.32"/><circle cx="13.3" cy="73.4" r="0.55"/><circle cx="79.5" cy="73.3" r="0.32"/><circle cx="40.2" cy="61.2" r="0.32"/><circle cx="44.8" cy="64.4" r="0.32"/><circle cx="83.4" cy="53.5" r="0.32"/><circle cx="6.2" cy="37.7" r="0.32"/><circle cx="3.4" cy="94.9" r="0.32"/><circle cx="12.7" cy="54.6" r="0.55"/><circle cx="38.4" cy="53.0" r="0.32"/><circle cx="28.1" cy="50.2" r="0.32"/><circle cx="66.3" cy="63.6" r="0.32"/><circle cx="21.7" cy="47.8" r="0.32"/><circle cx="35.1" cy="86.4" r="0.32"/><circle cx="11.4" cy="44.7" r="0.32"/><circle cx="60.2" cy="36.0" r="0.55"/><circle cx="55.2" cy="43.9" r="0.32"/><circle cx="3.3" cy="61.2" r="0.32"/><circle cx="56.3" cy="59.5" r="0.32"/><circle cx="76.7" cy="57.9" r="0.32"/><circle cx="33.5" cy="73.7" r="0.32"/><circle cx="4.9" cy="63.7" r="0.32"/><circle cx="7.9" cy="60.3" r="0.55"/><circle cx="13.8" cy="45.0" r="0.32"/><circle cx="34.2" cy="70.0" r="0.32"/><circle cx="7.4" cy="38.6" r="0.32"/><circle cx="23.2" cy="86.2" r="0.32"/><circle cx="18.8" cy="55.9" r="0.32"/><circle cx="11.0" cy="66.0" r="0.32"/><circle cx="31.4" cy="46.3" r="0.55"/></g></svg>
+  <div class="wrap landing-inner">
+    <p class="landing-mark"><svg class="mark-glyph" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><path class="g-leg" d="M17 88 L38 88 L52 50 L42 24 Z"/><path class="g-main" d="M35 12 L56 12 L85 88 L64 88 Z"/></svg><span>Latent<span class="dot">.</span></span></p>
+    <h1 class="landing-line">Scouting intelligence for the leagues nobody watches</h1>
+    <p class="landing-sub">Every player, every match, rebuilt into per-90s,
+      within-competition percentiles and one export-readiness score, with the
+      method, the backtest and the limits published in full.</p>
+    <div class="landing-cta">
+      <a class="btn btn-lg" href="#enquire"><span>Request a report</span></a>
+      <a class="btn btn-lg btn-ghost" href="players/index.html"><span>Browse
+        8,924 player profiles</span></a>
+    </div>
+    <p class="landing-meta">Read live from the database. Last match ingested
+      <span class="num">27 Aug 2026</span>.</p>
+  </div>
+</section>
+
+<!-- ============================ 01 · PROOF STRIP ========================= -->
+<section class="sec">
+  <div class="wrap strip-grid">
+      <div class="strip-cell"><span class="figure num">407,495</span><span class="caption">player-match stat lines</span></div>
+      <div class="strip-cell"><span class="figure num">13,401</span><span class="caption">matches ingested</span></div>
+      <div class="strip-cell"><span class="figure num">13</span><span class="caption">competitions</span></div>
+      <div class="strip-cell"><span class="figure num">8,924</span><span class="caption">players ranked</span></div>
+      <div class="strip-cell"><span class="figure num">3,034</span><span class="caption">moves abroad tracked</span></div>
+  </div>
+</section>
+
+<!-- ============================ 02 · WHO IT IS FOR ======================= -->
+<section class="sec tint" id="who">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">Who it is for</p>
+      <h2>Three people ask the same question</h2>
+      <p class="lede">Is this player better than the market thinks, and what is that
+        worth? The document changes shape depending on which side of the table you
+        sit on.</p>
+    </div>
+    <div class="grid-3">
+      <div class="deck-card">
+        <span class="kicker">BUYER 01</span>
+        <h3>Agents</h3>
+        <p>Where your client ranks, which squads abroad have the gap he fills, and what his profile actually sold for.</p>
+        <a class="btn btn-sm" href="full-report.html"><span>See the Full Report →</span></a>
+      </div>
+      <div class="deck-card">
+        <span class="kicker">BUYER 02</span>
+        <h3>Clubs</h3>
+        <p>The negotiation-room document: does he improve your squad, who does he displace, and how does he compare with the shortlist.</p>
+        <a class="btn btn-sm" href="club-report.html"><span>See the Club Report →</span></a>
+      </div>
+      <div class="deck-card">
+        <span class="kicker">BUYER 03</span>
+        <h3>Players</h3>
+        <p>The same document a club would read about you: where your season ranks and what the market pays for it.</p>
+        <a class="btn btn-sm" href="#enquire"><span>Request yours →</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 03 · THE LIVE READ ======================= -->
+<section class="sec" id="live">
+  <div class="wrap deck-split">
+    <div>
+      <p class="eyebrow">Not a screenshot</p>
+      <h2>The top-ranked player, right now</h2>
+      <p class="lede">Whoever leads the Latent Level as this page builds — the one
+        number here that survives leaving its own league, a within-league score
+        carrying the coefficient we fitted from players who actually crossed.
+        Drawn from the last two seasons of every competition we hold, and only from
+        players past <span class="num">1,500</span> minutes in one:
+        a rating built on a quarter of a season is not wrong, but it is not what we
+        would put a name to.</p>
+      <p style="margin-top:clamp(28px,4.5vh,48px)"><a class="btn btn-ghost"
+        href="data.html"><span>What is actually in the database →</span></a></p>
+    </div>
+    <div>
+      <div class="panel panel-flush panel-hard livecard">
+        <div class="panel-head">
+          <span class="eyebrow">Highest Latent Level on a full season</span>
+          <span class="chip"><span class="num">1169</span></span>
+        </div>
+        <div class="panel-body">
+          <h2>Sampson Dweh</h2>
+          <p class="meta mt2">CZE · FC Viktoria Plzeň · 25/26<br>
+            Defender · 24 ·
+            <span class="num">2,214</span> min ·
+            <span class="num">27</span> apps</p>
+          <div class="pbars">
+            <div class="pbar" data-tier="high"><span class="pb-label">Duels won</span><span class="pb-value">63%</span><span class="pb-track"><span class="pb-fill" style="--w:88%"></span></span><span class="pb-pct">88</span></div>
+            <div class="pbar" data-tier="elite"><span class="pb-label">Recoveries /90</span><span class="pb-value">4.8</span><span class="pb-track"><span class="pb-fill" style="--w:90%"></span></span><span class="pb-pct">90</span></div>
+            <div class="pbar" data-tier="high"><span class="pb-label">Clearances /90</span><span class="pb-value">5.9</span><span class="pb-track"><span class="pb-fill" style="--w:80%"></span></span><span class="pb-pct">80</span></div>
+            <div class="pbar" data-tier="elite"><span class="pb-label">Pass accuracy</span><span class="pb-value">88%</span><span class="pb-track"><span class="pb-fill" style="--w:94%"></span></span><span class="pb-pct">94</span></div>
+          </div>
+          <div class="lvl"><span class="label">Cohort average</span><span class="num num-lg num-strong">553</span><span class="meta">CZE defenders, 25/26 — this Level runs <span class="num">+616</span> against it</span></div>
+        </div>
+        <div class="panel-foot"><span>The Level carries the coefficient we fitted for
+          CZE, so it reads against every competition we hold
+          (<span class="num">n=119</span> in cohort). The percentiles
+          above do not: they rank only inside CZE defenders,
+          25/26, <span class="num">n=119</span> past
+          <span class="num">270</span> minutes.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 04 · WHAT WE SELL (SLIM) ================= -->
+<section class="sec wash" id="reports">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">For agents · clubs · players</p>
+      <h2>The boards are the surface. A report goes to the bottom of it.</h2>
+      <p class="lede">One player, nine sections: where he ranks, what he is worth,
+        who should buy. Or the same depth on one target team. Four are published
+        whole.</p>
+    </div>
+    <p>
+      <a class="btn" href="reports.html"><span>The reports, in full</span></a>
+      <a class="btn btn-ghost" href="reports.html#samples" style="margin-left:var(--s3)"><span>Read the published samples</span></a>
+    </p>
+    <p class="foot">No public price list: scoped and quoted within
+      <span class="num">24</span> hours, delivered within
+      <span class="num">48</span>. Every report closes with a stated-limits section;
+      <a href="methodology.html">how every number is made is public</a>.</p>
+  </div>
+</section>
+
+<!-- ============================ 08 · RECEIPTS =========================== -->
+<section class="sec tint" id="proof">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">Receipts</p>
+      <h2>The method is published. So is the backtest.</h2>
+      <p class="lede">Everyone in this market hides their model. Ours is replayed in
+        public against real transfers, weak results included.</p>
+    </div>
+    <div class="stat-row">
+        <div class="stat"><span class="v">2,053</span>
+          <span class="k">transfers replayed, scored on the rating held
+            <em>before</em> the move</span></div>
+        <div class="stat"><span class="v">+0.268</span>
+          <span class="k">rating vs fee paid, Spearman on
+            <span class="num">905</span> disclosed fees</span></div>
+        <div class="stat"><span class="v">41% / 27%</span>
+          <span class="k">top vs bottom quartile holding
+            <span class="num">1,350+</span> minutes at the new club
+            (n=<span class="num">511</span>/<span class="num">515</span>)</span></div>
+        <div class="stat"><span class="v">+0.116</span>
+          <span class="k">the weak result, published: rating vs minutes retention,
+            all <span class="num">2053</span> moves. Not a prediction of
+            who sticks</span></div>
+    </div>
+    <p class="foot">Method <span class="num">level-v2.2</span>, run
+      <span class="num">28 Aug 2026</span>. A hit:
+      dest league minutes &gt;= 1350 in best of first two seasons. Identity is joined on name plus birth year;
+      retention is availability-inclusive, so injuries count as failures. Full
+      derivation and every stated limit on the methodology page.</p>
+    <p style="margin-top:clamp(28px,4vh,44px)">
+      <a class="btn" href="methodology.html"><span>Read the methodology</span></a>
+      <a class="btn btn-ghost" href="ledger.html" style="margin-left:var(--s3)"><span>The public ledger</span></a>
+    </p>
+  </div>
+</section>
+
+<!-- ============================ 06 · OBJECTIONS ========================== -->
+<section class="sec" id="objections">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">Asked every time, answered here</p>
+      <h2>The three questions every first conversation opens with</h2>
+    </div>
+    <div class="grid-3">
+      <div class="deck-card">
+        <span class="kicker">“WHO ARE YOU?”</span>
+        <h3>Check us before you pay us</h3>
+        <p>Four reports published whole, the method in public, every flag
+          timestamped <em>before</em> the move. Pick a player you already know and
+          check us against him.</p>
+        <a class="btn btn-sm" href="reports.html#samples"><span>Read the published work →</span></a>
+      </div>
+      <div class="deck-card">
+        <span class="kicker">“WE ALREADY HAVE DATA”</span>
+        <h3>You have a seat. This is an answer.</h3>
+        <p>A licence hands you raw feeds and the job of reading them. A report
+          arrives read: the gap, the why, and what comparable moves sold for.</p>
+        <a class="btn btn-sm" href="full-report.html"><span>What a report answers →</span></a>
+      </div>
+      <div class="deck-card">
+        <span class="kicker">“WHAT DOES IT COST?”</span>
+        <h3>Less than deciding blind</h3>
+        <p>Quoted within <span class="num">24</span> hours. Less than one scouting
+          trip, a fraction of a data licence. Half of all transfers fail; the
+          expensive option is guessing.</p>
+        <a class="btn btn-sm" href="#enquire"><span>Get a quote →</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 10 · ENQUIRE ============================ -->
+<section class="sec ink" id="enquire">
+  <span id="request" class="sr-only"></span>
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">Get the full picture</p>
+      <h2>Send a player. Get the data back in 48 hours.</h2>
+      <p class="lede">Send the player's Transfermarkt link and the decision the report
+        has to support. We reply within <span class="num">24</span> hours with scope
+        and a quote. There is no public price list.</p>
+    </div>
+    <div class="grid-2">
+      <form class="enq-card" name="report-request" method="POST" action="https://formsubmit.co/vpivtoran1@gmail.com">
+        <input type="hidden" name="_subject" value="LATENT: report request">
+        <input type="hidden" name="_next" value="https://latentscouting.com/thanks.html">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+        <div class="field-pair">
+          <label class="field"><span class="field-label">Name</span>
+            <input name="name" type="text" required autocomplete="name"></label>
+          <label class="field"><span class="field-label">Email</span>
+            <input name="email" type="email" required autocomplete="email"></label>
+        </div>
+        <div class="field-pair">
+          <label class="field"><span class="field-label">I am</span>
+            <select name="role" required>
+              <option value="">Select…</option>
+              <option>An agent / intermediary</option>
+              <option>Club staff</option>
+              <option>A player</option>
+              <option>Media</option>
+              <option>Other</option>
+            </select></label>
+          <label class="field"><span class="field-label">Product of interest</span>
+            <select name="product" required>
+              <option value="">Select…</option>
+              <option>Full Report</option>
+              <option>Club Report</option>
+              <option>Ongoing coverage: per match</option>
+              <option>Ongoing coverage: monthly</option>
+              <option>Ongoing coverage: per season</option>
+              <option>Not sure yet</option>
+            </select></label>
+        </div>
+        <label class="field"><span class="field-label">Transfermarkt link to the player
+            <span class="field-req">*</span></span>
+          <input name="transfermarkt_link" type="url" required inputmode="url"
+            pattern="https?://.*transfermarkt\..*" placeholder="https://www.transfermarkt.com/…"
+            title="A link to the player's Transfermarkt profile, e.g. https://www.transfermarkt.com/oleh-kozhushko/profil/spieler/…">
+          <span class="field-note">The one link that identifies the player beyond
+            doubt. For a Club Report, name the target club below.</span></label>
+        <label class="field"><span class="field-label">What should the report answer?</span>
+          <textarea name="message" rows="3" placeholder="e.g. Is he an upgrade on the wingers a mid-table side in our division already has?"></textarea></label>
+        <button class="btn mt5" type="submit"><span>Send request</span></button>
+      </form>
+      <div>
+        <ul class="tick">
+          <li><b>The weekly digest</b>: flagged players, Export Index movers, and the
+            numbers behind the transfer noise. Free.</li>
+          <li><b>Or just send a name</b>: DMs are open on
+            <a href="https://instagram.com/latent.scouting">Instagram</a>.</li>
+        </ul>
+        <form class="enq-card" name="digest" method="POST" style="margin-top:var(--s6)"
+              action="https://formsubmit.co/vpivtoran1@gmail.com">
+          <input type="hidden" name="_subject" value="LATENT: digest signup">
+          <input type="hidden" name="_next" value="https://latentscouting.com/thanks.html">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+          <label class="field"><span class="field-label">Email</span>
+            <input name="email" type="email" required autocomplete="email"></label>
+          <button class="btn btn-ghost mt4" type="submit"><span>Subscribe to the digest</span></button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <a class="mark" href="index.html"><svg class="mark-glyph" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><path class="g-leg" d="M17 88 L38 88 L52 50 L42 24 Z"/><path class="g-main" d="M35 12 L56 12 L85 88 L64 88 Z"/></svg>Latent</a>
+        <p class="mt3">Hidden value, measured.</p>
+        <p class="mt2"><a href="mailto:info@latentscouting.com">info@latentscouting.com</a></p>
+      </div>
+      <div class="foot-col">
+        <h5>Data</h5>
+        <ul>
+          <li><a href="players/index.html">Player database</a></li>
+          <li><a href="methodology.html">Methodology</a></li>
+          <li><a href="ledger.html">Hit-rate ledger</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Reports</h5>
+        <ul>
+          <li><a href="full-report.html">Full report</a></li>
+          <li><a href="club-report.html">Club report</a></li>
+          <li><a href="index.html#enquire">Enquire</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="foot-note">
+      Every figure on this site is generated from our own match-level database and is
+      reproducible from it. Percentiles are computed within a single competition and
+      season and are never compared across competitions. Stated limits are published in
+      full on the <a href="methodology.html">methodology</a> page.
+      © <span class="num">2026</span> Latent Scouting ·
+      <a href="terms.html">Terms</a> ·
+      <a href="privacy.html">Privacy</a>
+    </p>
+  </div>
+</footer>
+
+<script src="assets/motion.js" defer></script>
+</body>
+</html>
