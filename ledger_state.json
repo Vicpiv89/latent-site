@@ -1,0 +1,2488 @@
+{
+ "rule_version": "ledger-v1",
+ "rule": {
+  "min_minutes": 900,
+  "max_age": 23,
+  "top_n": 20,
+  "window_seasons": [
+   1,
+   2
+  ],
+  "held_minutes": 1350
+ },
+ "generated": "2026-09-03",
+ "flags": {
+  "USLC:2020:1339": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Jack McGlynn",
+   "season": "USLC 2020",
+   "rank_at_first_publish": 1,
+   "index_at_first_publish": 93.6
+  },
+  "USLC:2020:919": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Bruno Lapa",
+   "season": "USLC 2020",
+   "rank_at_first_publish": 3,
+   "index_at_first_publish": 87.4
+  },
+  "USLC:2020:1062": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Mauricio Cuevas",
+   "season": "USLC 2020",
+   "rank_at_first_publish": 4,
+   "index_at_first_publish": 87.2
+  },
+  "USLC:2020:912": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Jonathan Dean",
+   "season": "USLC 2020",
+   "rank_at_first_publish": 7,
+   "index_at_first_publish": 79.8
+  },
+  "USLC:2020:1283": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "D.J. Taylor",
+   "season": "USLC 2020",
+   "rank_at_first_publish": 8,
+   "index_at_first_publish": 79.1
+  },
+  "USLC:2020:1676": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Caden Clark",
+   "season": "USLC 2020",
+   "rank_at_first_publish": 9,
+   "index_at_first_publish": 78.6
+  },
+  "USLC:2020:1129": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "José Gallegos",
+   "season": "USLC 2020",
+   "rank_at_first_publish": 10,
+   "index_at_first_publish": 78.1
+  },
+  "USLC:2020:1134": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Cristian Agustin Parano Rasguido",
+   "season": "USLC 2020",
+   "rank_at_first_publish": 11,
+   "index_at_first_publish": 77.8
+  },
+  "USLC:2020:978": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Sergio Rivas",
+   "season": "USLC 2020",
+   "rank_at_first_publish": 17,
+   "index_at_first_publish": 75.3
+  },
+  "USLC:2020:1336": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Anton Sorenson",
+   "season": "USLC 2020",
+   "rank_at_first_publish": 20,
+   "index_at_first_publish": 74.0
+  },
+  "USLC:2021:4790": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Arturo Rodriguez",
+   "season": "USLC 2021",
+   "rank_at_first_publish": 6,
+   "index_at_first_publish": 86.4
+  },
+  "USLC:2021:5165": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Michee Ngalina",
+   "season": "USLC 2021",
+   "rank_at_first_publish": 7,
+   "index_at_first_publish": 84.8
+  },
+  "USLC:2021:817": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Jonathan Gómez",
+   "season": "USLC 2021",
+   "rank_at_first_publish": 8,
+   "index_at_first_publish": 83.1
+  },
+  "USLC:2021:1706": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Theodore Ku-DiPietro",
+   "season": "USLC 2021",
+   "rank_at_first_publish": 9,
+   "index_at_first_publish": 82.7
+  },
+  "USLC:2021:1069": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Jorge Hernandez",
+   "season": "USLC 2021",
+   "rank_at_first_publish": 14,
+   "index_at_first_publish": 81.3
+  },
+  "USLC:2021:4953": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Diego Luna",
+   "season": "USLC 2021",
+   "rank_at_first_publish": 16,
+   "index_at_first_publish": 80.4
+  },
+  "USLC:2021:4984": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Mohamed Traore",
+   "season": "USLC 2021",
+   "rank_at_first_publish": 17,
+   "index_at_first_publish": 79.4
+  },
+  "USLC:2021:1083": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Bode Hidalgo",
+   "season": "USLC 2021",
+   "rank_at_first_publish": 18,
+   "index_at_first_publish": 79.3
+  },
+  "EKS:21/22:2784": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Sebastian Kowalczyk",
+   "season": "EKS 21/22",
+   "rank_at_first_publish": 4,
+   "index_at_first_publish": 80.5
+  },
+  "EKS:21/22:2620": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Kamil Pestka",
+   "season": "EKS 21/22",
+   "rank_at_first_publish": 15,
+   "index_at_first_publish": 75.2
+  },
+  "EKS:21/22:3160": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Mateusz Praszelik",
+   "season": "EKS 21/22",
+   "rank_at_first_publish": 16,
+   "index_at_first_publish": 74.3
+  },
+  "USLC:2022:5354": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Raimar",
+   "season": "USLC 2022",
+   "rank_at_first_publish": 14,
+   "index_at_first_publish": 77.8
+  },
+  "EKS:22/23:3251": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Pontus Almqvist",
+   "season": "EKS 22/23",
+   "rank_at_first_publish": 3,
+   "index_at_first_publish": 86.0
+  },
+  "EKS:22/23:2624": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Karol Knap",
+   "season": "EKS 22/23",
+   "rank_at_first_publish": 14,
+   "index_at_first_publish": 76.4
+  },
+  "EKS:22/23:2899": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Kristoffer Velde",
+   "season": "EKS 22/23",
+   "rank_at_first_publish": 18,
+   "index_at_first_publish": 72.9
+  },
+  "USLC:2023:5568": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Rida Zouhir",
+   "season": "USLC 2023",
+   "rank_at_first_publish": 2,
+   "index_at_first_publish": 82.9
+  },
+  "USLC:2023:1069": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Jorge Hernandez",
+   "season": "USLC 2023",
+   "rank_at_first_publish": 7,
+   "index_at_first_publish": 80.5
+  },
+  "USLC:2023:5567": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Tani Oluwaseyi",
+   "season": "USLC 2023",
+   "rank_at_first_publish": 10,
+   "index_at_first_publish": 78.7
+  },
+  "USLC:2023:5289": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Fidel Barajas",
+   "season": "USLC 2023",
+   "rank_at_first_publish": 17,
+   "index_at_first_publish": 76.3
+  },
+  "LAT:2023:4390": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Ousseynou Niang",
+   "season": "LAT 2023",
+   "rank_at_first_publish": 1,
+   "index_at_first_publish": 95.2
+  },
+  "LAT:2023:1494": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Dmitrijs Zelenkovs",
+   "season": "LAT 2023",
+   "rank_at_first_publish": 8,
+   "index_at_first_publish": 85.6
+  },
+  "LIT:2023:1931": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Alex Souza",
+   "season": "LIT 2023",
+   "rank_at_first_publish": 9,
+   "index_at_first_publish": 81.6
+  },
+  "LAT:2023:1388": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Anthony Contreras",
+   "season": "LAT 2023",
+   "rank_at_first_publish": 10,
+   "index_at_first_publish": 83.1
+  },
+  "LAT:2023:2679": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Andrej Ilić",
+   "season": "LAT 2023",
+   "rank_at_first_publish": 12,
+   "index_at_first_publish": 81.6
+  },
+  "LIT:2023:1930": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Gavi Thompson",
+   "season": "LIT 2023",
+   "rank_at_first_publish": 13,
+   "index_at_first_publish": 79.7
+  },
+  "LAT:2023:1386": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Brian Peña",
+   "season": "LAT 2023",
+   "rank_at_first_publish": 17,
+   "index_at_first_publish": 77.7
+  },
+  "LAT:2023:2681": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "William Eseme Mukwelle",
+   "season": "LAT 2023",
+   "rank_at_first_publish": 18,
+   "index_at_first_publish": 76.2
+  },
+  "LIT:2023:2199": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Aaron Pamilerin Olugbogi",
+   "season": "LIT 2023",
+   "rank_at_first_publish": 18,
+   "index_at_first_publish": 77.0
+  },
+  "LAT:2023:1515": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Lūkass Vapne",
+   "season": "LAT 2023",
+   "rank_at_first_publish": 19,
+   "index_at_first_publish": 75.9
+  },
+  "EST:2023:1831": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Daniil Tarassenkov",
+   "season": "EST 2023",
+   "rank_at_first_publish": 2,
+   "index_at_first_publish": 89.1
+  },
+  "EST:2023:1745": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Nikita Mihhailov",
+   "season": "EST 2023",
+   "rank_at_first_publish": 3,
+   "index_at_first_publish": 88.7
+  },
+  "EST:2023:1749": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Danil Kuraksin",
+   "season": "EST 2023",
+   "rank_at_first_publish": 4,
+   "index_at_first_publish": 87.0
+  },
+  "EST:2023:1732": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Patrick Veelma",
+   "season": "EST 2023",
+   "rank_at_first_publish": 8,
+   "index_at_first_publish": 82.1
+  },
+  "EST:2023:1857": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Felipe Felicio",
+   "season": "EST 2023",
+   "rank_at_first_publish": 11,
+   "index_at_first_publish": 78.8
+  },
+  "EST:2023:1777": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Robi Saarma",
+   "season": "EST 2023",
+   "rank_at_first_publish": 15,
+   "index_at_first_publish": 75.8
+  },
+  "EST:2023:1862": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Tanel Tammik",
+   "season": "EST 2023",
+   "rank_at_first_publish": 16,
+   "index_at_first_publish": 75.6
+  },
+  "EST:2023:1810": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Arseni Kovaltšuk",
+   "season": "EST 2023",
+   "rank_at_first_publish": 18,
+   "index_at_first_publish": 75.0
+  },
+  "EST:2023:3015": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Mechini Gomis",
+   "season": "EST 2023",
+   "rank_at_first_publish": 20,
+   "index_at_first_publish": 74.0
+  },
+  "EKS:23/24:2826": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Bartłomiej Wdowik",
+   "season": "EKS 23/24",
+   "rank_at_first_publish": 1,
+   "index_at_first_publish": 92.6
+  },
+  "EKS:23/24:3699": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Luka Vušković",
+   "season": "EKS 23/24",
+   "rank_at_first_publish": 2,
+   "index_at_first_publish": 91.2
+  },
+  "EKS:23/24:3396": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Łukasz Gerstenstein",
+   "season": "EKS 23/24",
+   "rank_at_first_publish": 15,
+   "index_at_first_publish": 76.9
+  },
+  "EKS:23/24:2624": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Karol Knap",
+   "season": "EKS 23/24",
+   "rank_at_first_publish": 17,
+   "index_at_first_publish": 76.5
+  },
+  "EKS:23/24:3758": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Dominik Marczuk",
+   "season": "EKS 23/24",
+   "rank_at_first_publish": 18,
+   "index_at_first_publish": 76.4
+  },
+  "LAT:2024:1390": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Eduards Daskevics",
+   "season": "LAT 2024",
+   "rank_at_first_publish": 1,
+   "index_at_first_publish": 93.5
+  },
+  "USLC:2024:5682": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Damián Rivera",
+   "season": "USLC 2024",
+   "rank_at_first_publish": 1,
+   "index_at_first_publish": 89.9
+  },
+  "LAT:2024:4390": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Ousseynou Niang",
+   "season": "LAT 2024",
+   "rank_at_first_publish": 2,
+   "index_at_first_publish": 93.5
+  },
+  "USLC:2024:5663": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Grayson Doody",
+   "season": "USLC 2024",
+   "rank_at_first_publish": 2,
+   "index_at_first_publish": 89.2
+  },
+  "LIT:2024:2112": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Tautvydas Burdzilauskas",
+   "season": "LIT 2024",
+   "rank_at_first_publish": 4,
+   "index_at_first_publish": 89.0
+  },
+  "LIT:2024:1963": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Olaoluwa Oyinlola Kayode",
+   "season": "LIT 2024",
+   "rank_at_first_publish": 6,
+   "index_at_first_publish": 84.6
+  },
+  "LAT:2024:1372": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "El Hadji Mané",
+   "season": "LAT 2024",
+   "rank_at_first_publish": 7,
+   "index_at_first_publish": 86.2
+  },
+  "LAT:2024:1544": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Ismaël Diomandé",
+   "season": "LAT 2024",
+   "rank_at_first_publish": 9,
+   "index_at_first_publish": 85.1
+  },
+  "USLC:2024:971": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Ray Serrano",
+   "season": "USLC 2024",
+   "rank_at_first_publish": 10,
+   "index_at_first_publish": 80.0
+  },
+  "USLC:2024:5693": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Riley Bidois",
+   "season": "USLC 2024",
+   "rank_at_first_publish": 13,
+   "index_at_first_publish": 76.8
+  },
+  "LAT:2024:1386": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Brian Peña",
+   "season": "LAT 2024",
+   "rank_at_first_publish": 14,
+   "index_at_first_publish": 80.2
+  },
+  "USLC:2024:961": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Christopher Hegardt",
+   "season": "USLC 2024",
+   "rank_at_first_publish": 14,
+   "index_at_first_publish": 75.9
+  },
+  "LAT:2024:1469": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Kenroy Campbell",
+   "season": "LAT 2024",
+   "rank_at_first_publish": 16,
+   "index_at_first_publish": 79.5
+  },
+  "LAT:2024:1515": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Lūkass Vapne",
+   "season": "LAT 2024",
+   "rank_at_first_publish": 17,
+   "index_at_first_publish": 79.0
+  },
+  "LAT:2024:1496": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Dragoljub Savić",
+   "season": "LAT 2024",
+   "rank_at_first_publish": 20,
+   "index_at_first_publish": 76.9
+  },
+  "EST:2024:2758": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Patrik Kristal",
+   "season": "EST 2024",
+   "rank_at_first_publish": 1,
+   "index_at_first_publish": 93.7
+  },
+  "EST:2024:1858": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "João Pedro",
+   "season": "EST 2024",
+   "rank_at_first_publish": 2,
+   "index_at_first_publish": 92.8
+  },
+  "EST:2024:3463": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Abdoulie Ceesay",
+   "season": "EST 2024",
+   "rank_at_first_publish": 3,
+   "index_at_first_publish": 91.4
+  },
+  "EST:2024:3462": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Dimitri Jepihhin",
+   "season": "EST 2024",
+   "rank_at_first_publish": 5,
+   "index_at_first_publish": 88.2
+  },
+  "EST:2024:1851": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Michael Schjønning-Larsen",
+   "season": "EST 2024",
+   "rank_at_first_publish": 8,
+   "index_at_first_publish": 85.9
+  },
+  "EST:2024:1831": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Daniil Tarassenkov",
+   "season": "EST 2024",
+   "rank_at_first_publish": 9,
+   "index_at_first_publish": 84.1
+  },
+  "EST:2024:1893": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Tony Varjund",
+   "season": "EST 2024",
+   "rank_at_first_publish": 10,
+   "index_at_first_publish": 83.6
+  },
+  "EST:2024:1732": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Patrick Veelma",
+   "season": "EST 2024",
+   "rank_at_first_publish": 11,
+   "index_at_first_publish": 83.1
+  },
+  "EST:2024:3493": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Richie Musaba",
+   "season": "EST 2024",
+   "rank_at_first_publish": 12,
+   "index_at_first_publish": 82.7
+  },
+  "EST:2024:3502": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Pierre Landry Kaboré",
+   "season": "EST 2024",
+   "rank_at_first_publish": 19,
+   "index_at_first_publish": 80.2
+  },
+  "EST:2024:1777": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Robi Saarma",
+   "season": "EST 2024",
+   "rank_at_first_publish": 20,
+   "index_at_first_publish": 79.4
+  },
+  "EKS:24/25:3982": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Patrik Wålemark",
+   "season": "EKS 24/25",
+   "rank_at_first_publish": 2,
+   "index_at_first_publish": 87.0
+  },
+  "EKS:24/25:3750": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Kamil Lukoszek",
+   "season": "EKS 24/25",
+   "rank_at_first_publish": 6,
+   "index_at_first_publish": 83.7
+  },
+  "EKS:24/25:2806": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Camilo Mena",
+   "season": "EKS 24/25",
+   "rank_at_first_publish": 7,
+   "index_at_first_publish": 83.3
+  },
+  "EKS:24/25:3697": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Jan Ziółkowski",
+   "season": "EKS 24/25",
+   "rank_at_first_publish": 9,
+   "index_at_first_publish": 81.2
+  },
+  "EKS:24/25:3062": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Norbert Wojtuszek",
+   "season": "EKS 24/25",
+   "rank_at_first_publish": 13,
+   "index_at_first_publish": 79.0
+  },
+  "EKS:24/25:3970": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Anton Tsarenko",
+   "season": "EKS 24/25",
+   "rank_at_first_publish": 15,
+   "index_at_first_publish": 78.7
+  },
+  "EKS:24/25:3743": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Tommaso Guercio",
+   "season": "EKS 24/25",
+   "rank_at_first_publish": 16,
+   "index_at_first_publish": 78.3
+  },
+  "USLC:2025:5923": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Hope Avayevu",
+   "season": "USLC 2025",
+   "rank_at_first_publish": 2,
+   "index_at_first_publish": 92.6
+  },
+  "USLC:2025:961": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Christopher Hegardt",
+   "season": "USLC 2025",
+   "rank_at_first_publish": 3,
+   "index_at_first_publish": 89.2
+  },
+  "LIT:2025:2258": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Ibrahim Cissé",
+   "season": "LIT 2025",
+   "rank_at_first_publish": 9,
+   "index_at_first_publish": 79.1
+  },
+  "USLC:2025:5932": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Josh Jones",
+   "season": "USLC 2025",
+   "rank_at_first_publish": 10,
+   "index_at_first_publish": 82.0
+  },
+  "LIT:2025:2191": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Gustas Jarusevicius",
+   "season": "LIT 2025",
+   "rank_at_first_publish": 11,
+   "index_at_first_publish": 77.7
+  },
+  "LIT:2025:1986": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Nojus Stankevicius",
+   "season": "LIT 2025",
+   "rank_at_first_publish": 13,
+   "index_at_first_publish": 76.4
+  },
+  "USLC:2025:5525": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Collin Smith",
+   "season": "USLC 2025",
+   "rank_at_first_publish": 14,
+   "index_at_first_publish": 80.2
+  },
+  "LIT:2025:2362": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Akpe Victory",
+   "season": "LIT 2025",
+   "rank_at_first_publish": 14,
+   "index_at_first_publish": 75.1
+  },
+  "LIT:2025:2439": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Vyacheslav Kulbachuk",
+   "season": "LIT 2025",
+   "rank_at_first_publish": 15,
+   "index_at_first_publish": 74.3,
+   "dropped_on": "2026-08-24"
+  },
+  "LIT:2025:2048": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Gabrielius Micevicius",
+   "season": "LIT 2025",
+   "rank_at_first_publish": 17,
+   "index_at_first_publish": 73.7
+  },
+  "LIT:2025:2346": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Bruno Tavares",
+   "season": "LIT 2025",
+   "rank_at_first_publish": 19,
+   "index_at_first_publish": 73.7
+  },
+  "LAT:2025:4565": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Joao Grimaldo",
+   "season": "LAT 2025",
+   "rank_at_first_publish": 1,
+   "index_at_first_publish": 95.1
+  },
+  "LAT:2025:1446": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Meïssa Diop",
+   "season": "LAT 2025",
+   "rank_at_first_publish": 2,
+   "index_at_first_publish": 88.4
+  },
+  "LAT:2025:1386": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Brian Peña",
+   "season": "LAT 2025",
+   "rank_at_first_publish": 3,
+   "index_at_first_publish": 87.6
+  },
+  "LAT:2025:4566": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Tresor Samba",
+   "season": "LAT 2025",
+   "rank_at_first_publish": 4,
+   "index_at_first_publish": 87.3
+  },
+  "LAT:2025:1390": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Eduards Daskevics",
+   "season": "LAT 2025",
+   "rank_at_first_publish": 5,
+   "index_at_first_publish": 86.8
+  },
+  "LAT:2025:4468": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Lasha Odisharia",
+   "season": "LAT 2025",
+   "rank_at_first_publish": 6,
+   "index_at_first_publish": 85.8
+  },
+  "LAT:2025:1401": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Jevgenijs Minins",
+   "season": "LAT 2025",
+   "rank_at_first_publish": 11,
+   "index_at_first_publish": 80.3
+  },
+  "LAT:2025:4602": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Boubou Diallo",
+   "season": "LAT 2025",
+   "rank_at_first_publish": 17,
+   "index_at_first_publish": 77.1
+  },
+  "EST:2025:1846": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Nikita Ivanov",
+   "season": "EST 2025",
+   "rank_at_first_publish": 1,
+   "index_at_first_publish": 98.4
+  },
+  "EST:2025:3465": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Guilherme Smith",
+   "season": "EST 2025",
+   "rank_at_first_publish": 2,
+   "index_at_first_publish": 96.2
+  },
+  "EST:2025:3571": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Enock Otoo",
+   "season": "EST 2025",
+   "rank_at_first_publish": 3,
+   "index_at_first_publish": 95.4
+  },
+  "EST:2025:3579": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Willian Gabriel",
+   "season": "EST 2025",
+   "rank_at_first_publish": 4,
+   "index_at_first_publish": 91.6
+  },
+  "EST:2025:1831": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Daniil Tarassenkov",
+   "season": "EST 2025",
+   "rank_at_first_publish": 5,
+   "index_at_first_publish": 91.4
+  },
+  "EST:2025:1749": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Danil Kuraksin",
+   "season": "EST 2025",
+   "rank_at_first_publish": 6,
+   "index_at_first_publish": 90.8
+  },
+  "EST:2025:3467": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Tristan Pajo",
+   "season": "EST 2025",
+   "rank_at_first_publish": 7,
+   "index_at_first_publish": 89.9
+  },
+  "EST:2025:1858": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "João Pedro",
+   "season": "EST 2025",
+   "rank_at_first_publish": 8,
+   "index_at_first_publish": 88.4
+  },
+  "EST:2025:3518": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Muhammed Suso",
+   "season": "EST 2025",
+   "rank_at_first_publish": 10,
+   "index_at_first_publish": 86.0
+  },
+  "EST:2025:3623": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Ibrahim Jabir",
+   "season": "EST 2025",
+   "rank_at_first_publish": 12,
+   "index_at_first_publish": 82.5
+  },
+  "EST:2025:3566": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Sander Tovstik",
+   "season": "EST 2025",
+   "rank_at_first_publish": 15,
+   "index_at_first_publish": 81.1
+  },
+  "EST:2025:1735": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Ahmed Adebayo",
+   "season": "EST 2025",
+   "rank_at_first_publish": 16,
+   "index_at_first_publish": 80.3
+  },
+  "EST:2025:1732": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Patrick Veelma",
+   "season": "EST 2025",
+   "rank_at_first_publish": 18,
+   "index_at_first_publish": 79.8
+  },
+  "EST:2025:3586": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Mykhailo Kozhushko",
+   "season": "EST 2025",
+   "rank_at_first_publish": 20,
+   "index_at_first_publish": 79.5
+  },
+  "EKS:25/26:4159": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Dion Gallapeni",
+   "season": "EKS 25/26",
+   "rank_at_first_publish": 7,
+   "index_at_first_publish": 83.2
+  },
+  "EKS:25/26:2806": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Camilo Mena",
+   "season": "EKS 25/26",
+   "rank_at_first_publish": 10,
+   "index_at_first_publish": 81.1
+  },
+  "EKS:25/26:3973": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Mauro Perković",
+   "season": "EKS 25/26",
+   "rank_at_first_publish": 13,
+   "index_at_first_publish": 79.3
+  },
+  "EKS:25/26:3327": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Michal Gurgul",
+   "season": "EKS 25/26",
+   "rank_at_first_publish": 16,
+   "index_at_first_publish": 76.8
+  },
+  "UPL:25/26:56": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Isaque",
+   "season": "UPL 25/26",
+   "rank_at_first_publish": 1,
+   "index_at_first_publish": 106.5
+  },
+  "UPL:25/26:215": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Kauã Elias",
+   "season": "UPL 25/26",
+   "rank_at_first_publish": 2,
+   "index_at_first_publish": 103.9
+  },
+  "UPL:25/26:312": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Vladyslav Veleten",
+   "season": "UPL 25/26",
+   "rank_at_first_publish": 4,
+   "index_at_first_publish": 92.7
+  },
+  "UPL:25/26:57": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Prosper Obah",
+   "season": "UPL 25/26",
+   "rank_at_first_publish": 6,
+   "index_at_first_publish": 91.1
+  },
+  "UPL:25/26:109": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Maksym Bragaru",
+   "season": "UPL 25/26",
+   "rank_at_first_publish": 10,
+   "index_at_first_publish": 86.8
+  },
+  "UPL:25/26:192": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Nazar Voloshyn",
+   "season": "UPL 25/26",
+   "rank_at_first_publish": 12,
+   "index_at_first_publish": 85.6
+  },
+  "UPL:25/26:172": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Denys Kuzyk",
+   "season": "UPL 25/26",
+   "rank_at_first_publish": 13,
+   "index_at_first_publish": 85.5
+  },
+  "UPL:25/26:409": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Bogdan Redushko",
+   "season": "UPL 25/26",
+   "rank_at_first_publish": 20,
+   "index_at_first_publish": 80.0
+  },
+  "EST:2026:3540": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Sander Alamaa",
+   "season": "EST 2026",
+   "rank_at_first_publish": 1,
+   "index_at_first_publish": 109.9
+  },
+  "CPL:2026:588": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Adam Pearlman",
+   "season": "CPL 2026",
+   "rank_at_first_publish": 2,
+   "index_at_first_publish": 87.5
+  },
+  "USLC:2026:6040": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "CJ Olney Jr.",
+   "season": "USLC 2026",
+   "rank_at_first_publish": 2,
+   "index_at_first_publish": 86.1
+  },
+  "EST:2026:3494": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Maksimilian Skvortsov",
+   "season": "EST 2026",
+   "rank_at_first_publish": 3,
+   "index_at_first_publish": 90.0
+  },
+  "CPL:2026:690": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Kian Proctor",
+   "season": "CPL 2026",
+   "rank_at_first_publish": 5,
+   "index_at_first_publish": 78.4
+  },
+  "EST:2026:1893": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Tony Varjund",
+   "season": "EST 2026",
+   "rank_at_first_publish": 5,
+   "index_at_first_publish": 86.3
+  },
+  "CPL:2026:694": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Elage Bah",
+   "season": "CPL 2026",
+   "rank_at_first_publish": 6,
+   "index_at_first_publish": 73.7
+  },
+  "EST:2026:3638": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Pedro Manoel",
+   "season": "EST 2026",
+   "rank_at_first_publish": 6,
+   "index_at_first_publish": 84.9
+  },
+  "EST:2026:1805": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Daniil Sotsugov",
+   "season": "EST 2026",
+   "rank_at_first_publish": 7,
+   "index_at_first_publish": 84.8
+  },
+  "EST:2026:3571": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Enock Otoo",
+   "season": "EST 2026",
+   "rank_at_first_publish": 8,
+   "index_at_first_publish": 83.7
+  },
+  "EST:2026:3466": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Mihhail Orlov",
+   "season": "EST 2026",
+   "rank_at_first_publish": 9,
+   "index_at_first_publish": 83.4
+  },
+  "CPL:2026:640": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Hoce Massunda",
+   "season": "CPL 2026",
+   "rank_at_first_publish": 10,
+   "index_at_first_publish": 70.3
+  },
+  "EST:2026:1786": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Daniil Rudenko",
+   "season": "EST 2026",
+   "rank_at_first_publish": 11,
+   "index_at_first_publish": 82.1
+  },
+  "EST:2026:3570": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Wendell Gabriel",
+   "season": "EST 2026",
+   "rank_at_first_publish": 14,
+   "index_at_first_publish": 79.7,
+   "dropped_on": "2026-08-28"
+  },
+  "USLC:2026:6119": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Richard Aman",
+   "season": "USLC 2026",
+   "rank_at_first_publish": 17,
+   "index_at_first_publish": 74.8
+  },
+  "EST:2026:3618": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Rasmus Talu",
+   "season": "EST 2026",
+   "rank_at_first_publish": 17,
+   "index_at_first_publish": 78.8
+  },
+  "EST:2026:1846": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Nikita Ivanov",
+   "season": "EST 2026",
+   "rank_at_first_publish": 18,
+   "index_at_first_publish": 78.1
+  },
+  "CPL:2026:706": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Christian Greco-Taylor",
+   "season": "CPL 2026",
+   "rank_at_first_publish": 19,
+   "index_at_first_publish": 62.7,
+   "dropped_on": "2026-08-24"
+  },
+  "EST:2026:1881": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Mihhail Kolobov",
+   "season": "EST 2026",
+   "rank_at_first_publish": 19,
+   "index_at_first_publish": 77.9,
+   "dropped_on": "2026-08-24"
+  },
+  "USLC:2026:6140": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Markus Anderson",
+   "season": "USLC 2026",
+   "rank_at_first_publish": 20,
+   "index_at_first_publish": 74.3,
+   "dropped_on": "2026-08-24"
+  },
+  "EST:2026:3651": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Yosuke Morishige",
+   "season": "EST 2026",
+   "rank_at_first_publish": 20,
+   "index_at_first_publish": 75.9,
+   "dropped_on": "2026-08-24"
+  },
+  "LAT:2026:541": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Fellipe Vieira Cardoso",
+   "season": "LAT 2026",
+   "rank_at_first_publish": 1,
+   "index_at_first_publish": 100.9
+  },
+  "LIT:2026:2258": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Ibrahim Cissé",
+   "season": "LIT 2026",
+   "rank_at_first_publish": 1,
+   "index_at_first_publish": 86.3
+  },
+  "LAT:2026:4642": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Salah Oulad M'Hand",
+   "season": "LAT 2026",
+   "rank_at_first_publish": 2,
+   "index_at_first_publish": 97.3
+  },
+  "LIT:2026:2355": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Faustas Steponavičius",
+   "season": "LIT 2026",
+   "rank_at_first_publish": 3,
+   "index_at_first_publish": 81.0
+  },
+  "LIT:2026:2373": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Sidas  Praleika",
+   "season": "LIT 2026",
+   "rank_at_first_publish": 4,
+   "index_at_first_publish": 80.8
+  },
+  "LAT:2026:4644": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Andrés Salazar",
+   "season": "LAT 2026",
+   "rank_at_first_publish": 5,
+   "index_at_first_publish": 92.2
+  },
+  "LAT:2026:4469": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Maksym Derkach",
+   "season": "LAT 2026",
+   "rank_at_first_publish": 7,
+   "index_at_first_publish": 91.9
+  },
+  "LIT:2026:2352": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Isaac Asante",
+   "season": "LIT 2026",
+   "rank_at_first_publish": 7,
+   "index_at_first_publish": 76.8
+  },
+  "LIT:2026:2493": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Ibrahima Seck",
+   "season": "LIT 2026",
+   "rank_at_first_publish": 8,
+   "index_at_first_publish": 76.8
+  },
+  "LIT:2026:2248": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Vaidas Magdusauskas",
+   "season": "LIT 2026",
+   "rank_at_first_publish": 9,
+   "index_at_first_publish": 76.5
+  },
+  "LAT:2026:4577": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Mamadou Sylla",
+   "season": "LAT 2026",
+   "rank_at_first_publish": 11,
+   "index_at_first_publish": 84.1
+  },
+  "LAT:2026:1404": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Rostand Ndjiki",
+   "season": "LAT 2026",
+   "rank_at_first_publish": 12,
+   "index_at_first_publish": 80.5
+  },
+  "LAT:2026:4647": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Joel Yakubu",
+   "season": "LAT 2026",
+   "rank_at_first_publish": 16,
+   "index_at_first_publish": 75.6
+  },
+  "LAT:2026:4693": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Leos Prior",
+   "season": "LAT 2026",
+   "rank_at_first_publish": 18,
+   "index_at_first_publish": 74.3,
+   "dropped_on": "2026-08-24"
+  },
+  "LIT:2026:2482": {
+   "first_published": "2026-08-14",
+   "rule": "ledger-v1",
+   "player": "Patrikas Pranckus",
+   "season": "LIT 2026",
+   "rank_at_first_publish": 20,
+   "index_at_first_publish": 69.1,
+   "dropped_on": "2026-08-24"
+  },
+  "LIT:2025:2248": {
+   "first_published": "2026-08-24",
+   "rule": "ledger-v1",
+   "player": "Vaidas Magdusauskas",
+   "season": "LIT 2025",
+   "rank_at_first_publish": 20,
+   "index_at_first_publish": 726.0
+  },
+  "EST:2026:3576": {
+   "first_published": "2026-08-24",
+   "rule": "ledger-v1",
+   "player": "Tiago Baptista",
+   "season": "EST 2026",
+   "rank_at_first_publish": 5,
+   "index_at_first_publish": 903.0
+  },
+  "CPL:2026:661": {
+   "first_published": "2026-08-24",
+   "rule": "ledger-v1",
+   "player": "Emiliano García",
+   "season": "CPL 2026",
+   "rank_at_first_publish": 10,
+   "index_at_first_publish": 682.0
+  },
+  "EST:2026:1749": {
+   "first_published": "2026-08-24",
+   "rule": "ledger-v1",
+   "player": "Danil Kuraksin",
+   "season": "EST 2026",
+   "rank_at_first_publish": 17,
+   "index_at_first_publish": 793.0
+  },
+  "LAT:2026:4661": {
+   "first_published": "2026-08-24",
+   "rule": "ledger-v1",
+   "player": "Leoni Gastaldelo",
+   "season": "LAT 2026",
+   "rank_at_first_publish": 18,
+   "index_at_first_publish": 737.0
+  },
+  "CPL:2026:610": {
+   "first_published": "2026-08-24",
+   "rule": "ledger-v1",
+   "player": "Miguel  Arilla",
+   "season": "CPL 2026",
+   "rank_at_first_publish": 19,
+   "index_at_first_publish": 634.0
+  },
+  "SRB:20/21:10768": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Veljko Nikolić",
+   "season": "SRB 20/21",
+   "rank_at_first_publish": 11,
+   "index_at_first_publish": 863.0
+  },
+  "SRB:20/21:6525": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Željko Gavrić",
+   "season": "SRB 20/21",
+   "rank_at_first_publish": 12,
+   "index_at_first_publish": 848.0
+  },
+  "SRB:20/21:9063": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Veljko Birmančević",
+   "season": "SRB 20/21",
+   "rank_at_first_publish": 17,
+   "index_at_first_publish": 807.0
+  },
+  "CRO:20/21:7677": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Joško Gvardiol",
+   "season": "CRO 20/21",
+   "rank_at_first_publish": 2,
+   "index_at_first_publish": 873.0
+  },
+  "CRO:20/21:7634": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Josip Mitrović",
+   "season": "CRO 20/21",
+   "rank_at_first_publish": 4,
+   "index_at_first_publish": 823.0
+  },
+  "CRO:20/21:7679": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Lovro Majer",
+   "season": "CRO 20/21",
+   "rank_at_first_publish": 5,
+   "index_at_first_publish": 820.0
+  },
+  "CRO:20/21:3299": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Jani Atanasov",
+   "season": "CRO 20/21",
+   "rank_at_first_publish": 7,
+   "index_at_first_publish": 817.0
+  },
+  "CRO:20/21:7661": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Sandro Kulenović",
+   "season": "CRO 20/21",
+   "rank_at_first_publish": 13,
+   "index_at_first_publish": 765.0
+  },
+  "CRO:20/21:7680": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Luka Ivanušec",
+   "season": "CRO 20/21",
+   "rank_at_first_publish": 15,
+   "index_at_first_publish": 762.0
+  },
+  "CRO:20/21:7196": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Albi Doka",
+   "season": "CRO 20/21",
+   "rank_at_first_publish": 17,
+   "index_at_first_publish": 755.0
+  },
+  "CRO:20/21:7687": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Mario Vušković",
+   "season": "CRO 20/21",
+   "rank_at_first_publish": 19,
+   "index_at_first_publish": 753.0
+  },
+  "CRO:21/22:7739": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Emir Sahiti",
+   "season": "CRO 21/22",
+   "rank_at_first_publish": 6,
+   "index_at_first_publish": 807.0
+  },
+  "CRO:21/22:7730": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Antonio Marin",
+   "season": "CRO 21/22",
+   "rank_at_first_publish": 15,
+   "index_at_first_publish": 739.0
+  },
+  "CRO:21/22:7777": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Mihael Žaper",
+   "season": "CRO 21/22",
+   "rank_at_first_publish": 18,
+   "index_at_first_publish": 718.0
+  },
+  "SRB:21/22:4123": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Aleksandar Ćirković",
+   "season": "SRB 21/22",
+   "rank_at_first_publish": 2,
+   "index_at_first_publish": 880.0
+  },
+  "SRB:21/22:10689": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Mihajlo Banjac",
+   "season": "SRB 21/22",
+   "rank_at_first_publish": 5,
+   "index_at_first_publish": 864.0
+  },
+  "CRO:22/23:7817": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Martin Baturina",
+   "season": "CRO 22/23",
+   "rank_at_first_publish": 2,
+   "index_at_first_publish": 876.0
+  },
+  "CRO:22/23:7661": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Sandro Kulenović",
+   "season": "CRO 22/23",
+   "rank_at_first_publish": 4,
+   "index_at_first_publish": 811.0
+  },
+  "CRO:22/23:7870": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Indrit Tuci",
+   "season": "CRO 22/23",
+   "rank_at_first_publish": 6,
+   "index_at_first_publish": 806.0
+  },
+  "CRO:22/23:7796": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Dion Drena Beljo",
+   "season": "CRO 22/23",
+   "rank_at_first_publish": 8,
+   "index_at_first_publish": 799.0
+  },
+  "CRO:22/23:7651": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Luka Stojković",
+   "season": "CRO 22/23",
+   "rank_at_first_publish": 9,
+   "index_at_first_publish": 788.0
+  },
+  "CRO:22/23:7984": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Rokas Pukštas",
+   "season": "CRO 22/23",
+   "rank_at_first_publish": 17,
+   "index_at_first_publish": 729.0
+  },
+  "CRO:22/23:4274": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Tonio Teklić",
+   "season": "CRO 22/23",
+   "rank_at_first_publish": 18,
+   "index_at_first_publish": 727.0
+  },
+  "ROU:22/23:9474": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Alexandru Cîmpanu",
+   "season": "ROU 22/23",
+   "rank_at_first_publish": 1,
+   "index_at_first_publish": 861.0
+  },
+  "ROU:22/23:9431": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Andrei Borza",
+   "season": "ROU 22/23",
+   "rank_at_first_publish": 2,
+   "index_at_first_publish": 855.0
+  },
+  "ROU:22/23:9544": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Octavian Popescu",
+   "season": "ROU 22/23",
+   "rank_at_first_publish": 3,
+   "index_at_first_publish": 848.0
+  },
+  "SRB:22/23:11338": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Luka Ilić",
+   "season": "SRB 22/23",
+   "rank_at_first_publish": 5,
+   "index_at_first_publish": 870.0
+  },
+  "ROU:22/23:9594": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Seniko Doua",
+   "season": "ROU 22/23",
+   "rank_at_first_publish": 10,
+   "index_at_first_publish": 803.0
+  },
+  "SRB:22/23:10699": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Lazar Nikolić",
+   "season": "SRB 22/23",
+   "rank_at_first_publish": 11,
+   "index_at_first_publish": 812.0
+  },
+  "SRB:22/23:10862": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Viktor Rogan",
+   "season": "SRB 22/23",
+   "rank_at_first_publish": 13,
+   "index_at_first_publish": 800.0
+  },
+  "SRB:22/23:8396": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Nikola Jojić",
+   "season": "SRB 22/23",
+   "rank_at_first_publish": 14,
+   "index_at_first_publish": 799.0
+  },
+  "ROU:22/23:9479": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Ștefan Baiaram",
+   "season": "ROU 22/23",
+   "rank_at_first_publish": 14,
+   "index_at_first_publish": 765.0
+  },
+  "SRB:22/23:10886": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Marko Bjeković",
+   "season": "SRB 22/23",
+   "rank_at_first_publish": 17,
+   "index_at_first_publish": 785.0
+  },
+  "SRB:22/23:11320": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Vladimir Lučić",
+   "season": "SRB 22/23",
+   "rank_at_first_publish": 18,
+   "index_at_first_publish": 770.0
+  },
+  "ROU:22/23:9433": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Constantin Grameni",
+   "season": "ROU 22/23",
+   "rank_at_first_publish": 19,
+   "index_at_first_publish": 753.0
+  },
+  "HUN:23/24:6955": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "György Komáromi",
+   "season": "HUN 23/24",
+   "rank_at_first_publish": 1,
+   "index_at_first_publish": 900.0
+  },
+  "HUN:23/24:7144": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Krisztián Lisztes",
+   "season": "HUN 23/24",
+   "rank_at_first_publish": 5,
+   "index_at_first_publish": 863.0
+  },
+  "SVK:23/24:6416": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Mario Sauer",
+   "season": "SVK 23/24",
+   "rank_at_first_publish": 4,
+   "index_at_first_publish": 857.0
+  },
+  "SVK:23/24:6403": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "David Strelec",
+   "season": "SVK 23/24",
+   "rank_at_first_publish": 8,
+   "index_at_first_publish": 809.0
+  },
+  "SVK:23/24:6402": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Nino Marcelli",
+   "season": "SVK 23/24",
+   "rank_at_first_publish": 9,
+   "index_at_first_publish": 793.0
+  },
+  "SVK:23/24:3921": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Matúš Kmeť",
+   "season": "SVK 23/24",
+   "rank_at_first_publish": 11,
+   "index_at_first_publish": 774.0
+  },
+  "SVK:23/24:6456": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Artur Gajdoš",
+   "season": "SVK 23/24",
+   "rank_at_first_publish": 15,
+   "index_at_first_publish": 736.0
+  },
+  "SVK:23/24:6356": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Márk Csinger",
+   "season": "SVK 23/24",
+   "rank_at_first_publish": 18,
+   "index_at_first_publish": 733.0
+  },
+  "SVK:23/24:173": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Mark Assinor",
+   "season": "SVK 23/24",
+   "rank_at_first_publish": 19,
+   "index_at_first_publish": 731.0
+  },
+  "CRO:23/24:4094": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Marko Bulat",
+   "season": "CRO 23/24",
+   "rank_at_first_publish": 1,
+   "index_at_first_publish": 900.0
+  },
+  "CRO:23/24:6760": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Niko Janković",
+   "season": "CRO 23/24",
+   "rank_at_first_publish": 4,
+   "index_at_first_publish": 850.0
+  },
+  "CRO:23/24:8216": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Gabriel Vidović",
+   "season": "CRO 23/24",
+   "rank_at_first_publish": 5,
+   "index_at_first_publish": 830.0
+  },
+  "CRO:23/24:7817": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Martin Baturina",
+   "season": "CRO 23/24",
+   "rank_at_first_publish": 8,
+   "index_at_first_publish": 809.0
+  },
+  "CRO:23/24:7936": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Toni Fruk",
+   "season": "CRO 23/24",
+   "rank_at_first_publish": 16,
+   "index_at_first_publish": 725.0
+  },
+  "CRO:23/24:7834": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Mateo Lisica",
+   "season": "CRO 23/24",
+   "rank_at_first_publish": 19,
+   "index_at_first_publish": 722.0
+  },
+  "ROU:23/24:9465": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Claudiu Petrila",
+   "season": "ROU 23/24",
+   "rank_at_first_publish": 1,
+   "index_at_first_publish": 925.0
+  },
+  "ROU:23/24:9550": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Rareș Ispas",
+   "season": "ROU 23/24",
+   "rank_at_first_publish": 12,
+   "index_at_first_publish": 797.0
+  },
+  "ROU:23/24:9172": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Albion Rrahmani",
+   "season": "ROU 23/24",
+   "rank_at_first_publish": 17,
+   "index_at_first_publish": 779.0
+  },
+  "CZE:23/24:8843": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Cheick Souaré",
+   "season": "CZE 23/24",
+   "rank_at_first_publish": 4,
+   "index_at_first_publish": 884.0
+  },
+  "CZE:23/24:8648": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Matěj Jurásek",
+   "season": "CZE 23/24",
+   "rank_at_first_publish": 11,
+   "index_at_first_publish": 794.0
+  },
+  "CZE:23/24:9067": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Conrad Wallem",
+   "season": "CZE 23/24",
+   "rank_at_first_publish": 17,
+   "index_at_first_publish": 772.0
+  },
+  "CZE:23/24:8887": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Michal Fukala",
+   "season": "CZE 23/24",
+   "rank_at_first_publish": 19,
+   "index_at_first_publish": 766.0
+  },
+  "CZE:23/24:8706": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Pavel Šulc",
+   "season": "CZE 23/24",
+   "rank_at_first_publish": 20,
+   "index_at_first_publish": 765.0
+  },
+  "SRB:23/24:11045": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Andrija Radulović",
+   "season": "SRB 23/24",
+   "rank_at_first_publish": 4,
+   "index_at_first_publish": 886.0
+  },
+  "SRB:23/24:11537": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Kosta Nedeljković",
+   "season": "SRB 23/24",
+   "rank_at_first_publish": 5,
+   "index_at_first_publish": 883.0
+  },
+  "SRB:23/24:4123": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Aleksandar Ćirković",
+   "season": "SRB 23/24",
+   "rank_at_first_publish": 8,
+   "index_at_first_publish": 847.0
+  },
+  "SRB:23/24:7428": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Yusuf Bamidele",
+   "season": "SRB 23/24",
+   "rank_at_first_publish": 14,
+   "index_at_first_publish": 798.0
+  },
+  "SVK:24/25:3749": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Adrián Kaprálik",
+   "season": "SVK 24/25",
+   "rank_at_first_publish": 2,
+   "index_at_first_publish": 851.0
+  },
+  "SVK:24/25:6402": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Nino Marcelli",
+   "season": "SVK 24/25",
+   "rank_at_first_publish": 8,
+   "index_at_first_publish": 768.0
+  },
+  "SVK:24/25:6416": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Mario Sauer",
+   "season": "SVK 24/25",
+   "rank_at_first_publish": 10,
+   "index_at_first_publish": 759.0
+  },
+  "SVK:24/25:6490": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Alasana Yirajang",
+   "season": "SVK 24/25",
+   "rank_at_first_publish": 11,
+   "index_at_first_publish": 756.0
+  },
+  "SVK:24/25:6359": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Alex Mendez",
+   "season": "SVK 24/25",
+   "rank_at_first_publish": 13,
+   "index_at_first_publish": 747.0
+  },
+  "SVK:24/25:6456": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Artur Gajdoš",
+   "season": "SVK 24/25",
+   "rank_at_first_publish": 19,
+   "index_at_first_publish": 734.0
+  },
+  "CRO:24/25:7651": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Luka Stojković",
+   "season": "CRO 24/25",
+   "rank_at_first_publish": 1,
+   "index_at_first_publish": 948.0
+  },
+  "CRO:24/25:8406": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Beyatt Lekoueiry",
+   "season": "CRO 24/25",
+   "rank_at_first_publish": 2,
+   "index_at_first_publish": 877.0
+  },
+  "HUN:24/25:7146": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Alex Tóth",
+   "season": "HUN 24/25",
+   "rank_at_first_publish": 2,
+   "index_at_first_publish": 858.0
+  },
+  "CRO:24/25:7817": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Martin Baturina",
+   "season": "CRO 24/25",
+   "rank_at_first_publish": 3,
+   "index_at_first_publish": 832.0
+  },
+  "CRO:24/25:7740": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Ivan Laća",
+   "season": "CRO 24/25",
+   "rank_at_first_publish": 8,
+   "index_at_first_publish": 788.0
+  },
+  "HUN:24/25:7328": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Balázs Bakti",
+   "season": "HUN 24/25",
+   "rank_at_first_publish": 8,
+   "index_at_first_publish": 765.0
+  },
+  "CRO:24/25:8246": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Adriano Jagušić",
+   "season": "CRO 24/25",
+   "rank_at_first_publish": 9,
+   "index_at_first_publish": 785.0
+  },
+  "CRO:24/25:8379": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Raúl Torrente",
+   "season": "CRO 24/25",
+   "rank_at_first_publish": 10,
+   "index_at_first_publish": 778.0
+  },
+  "HUN:24/25:7070": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Nejc Gradišar",
+   "season": "HUN 24/25",
+   "rank_at_first_publish": 14,
+   "index_at_first_publish": 746.0
+  },
+  "CRO:24/25:8215": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Petar Sučić",
+   "season": "CRO 24/25",
+   "rank_at_first_publish": 16,
+   "index_at_first_publish": 746.0
+  },
+  "HUN:24/25:4338": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Ádin Molnár",
+   "season": "HUN 24/25",
+   "rank_at_first_publish": 17,
+   "index_at_first_publish": 736.0
+  },
+  "SRB:24/25:11459": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Lazar Jovanović",
+   "season": "SRB 24/25",
+   "rank_at_first_publish": 1,
+   "index_at_first_publish": 985.0
+  },
+  "CZE:24/25:9083": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "El Hadji Malick Diouf",
+   "season": "CZE 24/25",
+   "rank_at_first_publish": 1,
+   "index_at_first_publish": 905.0
+  },
+  "SRB:24/25:11494": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Ebenezer Annan",
+   "season": "SRB 24/25",
+   "rank_at_first_publish": 3,
+   "index_at_first_publish": 908.0
+  },
+  "SRB:24/25:11683": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Andrija Maksimović",
+   "season": "SRB 24/25",
+   "rank_at_first_publish": 4,
+   "index_at_first_publish": 891.0
+  },
+  "CZE:24/25:1526": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Jaroslav Harustak",
+   "season": "CZE 24/25",
+   "rank_at_first_publish": 5,
+   "index_at_first_publish": 852.0
+  },
+  "CZE:24/25:8912": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Matěj Šín",
+   "season": "CZE 24/25",
+   "rank_at_first_publish": 15,
+   "index_at_first_publish": 779.0
+  },
+  "SRB:24/25:11163": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Petar Stanić",
+   "season": "SRB 24/25",
+   "rank_at_first_publish": 16,
+   "index_at_first_publish": 797.0
+  },
+  "SRB:24/25:11467": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Ognjen Mimović",
+   "season": "SRB 24/25",
+   "rank_at_first_publish": 20,
+   "index_at_first_publish": 786.0
+  },
+  "ROU:24/25:9544": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Octavian Popescu",
+   "season": "ROU 24/25",
+   "rank_at_first_publish": 5,
+   "index_at_first_publish": 833.0
+  },
+  "ROU:24/25:9479": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Ștefan Baiaram",
+   "season": "ROU 24/25",
+   "rank_at_first_publish": 10,
+   "index_at_first_publish": 801.0
+  },
+  "ROU:24/25:9734": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Mihnea Rădulescu",
+   "season": "ROU 24/25",
+   "rank_at_first_publish": 13,
+   "index_at_first_publish": 781.0
+  },
+  "ROU:24/25:9941": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Zoran Mitrov",
+   "season": "ROU 24/25",
+   "rank_at_first_publish": 20,
+   "index_at_first_publish": 764.0
+  },
+  "HUN:25/26:7153": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Zsombor Gruber",
+   "season": "HUN 25/26",
+   "rank_at_first_publish": 1,
+   "index_at_first_publish": 880.0
+  },
+  "HUN:25/26:7310": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Nfansu Njie",
+   "season": "HUN 25/26",
+   "rank_at_first_publish": 3,
+   "index_at_first_publish": 863.0
+  },
+  "HUN:25/26:7445": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Hunor Németh",
+   "season": "HUN 25/26",
+   "rank_at_first_publish": 6,
+   "index_at_first_publish": 806.0
+  },
+  "HUN:25/26:7181": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Kevin Horváth",
+   "season": "HUN 25/26",
+   "rank_at_first_publish": 14,
+   "index_at_first_publish": 751.0
+  },
+  "HUN:25/26:7451": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Daniel Alves",
+   "season": "HUN 25/26",
+   "rank_at_first_publish": 19,
+   "index_at_first_publish": 738.0
+  },
+  "HUN:25/26:7117": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Patrik Kovács",
+   "season": "HUN 25/26",
+   "rank_at_first_publish": 20,
+   "index_at_first_publish": 737.0
+  },
+  "CRO:25/26:8246": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Adriano Jagušić",
+   "season": "CRO 25/26",
+   "rank_at_first_publish": 1,
+   "index_at_first_publish": 934.0
+  },
+  "SVK:25/26:6402": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Nino Marcelli",
+   "season": "SVK 25/26",
+   "rank_at_first_publish": 2,
+   "index_at_first_publish": 857.0
+  },
+  "CRO:25/26:8474": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Sergi Domínguez",
+   "season": "CRO 25/26",
+   "rank_at_first_publish": 3,
+   "index_at_first_publish": 888.0
+  },
+  "CRO:25/26:7651": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Luka Stojković",
+   "season": "CRO 25/26",
+   "rank_at_first_publish": 4,
+   "index_at_first_publish": 847.0
+  },
+  "CRO:25/26:7834": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Mateo Lisica",
+   "season": "CRO 25/26",
+   "rank_at_first_publish": 5,
+   "index_at_first_publish": 847.0
+  },
+  "CRO:25/26:8444": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Iker Almena",
+   "season": "CRO 25/26",
+   "rank_at_first_publish": 7,
+   "index_at_first_publish": 844.0
+  },
+  "CRO:25/26:8216": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Gabriel Vidović",
+   "season": "CRO 25/26",
+   "rank_at_first_publish": 8,
+   "index_at_first_publish": 839.0
+  },
+  "SVK:25/26:6422": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Timotej Hranica",
+   "season": "SVK 25/26",
+   "rank_at_first_publish": 10,
+   "index_at_first_publish": 779.0
+  },
+  "CRO:25/26:8483": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Matteo Pérez Vinlöf",
+   "season": "CRO 25/26",
+   "rank_at_first_publish": 11,
+   "index_at_first_publish": 818.0
+  },
+  "SVK:25/26:6366": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Damir Redzic",
+   "season": "SVK 25/26",
+   "rank_at_first_publish": 13,
+   "index_at_first_publish": 756.0
+  },
+  "SVK:25/26:6775": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Mátyás Kovács",
+   "season": "SVK 25/26",
+   "rank_at_first_publish": 14,
+   "index_at_first_publish": 749.0
+  },
+  "CRO:25/26:8082": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Filip Krušelj",
+   "season": "CRO 25/26",
+   "rank_at_first_publish": 14,
+   "index_at_first_publish": 796.0
+  },
+  "SVK:25/26:6645": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Kevor Palumets",
+   "season": "SVK 25/26",
+   "rank_at_first_publish": 15,
+   "index_at_first_publish": 747.0
+  },
+  "SVK:25/26:6780": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Milan Rehuš",
+   "season": "SVK 25/26",
+   "rank_at_first_publish": 19,
+   "index_at_first_publish": 728.0
+  },
+  "SRB:25/26:11335": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Jovan Milošević",
+   "season": "SRB 25/26",
+   "rank_at_first_publish": 1,
+   "index_at_first_publish": 1092.0
+  },
+  "SRB:25/26:11735": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Vasilije Kostov",
+   "season": "SRB 25/26",
+   "rank_at_first_publish": 4,
+   "index_at_first_publish": 908.0
+  },
+  "SRB:25/26:11320": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Vladimir Lučić",
+   "season": "SRB 25/26",
+   "rank_at_first_publish": 6,
+   "index_at_first_publish": 883.0
+  },
+  "SRB:25/26:11643": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Milan Vukotić",
+   "season": "SRB 25/26",
+   "rank_at_first_publish": 7,
+   "index_at_first_publish": 852.0
+  },
+  "SRB:25/26:11265": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Nikola Stanković",
+   "season": "SRB 25/26",
+   "rank_at_first_publish": 8,
+   "index_at_first_publish": 848.0
+  },
+  "SRB:25/26:11673": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Adem Avdić",
+   "season": "SRB 25/26",
+   "rank_at_first_publish": 9,
+   "index_at_first_publish": 847.0
+  },
+  "SRB:25/26:11561": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Nemanja Trifunović",
+   "season": "SRB 25/26",
+   "rank_at_first_publish": 16,
+   "index_at_first_publish": 796.0
+  },
+  "SRB:25/26:11642": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Ognjen Ugrešić",
+   "season": "SRB 25/26",
+   "rank_at_first_publish": 17,
+   "index_at_first_publish": 792.0
+  },
+  "SRB:25/26:11560": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Milan Roganović",
+   "season": "SRB 25/26",
+   "rank_at_first_publish": 20,
+   "index_at_first_publish": 780.0
+  },
+  "CZE:25/26:9052": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Emmanuel Ayaosi",
+   "season": "CZE 25/26",
+   "rank_at_first_publish": 2,
+   "index_at_first_publish": 906.0
+  },
+  "CZE:25/26:9314": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Josef Kolářík",
+   "season": "CZE 25/26",
+   "rank_at_first_publish": 4,
+   "index_at_first_publish": 848.0
+  },
+  "CZE:25/26:8843": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Cheick Souaré",
+   "season": "CZE 25/26",
+   "rank_at_first_publish": 5,
+   "index_at_first_publish": 846.0
+  },
+  "CZE:25/26:8652": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Štěpán Chaloupek",
+   "season": "CZE 25/26",
+   "rank_at_first_publish": 6,
+   "index_at_first_publish": 843.0
+  },
+  "CZE:25/26:9292": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Ermin Mahmić",
+   "season": "CZE 25/26",
+   "rank_at_first_publish": 8,
+   "index_at_first_publish": 839.0
+  },
+  "CZE:25/26:8929": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Adam Kadlec",
+   "season": "CZE 25/26",
+   "rank_at_first_publish": 11,
+   "index_at_first_publish": 792.0
+  },
+  "CZE:25/26:9022": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Ebrima Singhateh",
+   "season": "CZE 25/26",
+   "rank_at_first_publish": 15,
+   "index_at_first_publish": 768.0
+  },
+  "CZE:25/26:9087": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Aziz Kayondo",
+   "season": "CZE 25/26",
+   "rank_at_first_publish": 18,
+   "index_at_first_publish": 763.0
+  },
+  "ROU:25/26:9479": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Ștefan Baiaram",
+   "season": "ROU 25/26",
+   "rank_at_first_publish": 1,
+   "index_at_first_publish": 903.0
+  },
+  "ROU:25/26:9544": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Octavian Popescu",
+   "season": "ROU 25/26",
+   "rank_at_first_publish": 9,
+   "index_at_first_publish": 838.0
+  },
+  "ROU:25/26:9436": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Louis Munteanu",
+   "season": "ROU 25/26",
+   "rank_at_first_publish": 10,
+   "index_at_first_publish": 816.0
+  },
+  "ROU:25/26:10274": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Andrei Coubiș",
+   "season": "ROU 25/26",
+   "rank_at_first_publish": 13,
+   "index_at_first_publish": 803.0
+  },
+  "ROU:25/26:9431": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Andrei Borza",
+   "season": "ROU 25/26",
+   "rank_at_first_publish": 18,
+   "index_at_first_publish": 778.0
+  },
+  "ROU:25/26:10004": {
+   "first_published": "2026-08-26",
+   "rule": "ledger-v1",
+   "player": "Matei Ilie",
+   "season": "ROU 25/26",
+   "rank_at_first_publish": 20,
+   "index_at_first_publish": 770.0
+  },
+  "EST:2026:3640": {
+   "first_published": "2026-08-28",
+   "rule": "ledger-v1",
+   "player": "Thomas  Lisboa",
+   "season": "EST 2026",
+   "rank_at_first_publish": 15,
+   "index_at_first_publish": 810.0
+  }
+ }
+}

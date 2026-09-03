@@ -1,0 +1,591 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Methodology · Latent</title>
+<meta name="description" content="How every Latent number is made: sources, coverage, computation rules, the Latent Level backtest in full, and the stated limits of the data.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230A0A0A'/%3E%3Cpath d='M17%2088L38%2088L52%2050L42%2024Z' fill='white'/%3E%3Cpath d='M35%2012L56%2012L85%2088L64%2088Z' fill='%232FA3EC'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#FFFFFF">
+<meta property="og:image" content="https://latentscouting.com/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preload" href="assets/fonts/inter-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="styles.css">
+<script>document.documentElement.classList.add('js')</script>
+<style>
+
+.m-layout { display:grid; grid-template-columns: 200px minmax(0,1fr); gap: var(--s8); }
+.m-body > section + section { margin-top: var(--s9); }
+.m-body h3 { margin-top: var(--s6); }
+.m-body p + p, .m-body p + ul, .m-body p + .kv { margin-top: var(--s4); }
+.m-hero { padding: var(--s9) 0 var(--s7); }
+.m-rules { list-style:none; display:grid; gap:1px; background: var(--line);
+           border:1px solid var(--line); }
+.m-rules li { background: var(--surface); padding: var(--s4) var(--s5); font-size: var(--t-sm); }
+.m-rules li strong { display:block; font-family: var(--f-label); font-weight:700;
+                     text-transform:uppercase; letter-spacing:.12em; font-size: var(--t-2xs);
+                     color: var(--accent); margin-bottom: var(--s2); }
+.m-limits { list-style:none; display:grid; gap:1px; background: var(--line);
+            border:1px solid var(--line); }
+.m-limits li { background: var(--surface); padding: var(--s5); font-size: var(--t-sm); }
+.m-limits li strong { display:block; font-size: var(--t-md); color: var(--ink);
+                      margin-bottom: var(--s2); }
+.m-limits .ev { display:block; margin-top: var(--s3); font-family: var(--f-num);
+                font-size: var(--t-xs); color: var(--ink-3); }
+/* D1's `.tbl td { color: var(--ink) }` (0,1,1) outranks `.cell-yes` (0,1,0), so a
+   filled matrix cell renders ink-on-accent instead of on-accent-on-accent — carbon
+   on sky-ink, 3.84:1, below AA (D6's contrast entry in WARNINGS.md). Restated at
+   table specificity with D1's own token; no colour is declared here. Root fix
+   belongs in styles.css and is filed for D1. */
+.m-body .tbl td.cell-yes { color: var(--on-accent); }
+@media (max-width: 980px) {
+  /* minmax(0,1fr), not 1fr: a plain 1fr track keeps min-width:auto and the wide
+     reference tables push the whole column past the viewport. */
+  .m-layout { grid-template-columns: minmax(0, 1fr); gap: var(--s6); }
+  .anchor-nav { position:static; border-left:0; padding-left:0;
+                grid-auto-flow: column; grid-auto-columns: max-content;
+                overflow-x:auto; padding-bottom: var(--s2); }
+}
+
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-nav">
+  <div class="wrap">
+    <a class="mark" href="index.html"><svg class="mark-glyph" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><path class="g-leg" d="M17 88 L38 88 L52 50 L42 24 Z"/><path class="g-main" d="M35 12 L56 12 L85 88 L64 88 Z"/></svg>Latent</a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="players/index.html">Players</a>
+      <a href="full-report.html">Reports</a>
+      <a href="plans.html">Plans</a>
+      <a href="methodology.html" aria-current="page">Methodology</a>
+      <a href="ledger.html">Ledger</a>
+    </nav>
+    <a class="btn btn-sm nav-cta" href="index.html#enquire"><span>Enquire</span></a>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="band band-ink section m-hero">
+  <div class="wrap">
+    <p class="eyebrow">Methodology</p>
+    <h1 class="h-hero">Published,<br>so you can<br>argue with it</h1>
+    <p class="lede mt4">Every number Latent puts on a screen (this site, a post, a paid
+      report) is derived by us from match-level data we hold, by the rules on this page.
+      Nothing is licensed and rebadged. Where the data cannot support a claim, the claim
+      is not made, and the gap is listed in section 08 rather than smoothed over.</p>
+    <div class="tiles mt6">
+      <div class="tile"><span class="figure">407,495</span>
+        <span class="caption">Player-match stat rows</span></div>
+      <div class="tile"><span class="figure">13,401</span>
+        <span class="caption">Finished matches</span></div>
+      <div class="tile"><span class="figure">26,238</span>
+        <span class="caption">Player-seasons</span></div>
+      <div class="tile tile-accent"><span class="figure">8,924</span>
+        <span class="caption">Rankable players</span>
+        <span class="sub">270+ minutes in a season</span></div>
+    </div>
+    <p class="note mt4">Figures on this page are read from the database each time it is
+      built. Last finished match in the data:
+      <span class="num">2026-08-27</span>. Page built
+      <span class="num">2026-09-03</span>.</p>
+  </div>
+</section>
+<section class="section band-paper">
+  <div class="wrap">
+    <div class="m-layout">
+      <nav class="anchor-nav" aria-label="Sections"><a href="#sources">01 · Sources</a><a href="#coverage">02 · Coverage</a><a href="#rates">03 · Rates</a><a href="#percentiles">04 · Percentiles</a><a href="#index">05 · Export Index</a><a href="#level">06 · Latent Level</a><a href="#gates">07 · Audit gates</a><a href="#limits">08 · Stated limits</a><a href="#reproduce">09 · Reproducing it</a></nav>
+      <div class="m-body">
+        
+<section id="sources">
+  <span class="eyebrow">01 · Sources</span>
+  <h2>What the numbers are built from</h2>
+  <p class="lede mt4">Five layers, all held locally, all queried read-only by the scripts
+    that generate this site.</p>
+  <ul class="m-rules mt5">
+    <li><strong>Per-match player statistics</strong>
+      407,495 player-match rows across 13,401 finished matches
+      in 13 competitions and 60 seasons: minutes, goals, shots,
+      passes, duels, touches and more, per player per match. Every metric we publish is
+      our own derivation from this layer. We never republish a third party's player
+      rating.</li>
+    <li><strong>Transfer records</strong>
+      66,860 completed moves in and out of our markets,
+      21,480 of them across a border, 4,150 with a disclosed
+      fee. This is what grounds destination analysis, fee comparables and the ledger in
+      transfers that actually happened.</li>
+    <li><strong>Post-move outcomes</strong>
+      20,188 destination season rows: how much a player who left actually
+      played afterwards. Minutes earned at the destination are the closest thing a
+      transfer has to a verdict, and they calibrate the Latent Level.</li>
+    <li><strong>Continental competition</strong>
+      18,157 player-match rows from 1,016
+      European matches played by 279 of our clubs across
+      5 competitions: real evidence of how these squads perform
+      against stronger opposition, rather than a projection of it.</li>
+    <li><strong>Second-tier and destination squads</strong>
+      13,449 stat rows from a second-tier feeder competition, and
+      a squad snapshot of 6,207 players at
+      212 clubs in 12 destination
+      markets, taken 2026-08-14.</li>
+  </ul>
+</section>
+<section id="coverage">
+  <span class="eyebrow">02 · Coverage</span>
+  <h2>Stated exactly, per competition</h2>
+  <p class="lede mt4">Coverage is uneven, because the underlying collection is. The honest
+    response is to print the table, not to imply a depth that only exists in two of these
+    competitions.</p>
+  <div class="tbl-wrap mt5">
+    <table class="tbl tbl-zebra">
+      <caption>Player-statistic coverage by competition
+        <span class="cap-note">Data labels, not a ranking. Rankable = players with at
+          least 270 minutes in a season.</span></caption>
+      <thead><tr><th>Competition</th><th class="n">Stats from</th><th class="n">Seasons</th>
+        <th class="n">Matches</th><th class="n">Rankable</th><th class="n">Stat rows</th></tr></thead>
+      <tbody><tr><td class="who">USL Championship<span class="sub">United States · USLC</span></td><td class="n">2020</td><td class="n">7</td><td class="n">2,752</td><td class="n">1,725</td><td class="n">83,006</td></tr><tr><td class="who">Serbian SuperLiga<span class="sub">Serbia · SRB</span></td><td class="n">20/21</td><td class="n">7</td><td class="n">1,913</td><td class="n">1,273</td><td class="n">57,904</td></tr><tr><td class="who">Croatian Football League<span class="sub">Croatia · CRO</span></td><td class="n">20/21</td><td class="n">7</td><td class="n">1,099</td><td class="n">761</td><td class="n">33,750</td></tr><tr><td class="who">Ekstraklasa<span class="sub">Poland · EKS</span></td><td class="n">21/22</td><td class="n">6</td><td class="n">1,568</td><td class="n">1,109</td><td class="n">48,263</td></tr><tr><td class="who">Romanian SuperLiga<span class="sub">Romania · ROU</span></td><td class="n">22/23</td><td class="n">5</td><td class="n">1,329</td><td class="n">910</td><td class="n">40,573</td></tr><tr><td class="who">Czech First League<span class="sub">Czech Republic · CZE</span></td><td class="n">22/23</td><td class="n">5</td><td class="n">1,156</td><td class="n">758</td><td class="n">35,675</td></tr><tr><td class="who">Virslīga<span class="sub">Latvia · LAT</span></td><td class="n">2023</td><td class="n">4</td><td class="n">678</td><td class="n">495</td><td class="n">20,215</td></tr><tr><td class="who">A Lyga<span class="sub">Lithuania · LIT</span></td><td class="n">2023</td><td class="n">4</td><td class="n">670</td><td class="n">507</td><td class="n">20,182</td></tr><tr><td class="who">Meistriliiga<span class="sub">Estonia · EST</span></td><td class="n">2023</td><td class="n">4</td><td class="n">663</td><td class="n">414</td><td class="n">19,650</td></tr><tr><td class="who">Nemzeti Bajnokság I<span class="sub">Hungary · HUN</span></td><td class="n">23/24</td><td class="n">4</td><td class="n">622</td><td class="n">546</td><td class="n">19,156</td></tr><tr><td class="who">Slovak First League<span class="sub">Slovakia · SVK</span></td><td class="n">23/24</td><td class="n">4</td><td class="n">613</td><td class="n">532</td><td class="n">18,756</td></tr><tr><td class="who">Ukrainian Premier League<span class="sub">Ukraine · UPL</span></td><td class="n">25/26</td><td class="n">2</td><td class="n">266</td><td class="n">384</td><td class="n">8,114</td></tr><tr><td class="who">Canadian Premier League<span class="sub">Canada · CPL</span></td><td class="n">2026</td><td class="n">1</td><td class="n">72</td><td class="n">151</td><td class="n">2,251</td></tr></tbody>
+    </table>
+  </div>
+  <div class="callout callout-warn mt5">
+    <span class="callout-title">The consequence, said plainly</span>
+    <p>The deepest histories we hold are not the markets the brand started in. There is no
+      player-statistic history before the first season listed for each competition (not
+      thin history, none), so multi-year trend work and "we would have seen him coming"
+      evidence is only possible where the seasons column is large. Any page or report
+      implying otherwise would be wrong.</p>
+  </div>
+
+  <h3 id="carries">Ball-carry data</h3>
+  <p>Carry collection began part-way through our history and, in one competition,
+    part-way through a season. Where it covers only part of a league-season, the carry
+    percentile is suppressed for that whole season rather than ranking players measured
+    on different match sets against each other. The rate survives, the ranking does not.</p>
+  <div class="tbl-wrap mt4">
+    <table class="tbl tbl-compact">
+      <caption>Where carry data exists at all
+        <span class="cap-note">Competitions and seasons not listed have no carry data
+          whatsoever.</span></caption>
+      <thead><tr><th>Competition / season</th><th class="n">Players with a rate</th>
+        <th>Percentile published</th></tr></thead>
+      <tbody><tr><td class="who">CPL <span class="dim">2026</span></td><td class="n">151 <span class="dim">of 151</span></td><td class="cell-yes">● ranked</td></tr><tr><td class="who">CRO <span class="dim">25/26</span></td><td class="n">201 <span class="dim">of 253</span></td><td class="cell-part">◐ rate only</td></tr><tr><td class="who">CRO <span class="dim">26/27</span></td><td class="n">63 <span class="dim">of 63</span></td><td class="cell-yes">● ranked</td></tr><tr><td class="who">CZE <span class="dim">25/26</span></td><td class="n">320 <span class="dim">of 408</span></td><td class="cell-part">◐ rate only</td></tr><tr><td class="who">CZE <span class="dim">26/27</span></td><td class="n">119 <span class="dim">of 119</span></td><td class="cell-yes">● ranked</td></tr><tr><td class="who">EKS <span class="dim">25/26</span></td><td class="n">321 <span class="dim">of 420</span></td><td class="cell-part">◐ rate only</td></tr><tr><td class="who">EKS <span class="dim">26/27</span></td><td class="n">128 <span class="dim">of 128</span></td><td class="cell-yes">● ranked</td></tr><tr><td class="who">HUN <span class="dim">25/26</span></td><td class="n">222 <span class="dim">of 288</span></td><td class="cell-part">◐ rate only</td></tr><tr><td class="who">HUN <span class="dim">26/27</span></td><td class="n">102 <span class="dim">of 102</span></td><td class="cell-yes">● ranked</td></tr><tr><td class="who">ROU <span class="dim">25/26</span></td><td class="n">314 <span class="dim">of 405</span></td><td class="cell-part">◐ rate only</td></tr><tr><td class="who">ROU <span class="dim">26/27</span></td><td class="n">172 <span class="dim">of 172</span></td><td class="cell-yes">● ranked</td></tr><tr><td class="who">SRB <span class="dim">25/26</span></td><td class="n">316 <span class="dim">of 415</span></td><td class="cell-part">◐ rate only</td></tr><tr><td class="who">SRB <span class="dim">26/27</span></td><td class="n">135 <span class="dim">of 135</span></td><td class="cell-yes">● ranked</td></tr><tr><td class="who">SVK <span class="dim">25/26</span></td><td class="n">220 <span class="dim">of 298</span></td><td class="cell-part">◐ rate only</td></tr><tr><td class="who">SVK <span class="dim">26/27</span></td><td class="n">98 <span class="dim">of 98</span></td><td class="cell-yes">● ranked</td></tr><tr><td class="who">USLC <span class="dim">2025</span></td><td class="n">11 <span class="dim">of 529</span></td><td class="cell-part">◐ rate only</td></tr><tr><td class="who">USLC <span class="dim">2026</span></td><td class="n">475 <span class="dim">of 475</span></td><td class="cell-yes">● ranked</td></tr></tbody>
+      <tfoot><tr><td colspan="3">A rate that exists for a handful of players in a season
+        is not a basis for a claim about that season. Where the count is small the
+        percentile is deliberately absent, and no carry comparison should be drawn from
+        the rate alone.</td></tr></tfoot>
+    </table>
+  </div>
+</section>
+<section id="rates">
+  <span class="eyebrow">03 · Rates</span>
+  <h2>How a per-90 is computed</h2>
+  <ul class="m-rules mt5">
+    <li><strong>Honest denominators</strong>
+      A statistic is divided only by the minutes in which that statistic was actually
+      collected, never a partial numerator over full-season minutes. Getting this wrong
+      is how a player with eleven recorded carries in one match ends up at the 97th
+      percentile for a season, which is exactly the defect this rule was written to
+      kill.</li>
+    <li><strong>270 collected minutes, per statistic</strong>
+      Each rate has its own gate. Below it the rate is reported unavailable, not
+      estimated. A player used in short substitute cameos may clear the gate for one
+      statistic and not another; his rolling form line is then drawn with gaps rather
+      than filled with zeros.</li>
+    <li><strong>Missing is never zero</strong>
+      A statistic a competition did not record renders as "not recorded" on the site, in
+      graphics and in reports. Gaps are never filled with zeros, league averages or model
+      output.</li>
+    <li><strong>Goals and assists are the one exception, deliberately</strong>
+      Some feeds omit the goals field entirely for a player who did not score, rather
+      than writing zero. Treated naively that removes every goalless player from the
+      goals ranking, so they are never penalised for not scoring. We treat an absent
+      goal field as a genuine zero, so a goalless player ranks last instead of
+      vanishing.</li>
+  </ul>
+</section>
+<section id="percentiles">
+  <span class="eyebrow">04 · Percentiles</span>
+  <h2>The peer group is exact, or there is no percentile</h2>
+  <ul class="m-rules mt5">
+    <li><strong>Scope</strong>
+      Same competition, same season, same position group, minimum 270 minutes. Every
+      percentile we print is printed with the size of the cohort it was computed
+      against.</li>
+    <li><strong>Never across competitions</strong>
+      A 90th percentile in one league and a 90th in another are not the same claim, so
+      they are never blended, averaged or compared. Cross-competition comparison is what
+      the Latent Level exists for, and it is a separate number with its own published
+      test.</li>
+    <li><strong>Cohort floor of 10</strong>
+      If fewer than ten players survive the minutes gate in a peer group, no percentile
+      is published at all. The smallest cohort currently behind any published percentile
+      is <span class="num">10</span> players. Early in a season this
+      means a competition publishes few percentiles or none. That is the floor working,
+      not missing data.</li>
+    <li><strong>No mixed cohorts</strong>
+      If a statistic covers only part of a league-season, its percentile is suppressed
+      for the whole season. A percentile whose peer group is "whoever the provider
+      happened to cover" is not the ranking the number claims to be.</li>
+  </ul>
+</section>
+<section id="index">
+  <span class="eyebrow">05 · Export Index</span>
+  <h2>The flagship number, defined</h2>
+  <p class="lede mt4">One score per player per season: the mean of five per-90 output
+    percentiles (goals, assists, progressive carries, key passes and duel win rate)
+    against the peer group above, then multiplied by an age factor that favours youth
+    (×1.15 at 21 or under, ×1.05 from 22 to 24, ×1.00 after that), because the same
+    output from a younger player is worth more to the buyer.
+    17,363 player-seasons currently carry one.</p>
+  <ul class="m-rules mt5">
+    <li><strong>An index, not a percentile</strong>
+      Like the Latent Level, the Export Index is a score on its own scale: whole
+      numbers running about <span class="num">59</span> to
+      <span class="num">1,121</span>, averaging
+      <span class="num">509</span>. It is deliberately not on a
+      0–100 scale, because a mean of percentiles carrying an age multiplier will
+      exceed 100 and then invites the question "out of what?". It is never printed
+      with a percent sign, never described as a percentile, and never drawn on a
+      shared axis with the percentile bars it is built from. Nor is it clamped:
+      clamping would destroy the ordering exactly at the top, where the ordering is
+      the whole point.</li>
+    <li><strong>Goalkeepers are not ranked by it</strong>
+      The index contains no shot-stopping, so a goalkeeper's index would be a ranking of
+      how well he does things he is not there to do. Goalkeepers carry no index at all:
+      <span class="num">0</span> of them appear in any index or
+      leaderboard on this site. Their 1,606 ranked seasons are ranked
+      keeper against keeper instead.</li>
+    <li><strong>A season is scored only on components available to all of it</strong>
+      Where a component covers part of a season, the whole season is scored on the
+      remaining components, so every player in a league-season sits on the same scale.
+      The cost is real and we took it anyway: one season lost its carry ranking
+      entirely.</li>
+  </ul>
+</section>
+<section id="level">
+  <span class="eyebrow">06 · Latent Level</span>
+  <h2>Cross-league rating, with the backtest attached</h2>
+  <p class="lede mt4">Percentiles stop at the league border. The Latent Level is the
+    cross-competition number: a player's within-league output, adjusted for the
+    opposition he produced it against, then translated onto one scale by a
+    league multiplier. That multiplier is calibrated on
+    637 season-pairs from players who actually played a
+    qualifying season in two of our competitions — the same man, measured on both
+    sides of the border, is the only direct evidence of what the border is worth.
+    17,363 player-seasons carry a Level.</p>
+
+  <ul class="m-rules mt5">
+    <li><strong>It is an index out of 1,000, and never out of 100</strong>
+      The Level is a score on a stated 0 to 1,000 scale: 1,000 is the ceiling, and
+      a value is clamped there rather than allowed past it. Published values run about
+      <span class="num">12</span> to
+      <span class="num">968</span>; the average across every player-season
+      that carries one is <span class="num">403</span>, and the average
+      of a single competition-and-position cohort runs from about
+      <span class="num">322</span> to
+      <span class="num">471</span> depending on which cohort it is.
+      That spread is the reason a Level is only readable next to the cohort average
+      printed beside it, which is how every Latent report prints it. It is never a
+      percentage and never out of 100. Method
+      <span class="num">level-v2.3</span> maps the raw
+      composite onto that 0 to 1,000 scale linearly to remove exactly that ambiguity;
+      ordering, correlations and every backtest figure below are unchanged by it.</li>
+    <li><strong>The validation rule</strong>
+      No Level appears in any Latent report until its backtest against real post-move
+      outcomes is published on this page, with the method version it applies to. Revise
+      the method and the backtest re-runs and republishes here. A rating whose accuracy
+      you cannot check is marketing.</li>
+  </ul>
+
+  <h3>The backtest, published in full</h3>
+  <p>Run on 2,053 completed moves abroad where we hold both a
+    pre-move Level and the player's post-move league minutes, plus
+    905 permanent moves with a disclosed fee. Reproduce it with
+    <span class="num">pipeline/level.py backtest</span> against the same database.</p>
+  <dl class="kv mt4">
+    <dt>Method</dt><dd><span class="num">level-v2.3</span>, run
+      <span class="num">2026-09-02</span></dd>
+    <dt>Fee correlation</dt><dd>Spearman(pre-move Level, fee actually paid) =
+      <span class="num-strong">+0.268</span> on
+      <span class="num">905</span> permanent exports with a
+      disclosed fee. This is the strongest receipt: the ordering the Level produces
+      lines up with what buyers paid.</dd>
+    <dt>Retention correlation</dt><dd>Spearman(Level, share of a nominal season played at
+      the destination) = <span class="num">+0.116</span> raw,
+      and <span class="num">+0.082</span> once
+      destination difficulty, loan status and age are accounted for. The within-league
+      performance composite on its own scores
+      <span class="num">+0.092</span>.</dd>
+    <dt>Quartiles</dt><dd>Holding a place is defined as
+      dest league minutes &gt;= 1350 in best of first two seasons. Top Level quartile
+      <span class="num">41%</span>
+      (n&nbsp;=&nbsp;511) versus bottom quartile
+      <span class="num">27%</span>
+      (n&nbsp;=&nbsp;515).</dd>
+  </dl>
+
+  <div class="callout mt5">
+    <span class="callout-title">Exactly what we claim, and what we do not</span>
+    <p>The Latent Level is a <strong>corridor-calibrated cross-league rating with a
+      published backtest</strong>. What the receipts support is that its ordering is
+      consistent with the fees the market paid, and that its cross-league component
+      carries a real if small association with minutes retention. What they do not
+      support, on our own published numbers, is predicting whether an individual
+      player will hold a place after a transfer. Once destination difficulty, loan status
+      and age are accounted for, the player-specific part of the Level adds essentially
+      nothing to that. So no Latent report will tell you a player is going to stick, and
+      any provider who tells you theirs does should be asked for this page.</p>
+  </div>
+
+  <div class="callout callout-warn mt4">
+    <span class="callout-title">Limits of the validation set</span>
+    <p>The join between transfer records and our match data is by name and birth year,
+      because no shared identifier exists, so transliterated names silently fail to
+      match and the tested set skews toward the competitions whose names survive the
+      join. By origin: <span class="num">SRB 444, CRO 368, ROU 234, EKS 188, CZE 161, USLC 134, SVK 126, LIT 118, HUN 117, LAT 97, EST 56, UPL 10</span>
+      ; the competition the brand is best known for contributes 10 of 2,053 tested moves, because our history there is two seasons deep.
+      Retention also counts an injury as a failure, because we hold no injury data to
+      separate it out.</p>
+  </div>
+
+  <h3 id="coefficients">The league coefficients, and what they are not</h3>
+  <p>Each factor below is fitted from players who played a qualifying season in
+    both competitions, comparing a man against himself across the border and
+    removing the shared drift of a year's ageing. Where a pair has too few such
+    players to carry itself, the fit leans on two public references —
+    UEFA's five-year country coefficients and Transfermarkt's average squad
+    value — blended in at the weight of 15 crossings, with the
+    exchange rate between those references and our own scale fitted from the
+    crossings rather than assumed. Nothing here is hand-set.</p>
+  <p>The earlier version of this number was fitted on how each league's exporters
+    fared abroad, and we replaced it because that question is not the same
+    question. Exporters are not a random sample: a league that sells a few
+    well-chosen players into a friendly corridor scored higher than one that
+    sends many squad players into hard ones. It buried whole competitions —
+    the best Ukrainian season in this database ranked 411th, the best Canadian
+    one 4,517th — and rated Latvia above Ukraine on what were really wartime
+    distress moves. Both versions, and this reasoning, stay published.</p>
+  <div class="tbl-wrap mt4">
+    <table class="tbl tbl-compact">
+      <caption>League translation factors <span class="cap-note">An exchange rate
+        between competitions, not a verdict on them. A factor is only as good as the
+        crossings behind it — the right-hand column is that evidence.</span></caption>
+      <thead><tr><th>Node</th><th class="n">Factor</th><th class="n">Crossings in fit</th></tr></thead>
+      <tbody><tr><td class="who">EKS</td><td class="n">1.15</td><td class="n">174</td></tr><tr><td class="who">CZE</td><td class="n">1.14</td><td class="n">157</td></tr><tr><td class="who">CRO</td><td class="n">1.11</td><td class="n">131</td></tr><tr><td class="who">UPL</td><td class="n">1.09</td><td class="n">18</td></tr><tr><td class="who">HUN</td><td class="n">1.08</td><td class="n">131</td></tr><tr><td class="who">ROU</td><td class="n">1.08</td><td class="n">129</td></tr><tr><td class="who">SRB</td><td class="n">1.04</td><td class="n">132</td></tr><tr><td class="who">SVK</td><td class="n">1.02</td><td class="n">148</td></tr><tr><td class="who">UPL2</td><td class="n">0.92</td><td class="n">0</td></tr><tr><td class="who">USLC</td><td class="n">0.90</td><td class="n">38</td></tr><tr><td class="who">LIT</td><td class="n">0.90</td><td class="n">88</td></tr><tr><td class="who">LAT</td><td class="n">0.89</td><td class="n">81</td></tr><tr><td class="who">CPL</td><td class="n">0.86</td><td class="n">18</td></tr><tr><td class="who">EST</td><td class="n">0.82</td><td class="n">29</td></tr></tbody>
+    </table>
+  </div>
+  <p class="note mt4">Read the crossings column before the factor. Leagues that
+    trade players with the rest of the portfolio have their number set by their own
+    crossings; the thinnest ones are carried mostly by the public references, and
+    their factor should be treated as provisional and will move as players cross.
+    We publish the whole table, with its evidence, because the alternative is a
+    hidden coefficient doing the same work unexamined.</p>
+  <div class="tbl-wrap mt5">
+    <table class="tbl tbl-compact">
+      <caption>Mean published Level by competition
+        <span class="cap-note">Shown so a Level you see elsewhere on this site has
+          somewhere to be read against. Cohort averages differ by position too.</span></caption>
+      <thead><tr><th>Competition</th><th class="n">Player-seasons</th>
+        <th class="n">Mean Level</th></tr></thead>
+      <tbody><tr><td class="who">EKS</td><td class="n">2,027</td><td class="n">454</td></tr><tr><td class="who">CZE</td><td class="n">1,528</td><td class="n">444</td></tr><tr><td class="who">CRO</td><td class="n">1,455</td><td class="n">430</td></tr><tr><td class="who">UPL</td><td class="n">364</td><td class="n">426</td></tr><tr><td class="who">ROU</td><td class="n">1,614</td><td class="n">426</td></tr><tr><td class="who">HUN</td><td class="n">873</td><td class="n">423</td></tr><tr><td class="who">SRB</td><td class="n">2,448</td><td class="n">415</td></tr><tr><td class="who">SVK</td><td class="n">879</td><td class="n">403</td></tr><tr><td class="who">USLC</td><td class="n">3,571</td><td class="n">361</td></tr><tr><td class="who">LIT</td><td class="n">818</td><td class="n">358</td></tr><tr><td class="who">LAT</td><td class="n">858</td><td class="n">353</td></tr><tr><td class="who">CPL</td><td class="n">138</td><td class="n">345</td></tr><tr><td class="who">EST</td><td class="n">790</td><td class="n">330</td></tr></tbody>
+    </table>
+  </div>
+  <p class="mt5"><a class="btn btn-ghost" href="ledger.html"><span>See the flag ledger</span></a></p>
+</section>
+<section id="gates">
+  <span class="eyebrow">07 · Audit gates</span>
+  <h2>What runs before a number is allowed out</h2>
+  <p class="lede mt4">Every refresh passes automated integrity checks before anything
+    reaches this site or a report. A competition that fails a blocking check does not
+    publish until it is repaired. This has happened, and it held a publish.</p>
+  <ul class="m-rules mt5">
+    <li><strong>Goal-attribution guard</strong>
+      Goals credited to individual players are reconciled against match scorelines for
+      every season of every competition. The expected band is roughly
+      0.95–0.98; the shortfall is own goals, which are correctly credited to nobody.
+      Anything below it is investigated down to the individual match. This check caught a
+      current season missing two entire matchdays of statistics, at 0.78.</li>
+    <li><strong>Coverage detection</strong>
+      Every statistic is checked, in every season, for partial coverage, so a statistic
+      that phased in mid-season can never masquerade as a full-season rate.</li>
+    <li><strong>Staleness recheck</strong>
+      Recently played matches are re-queried against the source, because a match ingested
+      within days of kickoff can be cached before its statistics exist and would
+      otherwise stay empty forever.</li>
+  </ul>
+  <div class="tbl-wrap mt5">
+    <table class="tbl tbl-compact tbl-zebra">
+      <caption>Goal attribution, current state
+        <span class="cap-note">Player-credited goals over scoreline goals, all finished
+          matches with a score. Not a league table and not derived from one.</span></caption>
+      <thead><tr><th>Competition</th><th class="n">Credited</th><th class="n">Scoreline</th>
+        <th class="n">Ratio</th></tr></thead>
+      <tbody><tr><td class="who">CPL</td><td class="n">208</td><td class="n">213</td><td class="n">0.977</td></tr><tr><td class="who">HUN</td><td class="n">1,791</td><td class="n">1,841</td><td class="n">0.973</td></tr><tr><td class="who">CRO</td><td class="n">2,773</td><td class="n">2,855</td><td class="n">0.971</td></tr><tr><td class="who">USLC</td><td class="n">7,448</td><td class="n">7,697</td><td class="n">0.968</td></tr><tr><td class="who">SRB</td><td class="n">4,912</td><td class="n">5,077</td><td class="n">0.968</td></tr><tr><td class="who">LIT</td><td class="n">1,613</td><td class="n">1,669</td><td class="n">0.966</td></tr><tr><td class="who">CZE</td><td class="n">3,096</td><td class="n">3,208</td><td class="n">0.965</td></tr><tr><td class="who">ROU</td><td class="n">3,158</td><td class="n">3,271</td><td class="n">0.965</td></tr><tr><td class="who">UPL</td><td class="n">647</td><td class="n">671</td><td class="n">0.964</td></tr><tr><td class="who">EKS</td><td class="n">4,042</td><td class="n">4,192</td><td class="n">0.964</td></tr><tr><td class="who">LAT</td><td class="n">1,949</td><td class="n">2,024</td><td class="n">0.963</td></tr><tr><td class="who">EST</td><td class="n">1,870</td><td class="n">1,945</td><td class="n">0.961</td></tr><tr><td class="who">SVK</td><td class="n">1,642</td><td class="n">1,725</td><td class="n">0.952</td></tr></tbody>
+    </table>
+  </div>
+</section>
+<section id="limits">
+  <span class="eyebrow">08 · Stated limits</span>
+  <h2>What we don't have, and won't fake</h2>
+  <p class="lede mt4">These are the limits of the data underneath every Latent product.
+    Each is stated in any report it touches. None is ever papered over with an invented
+    number, and this list is maintained as the working defect log, not as marketing.</p>
+  <ul class="m-limits mt5">
+    <li><strong>No event locations, so no expected goals, heatmaps or pass maps</strong>
+      We hold event counts, not pitch coordinates. Producing those charts would mean
+      inventing the underlying geometry, so we don't produce them at all.</li>
+    <li><strong>No physical or tracking data</strong>
+      No distances, sprint counts or load. Where a question needs them, the report says
+      the data does not exist rather than proxying it from something else.</li>
+    <li><strong>No injury data: minutes gaps are an availability signal only</strong>
+      We flag stretches where a player's club played at least three matches without him.
+      The cause (injury, suspension, registration, selection) is not recorded anywhere
+      in our sources and is never asserted. Calling these "injury history" would be a
+      false claim.</li>
+    <li><strong>No contract data in the match database</strong>
+      Where contract status matters to a valuation, the report says it must be verified
+      with the club or agent. In the destination-squad snapshot, contract end dates are
+      published by the source for a large minority of players in two of the destination
+      markets (58% and 64% coverage), so "contracts expiring" counts there are floors,
+      never totals.
+      <span class="ev">Every other destination market: 82%+.</span></li>
+    <li><strong>No league tables</strong>
+      A table rebuilt from our match results can disagree with the official one, because
+      awarded and technical results appear in a standings feed and not in match data.
+      Rather than publish a table a visitor could check and find wrong, we publish none.
+      The same figures are still safe as an opposition-strength <em>weight</em>, which is
+      the only place they are used.
+      <span class="ev">Observed: 5 of 10 clubs off by 1–3 points in one in-progress
+        season.</span></li>
+    <li><strong>Ball-carry data exists only where it is collected</strong>
+      See the table in section 02. Where it is absent or partial, carry metrics are
+      suppressed rather than estimated, and no carry-based claim is made about a
+      competition that has none.</li>
+    <li><strong>Goalkeepers have no index, style, comparables or valuation</strong>
+      Our metric set contains no shot-stopping, so a goalkeeper archetype or valuation
+      would be fabricated. Goalkeepers get keeper-against-keeper percentiles on what we
+      do measure, and nothing else, until a goalkeeping metric set exists.</li>
+    <li><strong>Market value is matched by name, and the value model has no support at
+      the top</strong>
+      Our match database holds no market-value field, so values come from the transfer
+      source, joined by name. The valuation residual model is fitted on a market whose
+      mass sits well below €3m; above that it is out of support and we say so on the
+      output. A large positive residual on an expensive player means the market is
+      pricing something domestic percentiles do not measure; it does not mean
+      "overpriced".
+      <span class="ev">Fit: R²(log) 0.41, median absolute log residual 0.17
+        (about ±50%), n = 2,864.</span></li>
+    <li><strong>Corridor median fees are frequently zero</strong>
+      On most corridors out of our markets the median fee is literally €0: free
+      transfers dominate. A median like that describes the corridor's habit, not a
+      player's worth, so fee ranges are built only from comparables that carried an
+      actual fee, and a €0 median is never presented as a valuation.</li>
+    <li><strong>Post-move minutes are a reference share, not an exact one</strong>
+      We do not hold destination-league match counts, so post-move playing time is
+      expressed against a 34-match reference season. The shares are comparable with each
+      other and captioned as such, never as "share of his club's minutes".</li>
+    <li><strong>Destination squads are a point-in-time snapshot</strong>
+      Squad depth, ages and values behind any destination shortlist are current as of the
+      snapshot date printed with them
+      (2026-08-14). A snapshot older than 14 days
+      re-scrapes automatically before a shortlist is computed, but a report read months
+      later is reading that day's squads.</li>
+    <li><strong>Identity between our data and the transfer records is a name match</strong>
+      No shared identifier exists between the two, so players are joined by
+      accent-stripped name plus birth year, and ambiguous names are dropped rather than
+      guessed. Transliterated names fail silently. This limits the backtest, the ledger
+      and every comparable-player outcome, in the same direction each time: it loses
+      real matches, it does not invent them.</li>
+    <li><strong>The opposition adjustment is coarse</strong>
+      Opponent quality is points-per-match from our own results, bounded to ±5% of the
+      composite. Squad-value data for our own clubs was never collected, so nothing finer
+      is available, and early in a season the input is noisy.</li>
+    <li><strong>A handful of matches carry no usable data, permanently</strong>
+      Three matches across the database are recorded as finished with no scoreline and no
+      statistics at source; two more carry a scoreline but no player statistics and
+      cannot be repaired. Four goals are unattributable as a result. No player metric is
+      affected (no statistics means nothing enters a season total), but a match count
+      is off by those matches where they fall.</li>
+    <li><strong>The statistics source is an unofficial public endpoint</strong>
+      It is undocumented and could close. We mitigate by caching everything we read,
+      requesting slowly, and publishing only our own derived metrics, never the
+      source's own player rating. Licensed event data is the upgrade path once revenue
+      justifies it, and it would remove several of the limits above.</li>
+  </ul>
+</section>
+<section id="reproduce">
+  <span class="eyebrow">09 · Reproducing it</span>
+  <h2>Check us</h2>
+  <p class="lede mt4">The two pages that exist to be checked are this one and the ledger.
+    Everything on both is generated from the databases at build time, so neither can
+    drift from what the data says without the build changing.</p>
+  <dl class="kv mt5">
+    <dt>Ledger</dt><dd>300 published flags,
+      99 of them gradeable, with the date each was first
+      published and an explicit "too early to grade" state.
+      <a href="ledger.html">Open the ledger</a> ·
+      <a href="ledger_state.json">the raw flag record</a>.</dd>
+    <dt>Level backtest</dt><dd><span class="num">pipeline/level.py backtest</span>:
+      rebuilds the numbers in section 06 from the same tables, including the per-move
+      rows behind them.</dd>
+    <dt>Percentiles</dt><dd>Every percentile on the site is printed with its cohort size.
+      If a cohort looks too small to you, it is stated rather than hidden, and below ten
+      it is not published at all.</dd>
+    <dt>Contradictions</dt><dd>If a number on this site disagrees with something you can
+      verify, tell us and we will publish the correction here rather than quietly change
+      it. <a href="mailto:info@latentscouting.com">info@latentscouting.com</a></dd>
+  </dl>
+  <p class="mt6"><a class="btn" href="index.html#enquire"><span>Commission a report</span></a>
+    <a class="btn btn-ghost" href="ledger.html"><span>The flag ledger</span></a></p>
+</section>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <a class="mark" href="index.html"><svg class="mark-glyph" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><path class="g-leg" d="M17 88 L38 88 L52 50 L42 24 Z"/><path class="g-main" d="M35 12 L56 12 L85 88 L64 88 Z"/></svg>Latent</a>
+        <p class="mt3">Hidden value, measured.</p>
+        <p class="mt2"><a href="mailto:info@latentscouting.com">info@latentscouting.com</a></p>
+      </div>
+      <div class="foot-col">
+        <h5>Data</h5>
+        <ul>
+          <li><a href="players/index.html">Player database</a></li>
+          <li><a href="methodology.html">Methodology</a></li>
+          <li><a href="ledger.html">Hit-rate ledger</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Reports</h5>
+        <ul>
+          <li><a href="full-report.html">Full report</a></li>
+          <li><a href="club-report.html">Club report</a></li>
+          <li><a href="plans.html">Plans</a></li>
+          <li><a href="index.html#enquire">Enquire</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="foot-note">
+      Every figure on this site is generated from our own match-level database and is
+      reproducible from it. Percentiles are computed within a single competition and
+      season and are never compared across competitions. Stated limits are published in
+      full on the <a href="methodology.html">methodology</a> page.
+      © <span class="num">2026</span> Latent Scouting ·
+      <a href="terms.html">Terms</a> ·
+      <a href="privacy.html">Privacy</a>
+    </p>
+  </div>
+</footer>
+
+<script src="assets/motion.js" defer></script>
+</body>
+</html>

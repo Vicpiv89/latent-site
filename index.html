@@ -1,0 +1,615 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Latent · Scouting intelligence, measured</title>
+<meta name="description" content="407,495 player-match stat lines rebuilt into per-90s, within-competition percentiles and one export-readiness score across 13 competitions. The method and the limits are published.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230A0A0A'/%3E%3Cpath d='M17%2088L38%2088L52%2050L42%2024Z' fill='white'/%3E%3Cpath d='M35%2012L56%2012L85%2088L64%2088Z' fill='%232FA3EC'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#FFFFFF">
+<meta property="og:image" content="https://latentscouting.com/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preload" href="assets/fonts/inter-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="styles.css">
+<script>document.documentElement.classList.add('js')</script>
+<meta property="og:title" content="Latent · Scouting intelligence, measured">
+<meta property="og:description" content="407,495 player-match stat lines rebuilt into per-90s, within-competition percentiles and one export-readiness score across 13 competitions. The method and the limits are published.">
+<meta property="og:type" content="website">
+<style>
+/* D2 · homepage layout only — colour/type/shadow all come from styles.css */
+
+/* ---- hero: the free-report shape (Vic 2026-09-03). One carbon slab, copy
+   left, one real report page right, a sky-rule stat row underneath. The dotted
+   player-season field that used to sit behind the wordmark is gone. ---- */
+.hero-ink { display:grid; grid-template-columns: 1.1fr .9fr; gap: clamp(28px,4vw,64px); align-items:start; }
+.hero-ink h1 { font-size: clamp(34px, 1.6rem + 3.4vw, 76px); line-height:.98; letter-spacing:-.03em; margin-bottom: var(--s4); text-wrap:balance; color: var(--ink); }
+.hero-ink .lede { max-width: 52ch; }
+.hero-facts { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: var(--s4) var(--s5); margin-top: var(--s6); }
+.hero-shot { display:block; box-shadow: 8px 8px 0 var(--sky); border:1px solid rgba(255,255,255,.34); overflow:hidden; background:#fff; }
+.hero-shot img { display:block; width:100%; height:auto; }
+.hero-cta { display:flex; gap: var(--s3); flex-wrap:wrap; margin-top: var(--s5); }
+.hero-meta { margin-top: var(--s5); font-size: var(--t-xs); color: var(--ink-3); }
+@media (max-width: 860px) {
+  .hero-ink { grid-template-columns: minmax(0,1fr); }
+  .hero-shot { max-width: 520px; }
+}
+@media (max-width: 560px) {
+  .hero-facts { grid-template-columns: minmax(0,1fr); }
+  .hero-cta .btn { width: 100%; justify-content: center; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   DECK REGISTER — everything below the landing panel
+   Lifted from the "Who Pays Latent" deck (Vic, 2026-08-15: "i like the style
+   of that more than the website's content itself... i think its the minimalism
+   that makes it so nice"). The deck already ran D1's tokens, so nothing here
+   introduces a colour or a face — what changes is DENSITY:
+
+     · one idea per section, and one component under it
+     · sections breathe at clamp(72px, 11vh, 132px) instead of a fixed step
+     · headings run to 50px; ledes cap at 60ch and stop
+     · caveats become .foot small print, never a boxed callout mid-page
+     · figures are a sky rule and a number, not a bordered tile
+     · the ground barely moves: mostly white, tint alternating, wash once,
+       ink once at the close
+
+   The one rule to keep: this scope MUST NOT delete a stated limit. Every
+   caveat that used to sit in a .callout is still on the page — it moved into
+   .foot. Cutting the number of words is the brief; cutting the honesty is not.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.sec { padding: clamp(72px,11vh,132px) 0; border-bottom: 1px solid var(--line); }
+.sec:last-of-type { border-bottom: 0; }
+.sec.tint { background: var(--surface-2); border-bottom-color: transparent; }
+.sec.wash { background: var(--surface-2); border-bottom-color: transparent; }
+/* Inverting a band means inverting the ACCENT too, not just the ink. --sky-ink is
+   tuned to clear AA on white and measures 3.5:1 on carbon, so links inside this
+   band (the Instagram/X lines) failed until --accent moved to --sky-bright. Any
+   future inverted surface must do the same. */
+.sec.ink {
+  --surface: #141414; --surface-2: #1C1C1C;
+  --ink: #FFFFFF; --ink-2: rgba(255,255,255,.76); --ink-3: rgba(255,255,255,.56);
+  --line: rgba(255,255,255,.16); --line-strong: rgba(255,255,255,.34);
+  --accent: var(--sky-bright); --accent-hover: #FFFFFF; --on-accent: #0A0A0A;
+  --focus: var(--sky-bright);
+  background: var(--carbon); color: #FFFFFF; border-bottom-color: transparent;
+}
+.sec.ink a { color: var(--sky-bright); }
+.sec.ink .btn { background: var(--sky); border-color: var(--sky); color: #0A0A0A; }
+.sec.ink .btn:hover { background: #FFFFFF; border-color: #FFFFFF; color: #0A0A0A; }
+.sec.ink .btn-ghost { background: transparent; color: #FFFFFF; border-color: rgba(255,255,255,.42); }
+.sec.ink .btn-ghost:hover { background: rgba(255,255,255,.10); border-color: #FFFFFF; color: #FFFFFF; }
+.sec.ink .eyebrow { color: var(--sky-bright); }
+.sec.ink .stat { border-left-color: var(--sky-bright); }
+
+.sec .eyebrow { display:block; margin-bottom: var(--s4); }
+.sec h2 {
+  font-size: clamp(27px, 1.5rem + 1.9vw, 50px); font-weight: 800;
+  line-height: 1.04; letter-spacing: -.03em; margin-bottom: var(--s4);
+  text-wrap: balance; max-width: 26ch;
+}
+.sec .lede {
+  font-size: clamp(17px, 1rem + .5vw, 22px); line-height: 1.45;
+  letter-spacing: -.011em; color: var(--ink-2); max-width: 60ch;
+}
+.sec .head { margin-bottom: clamp(28px, 5vh, 56px); }
+
+/* small print under a component: where every stated limit now lives */
+.foot {
+  margin-top: clamp(22px, 3.5vh, 34px); padding-top: var(--s3);
+  border-top: 1px solid var(--line);
+  font-size: var(--t-2xs); line-height: 1.55; color: var(--ink-3); max-width: 88ch;
+}
+.foot a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.foot + .foot { margin-top: var(--s3); border-top: 0; padding-top: 0; }
+
+/* a figure is a sky rule and a number — no box, no shadow */
+.stat { border-left: 3px solid var(--sky); padding-left: var(--s3); }
+.stat .v {
+  display: block; font-family: var(--f-num); font-variant-numeric: tabular-nums;
+  font-weight: 800; font-size: clamp(26px, 1.3rem + 1.5vw, 42px);
+  line-height: 1.02; letter-spacing: -.03em; color: var(--ink);
+}
+.stat .k {
+  display: block; font-size: 12.5px; line-height: 1.35;
+  color: var(--ink-3); margin-top: var(--s1);
+}
+
+ul.tick { list-style: none; padding: 0; margin: 0; display: grid; gap: 9px; }
+ul.tick li {
+  position: relative; padding-left: 22px; font-size: 15px;
+  line-height: 1.45; color: var(--ink-2);
+}
+ul.tick li::before {
+  content: ""; position: absolute; left: 0; top: .55em;
+  width: 9px; height: 9px; background: var(--sky); border-radius: 2px;
+}
+ul.tick li b { color: var(--ink); font-weight: 600; }
+
+.quote {
+  border-left: 3px solid var(--sky); padding-left: var(--s5);
+  font-size: clamp(19px, 1rem + .9vw, 30px); line-height: 1.3;
+  letter-spacing: -.02em; font-weight: 600; color: var(--ink);
+  max-width: 24ch;
+}
+.sec.ink .quote { border-left-color: var(--sky-bright); }
+
+/* cards: hairline, one sky edge, nothing else */
+.deck-card {
+  display: flex; flex-direction: column; align-items: flex-start;
+  background: var(--surface); border: 1px solid var(--line);
+  border-top: 4px solid var(--sky); border-radius: var(--radius);
+  padding: clamp(18px,1.8vw,26px);
+}
+.deck-card h3 { font-size: var(--t-xl); letter-spacing: -.018em; margin-bottom: var(--s3); }
+.deck-card p { font-size: 14.5px; color: var(--ink-2); }
+.deck-card .kicker {
+  display: block; font-family: var(--f-num); font-variant-numeric: tabular-nums;
+  font-weight: 800; font-size: var(--t-3xs); letter-spacing: .1em;
+  color: var(--sky-ink); margin-bottom: var(--s3);
+}
+/* The CTA sits on a common baseline across the row: `margin-top:auto` eats the
+   leftover height in the flex column. The minimum gap has to come from the
+   element ABOVE it — a `* + .btn { margin-top }` rule would out-specify `auto`
+   and drop each button back to natural flow, which staggers them by card. */
+.deck-card p, .deck-card ul.tick { margin-bottom: var(--s5); }
+.deck-card .btn { margin-top: auto; }
+.deck-card.quiet { border-top-color: var(--line-strong); background: transparent; }
+
+.grid-2 { display:grid; gap: clamp(14px,1.6vw,22px); grid-template-columns: repeat(2,minmax(0,1fr)); }
+.grid-3 { display:grid; gap: clamp(14px,1.6vw,22px); grid-template-columns: repeat(3,minmax(0,1fr)); }
+.grid-4 { display:grid; gap: clamp(14px,1.6vw,22px); grid-template-columns: repeat(4,minmax(0,1fr)); }
+.stat-row { display:grid; gap: clamp(16px,2vw,28px); grid-template-columns: repeat(4,minmax(0,1fr)); }
+.deck-split {
+  display: grid; grid-template-columns: minmax(0,.92fr) minmax(0,1.08fr);
+  gap: clamp(28px,4vw,64px); align-items: start;
+}
+@media (max-width: 940px) {
+  .grid-3, .grid-4, .stat-row { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .deck-split { grid-template-columns: minmax(0,1fr); gap: var(--s7); }
+}
+@media (max-width: 620px) {
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: minmax(0,1fr); }
+  .sec { padding: var(--s8) 0; }
+}
+
+/* tables lose their chrome: hairline rules, no zebra, no wrapper card */
+.sec .tbl-wrap { border: 0; border-radius: 0; background: transparent; overflow-x: auto; }
+.sec .tbl { border-collapse: collapse; width: 100%; }
+.sec .tbl th, .sec .tbl td {
+  border-bottom: 1px solid var(--line); padding: 13px 14px; background: transparent;
+}
+.sec .tbl thead th {
+  font-size: var(--t-3xs); text-transform: uppercase; letter-spacing: .13em;
+  color: var(--ink-3); font-weight: 700; border-bottom: 1px solid var(--line-strong);
+}
+.sec .tbl tbody tr:hover { background: var(--surface-2); }
+.sec .tbl tfoot td { border-bottom: 0; border-top: 1px solid var(--line-strong); font-weight: 600; }
+.sec .tbl caption {
+  text-align: left; padding: 0 0 var(--s3); font-weight: 700;
+  font-size: var(--t-md); letter-spacing: -.01em; color: var(--ink);
+}
+.sec .tbl caption .cap-note {
+  display: block; font-weight: 400; font-size: var(--t-2xs);
+  letter-spacing: 0; color: var(--ink-3); margin-top: 3px;
+}
+.board-grid { grid-template-columns: repeat(auto-fill, minmax(290px,1fr)); gap: clamp(24px,3vw,44px); }
+
+.live-split .livecard { box-shadow: var(--shadow); }
+
+/* the enquiry card carries its own field rhythm: D1's .field has no vertical
+   margin of its own, so without this every label sits on the input above it */
+/* free-report funnel block: copy left, one real report page right */
+.funnel { display:grid; grid-template-columns: 1.1fr .9fr; gap: clamp(28px,4vw,64px); align-items:center; }
+.funnel-shot { display:block; box-shadow: var(--shadow); border:1px solid var(--line-strong); overflow:hidden; background:#fff; max-height: 520px; }
+.funnel-shot img { display:block; width:100%; height:auto; }
+@media (max-width: 860px) { .funnel { grid-template-columns: minmax(0,1fr); } .funnel-shot { max-width: 520px; } }
+
+.enq-card { background: var(--surface); border-radius: var(--radius); padding: clamp(22px,2.4vw,38px); }
+/* The `>` is load-bearing. Without it, `.field + .field` also matches the two
+   fields INSIDE a .field-pair, so the right-hand one takes a 24px top margin and
+   the pair renders visibly staggered — labels and inputs one line out of step. */
+.enq-card > .field + .field,
+.enq-card > .field-pair + .field,
+.enq-card > .field + .field-pair,
+.enq-card > .field-pair + .field-pair { margin-top: var(--s5); }
+.field-pair { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s4); align-items: start; }
+@media (max-width: 620px) { .field-pair { grid-template-columns: 1fr; } }
+
+/* The close is an ink band and the footer is ink too, so D1's footer margin was
+   drawing a white stripe between two black surfaces. This CSS block is inlined
+   only into the pages this file emits, so the bare sibling selector never
+   reaches the rest of the site, which still wants the margin. */
+main + .site-footer { margin-top: 0; }
+
+/* board captions are competition codes, not prose — D1 sets tables in italic */
+.sec .tbl caption { font-style: normal; }
+.livecard .pbars { margin-top: var(--s4); }
+.livecard .lvl { display: flex; align-items: baseline; gap: var(--s3); flex-wrap: wrap;
+                 margin-top: var(--s4); padding-top: var(--s4); border-top: 1px solid var(--line); }
+.board-grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--s6) var(--s5); }
+.sample-stats { margin-top: var(--s4); }
+.sample-case { margin-top: var(--s4); }
+.cadence { margin-top: var(--s6); }
+.enq-grid { grid-template-columns: 1.25fr .75fr; align-items: start; gap: var(--s6); }
+/* spacing between the form's own rows only — never between the two halves of a
+   pair, which must stay top-aligned with each other */
+.enq-grid form > .field + .field,
+.enq-grid form > .field-pair + .field,
+.enq-grid form > .field + .field-pair,
+.enq-grid form > .field-pair + .field-pair { margin-top: var(--s4); }
+.field-pair { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s4); align-items: start; }
+@media (max-width: 980px) { .enq-grid { grid-template-columns: 1fr; } }
+@media (max-width: 620px) { .field-pair { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-nav">
+  <div class="wrap">
+    <a class="mark" href="index.html"><svg class="mark-glyph" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><path class="g-leg" d="M17 88 L38 88 L52 50 L42 24 Z"/><path class="g-main" d="M35 12 L56 12 L85 88 L64 88 Z"/></svg>Latent</a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="players/index.html">Players</a>
+      <a href="full-report.html">Reports</a>
+      <a href="plans.html">Plans</a>
+      <a href="methodology.html">Methodology</a>
+      <a href="ledger.html">Ledger</a>
+    </nav>
+    <a class="btn btn-sm nav-cta" href="index.html#enquire"><span>Enquire</span></a>
+  </div>
+</header>
+
+<main id="main">
+
+
+<!-- ============================ HERO ==================================== -->
+<section class="sec ink" id="top">
+  <div class="wrap hero-ink">
+    <div>
+      <p class="eyebrow">Scouting intelligence, measured</p>
+      <h1>Scouting intelligence for the leagues nobody watches</h1>
+      <p class="lede">Every player, every match, rebuilt into per-90s,
+        within-competition percentiles and one export-readiness score, with the
+        method, the backtest and the limits published in full.</p>
+      <div class="hero-cta">
+        <a class="btn btn-lg" href="free-report.html"><span>Request a free report</span></a>
+        <a class="btn btn-lg btn-ghost" href="players/index.html"><span>Browse
+          8,924 player profiles</span></a>
+      </div>
+      <div class="hero-facts">
+        <div class="stat"><span class="v">407,495</span>
+          <span class="k">player-match stat lines</span></div>
+        <div class="stat"><span class="v">13,401</span>
+          <span class="k">matches ingested</span></div>
+        <div class="stat"><span class="v">13</span>
+          <span class="k">competitions</span></div>
+        <div class="stat"><span class="v">3,034</span>
+          <span class="k">moves abroad tracked</span></div>
+      </div>
+      <p class="hero-meta">Read live from the database. Last match ingested
+        <span class="num">27 Aug 2026</span>.</p>
+    </div>
+    <a class="hero-shot" href="reports/isaque-full-report.html" aria-label="Read a published sample report">
+      <img src="assets/thumbs/isaque_top.jpg" alt="The opening page of a published report" width="760" height="1140">
+    </a>
+  </div>
+</section>
+
+<!-- ============================ 02 · WHO IT IS FOR ======================= -->
+<section class="sec tint" id="who">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">Who it is for</p>
+      <h2>Three people ask the same question</h2>
+      <p class="lede">Is this player better than the market thinks, and what is that
+        worth? The document changes shape depending on which side of the table you
+        sit on.</p>
+    </div>
+    <div class="grid-3">
+      <div class="deck-card">
+        <span class="kicker">BUYER 01</span>
+        <h3>Agents</h3>
+        <p>Where your client ranks, which squads abroad have the gap he fills, and what his profile actually sold for.</p>
+        <a class="btn btn-sm" href="full-report.html"><span>See the Full Report →</span></a>
+      </div>
+      <div class="deck-card">
+        <span class="kicker">BUYER 02</span>
+        <h3>Clubs</h3>
+        <p>The negotiation-room document: does he improve your squad, who does he displace, and how does he compare with the shortlist.</p>
+        <a class="btn btn-sm" href="club-report.html"><span>See the Club Report →</span></a>
+      </div>
+      <div class="deck-card">
+        <span class="kicker">BUYER 03</span>
+        <h3>Players</h3>
+        <p>The same document a club would read about you: where your season ranks and what the market pays for it.</p>
+        <a class="btn btn-sm" href="#enquire"><span>Request yours →</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 03 · THE LIVE READ ======================= -->
+<section class="sec" id="live">
+  <div class="wrap deck-split">
+    <div>
+      <p class="eyebrow">Not a screenshot</p>
+      <h2>The top-ranked player, right now</h2>
+      <p class="lede">Whoever leads the Latent Level as this page builds — the one
+        number here that survives leaving its own league, a within-league score
+        carrying the coefficient we fitted from players who actually crossed.
+        Drawn from the last two seasons of every competition we hold, and only from
+        players past <span class="num">1,500</span> minutes in one:
+        a rating built on a quarter of a season is not wrong, but it is not what we
+        would put a name to.</p>
+      <p style="margin-top:clamp(28px,4.5vh,48px)"><a class="btn btn-ghost"
+        href="data.html"><span>What is actually in the database →</span></a></p>
+    </div>
+    <div>
+      <div class="panel panel-flush panel-hard livecard">
+        <div class="panel-head">
+          <span class="eyebrow">Highest Latent Level on a full season</span>
+          <span class="chip"><span class="num">935</span></span>
+        </div>
+        <div class="panel-body">
+          <h2>Sampson Dweh</h2>
+          <p class="meta mt2">CZE · FC Viktoria Plzeň · 25/26<br>
+            Defender · 24 ·
+            <span class="num">2,214</span> min ·
+            <span class="num">27</span> apps</p>
+          <div class="pbars">
+            <div class="pbar" data-tier="high"><span class="pb-label">Duels won</span><span class="pb-value">63%</span><span class="pb-track"><span class="pb-fill" style="--w:88%"></span></span><span class="pb-pct">88</span></div>
+            <div class="pbar" data-tier="elite"><span class="pb-label">Recoveries /90</span><span class="pb-value">4.8</span><span class="pb-track"><span class="pb-fill" style="--w:90%"></span></span><span class="pb-pct">90</span></div>
+            <div class="pbar" data-tier="high"><span class="pb-label">Clearances /90</span><span class="pb-value">5.9</span><span class="pb-track"><span class="pb-fill" style="--w:80%"></span></span><span class="pb-pct">80</span></div>
+            <div class="pbar" data-tier="elite"><span class="pb-label">Pass accuracy</span><span class="pb-value">88%</span><span class="pb-track"><span class="pb-fill" style="--w:94%"></span></span><span class="pb-pct">94</span></div>
+          </div>
+          <div class="lvl"><span class="label">Cohort average</span><span class="num num-lg num-strong">443</span><span class="meta">CZE defenders, 25/26 — this Level runs <span class="num">+492</span> against it</span></div>
+        </div>
+        <div class="panel-foot"><span>The Level carries the coefficient we fitted for
+          CZE, so it reads against every competition we hold
+          (<span class="num">n=119</span> in cohort). The percentiles
+          above do not: they rank only inside CZE defenders,
+          25/26, <span class="num">n=119</span> past
+          <span class="num">270</span> minutes.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 04 · WHAT WE SELL (SLIM) ================= -->
+<section class="sec wash" id="reports">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">For agents · clubs · players</p>
+      <h2>The boards are the surface. A report goes to the bottom of it.</h2>
+      <p class="lede">One player, nine sections: where he ranks, what he is worth,
+        who should buy. Or the same depth on one target team. Four are published
+        whole.</p>
+    </div>
+    <p>
+      <a class="btn" href="reports.html"><span>The reports, in full</span></a>
+      <a class="btn btn-ghost" href="plans.html" style="margin-left:var(--s3)"><span>Plans and pricing</span></a>
+    </p>
+    <p class="foot">No public price list: scoped and quoted within
+      <span class="num">24</span> hours, delivered within
+      <span class="num">48</span>. Every report closes with a stated-limits section;
+      <a href="methodology.html">how every number is made is public</a>.</p>
+  </div>
+</section>
+
+<!-- ============================ 07b · FREE REPORT ======================= -->
+<section class="sec ink" id="free-report">
+  <div class="wrap funnel">
+    <div class="head" style="margin-bottom:0">
+      <p class="eyebrow">Free report</p>
+      <h2>One player, the full report, free.</h2>
+      <p class="lede">Send a player's Transfermarkt link and the decision the report
+        has to support. The same nine-section document our clients pay for comes
+        back as a PDF within <span class="num">48</span> hours, or a reply saying he
+        is outside our data.</p>
+      <p class="mt5">
+        <a class="btn btn-lg" href="free-report.html"><span>Request a free report</span></a>
+        <a class="btn btn-lg btn-ghost" href="plans.html" style="margin-left:var(--s3)"><span>See the plans</span></a>
+      </p>
+    </div>
+    <a class="funnel-shot" href="free-report.html" aria-label="Request a free report">
+      <img src="assets/thumbs/isaque_top.jpg" alt="The opening page of a published report" loading="lazy" width="760" height="1140">
+    </a>
+  </div>
+</section>
+
+<!-- ============================ 08 · RECEIPTS =========================== -->
+<section class="sec tint" id="proof">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">Receipts</p>
+      <h2>The method is published. So is the backtest.</h2>
+      <p class="lede">Everyone in this market hides their model. Ours is replayed in
+        public against real transfers, weak results included.</p>
+    </div>
+    <div class="stat-row">
+        <div class="stat"><span class="v">2,053</span>
+          <span class="k">transfers replayed, scored on the rating held
+            <em>before</em> the move</span></div>
+        <div class="stat"><span class="v">+0.268</span>
+          <span class="k">rating vs fee paid, Spearman on
+            <span class="num">905</span> disclosed fees</span></div>
+        <div class="stat"><span class="v">41% / 27%</span>
+          <span class="k">top vs bottom quartile holding
+            <span class="num">1,350+</span> minutes at the new club
+            (n=<span class="num">511</span>/<span class="num">515</span>)</span></div>
+        <div class="stat"><span class="v">+0.116</span>
+          <span class="k">the weak result, published: rating vs minutes retention,
+            all <span class="num">2053</span> moves. Not a prediction of
+            who sticks</span></div>
+    </div>
+    <p class="foot">Method <span class="num">level-v2.3</span>, run
+      <span class="num">2 Sep 2026</span>. A hit:
+      dest league minutes &gt;= 1350 in best of first two seasons. Identity is joined on name plus birth year;
+      retention is availability-inclusive, so injuries count as failures. Full
+      derivation and every stated limit on the methodology page.</p>
+    <p style="margin-top:clamp(28px,4vh,44px)">
+      <a class="btn" href="methodology.html"><span>Read the methodology</span></a>
+      <a class="btn btn-ghost" href="ledger.html" style="margin-left:var(--s3)"><span>The public ledger</span></a>
+    </p>
+  </div>
+</section>
+
+<!-- ============================ 06 · OBJECTIONS ========================== -->
+<section class="sec" id="objections">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">Asked every time, answered here</p>
+      <h2>The three questions every first conversation opens with</h2>
+    </div>
+    <div class="grid-3">
+      <div class="deck-card">
+        <span class="kicker">“WHO ARE YOU?”</span>
+        <h3>Check us before you pay us</h3>
+        <p>Four reports published whole, the method in public, every flag
+          timestamped <em>before</em> the move. Pick a player you already know and
+          check us against him.</p>
+        <a class="btn btn-sm" href="reports.html#samples"><span>Read the published work →</span></a>
+      </div>
+      <div class="deck-card">
+        <span class="kicker">“WE ALREADY HAVE DATA”</span>
+        <h3>You have a seat. This is an answer.</h3>
+        <p>A licence hands you raw feeds and the job of reading them. A report
+          arrives read: the gap, the why, and what comparable moves sold for.</p>
+        <a class="btn btn-sm" href="full-report.html"><span>What a report answers →</span></a>
+      </div>
+      <div class="deck-card">
+        <span class="kicker">“WHAT DOES IT COST?”</span>
+        <h3>Less than deciding blind</h3>
+        <p>Quoted within <span class="num">24</span> hours. Less than one scouting
+          trip, a fraction of a data licence. Half of all transfers fail; the
+          expensive option is guessing.</p>
+        <a class="btn btn-sm" href="#enquire"><span>Get a quote →</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 10 · ENQUIRE ============================ -->
+<section class="sec ink" id="enquire">
+  <span id="request" class="sr-only"></span>
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">Get the full picture</p>
+      <h2>Send a player. Get the data back in 48 hours.</h2>
+      <p class="lede">Send the player's Transfermarkt link and the decision the report
+        has to support. We reply within <span class="num">24</span> hours with scope
+        and a quote. There is no public price list.</p>
+    </div>
+    <div class="grid-2">
+      <form class="enq-card" name="report-request" method="POST" action="https://formsubmit.co/vpivtoran1@gmail.com">
+        <input type="hidden" name="_subject" value="LATENT: report request">
+        <input type="hidden" name="_next" value="https://latentscouting.com/thanks.html">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+        <div class="field-pair">
+          <label class="field"><span class="field-label">Name</span>
+            <input name="name" type="text" required autocomplete="name"></label>
+          <label class="field"><span class="field-label">Email</span>
+            <input name="email" type="email" required autocomplete="email"></label>
+        </div>
+        <div class="field-pair">
+          <label class="field"><span class="field-label">I am</span>
+            <select name="role" required>
+              <option value="">Select…</option>
+              <option>An agent / intermediary</option>
+              <option>Club staff</option>
+              <option>A player</option>
+              <option>Media</option>
+              <option>Other</option>
+            </select></label>
+          <label class="field"><span class="field-label">Product of interest</span>
+            <select name="product" required>
+              <option value="">Select…</option>
+              <option>Full Report</option>
+              <option>Club Report</option>
+              <option>Ongoing coverage: per match</option>
+              <option>Ongoing coverage: monthly</option>
+              <option>Ongoing coverage: per season</option>
+              <option>Not sure yet</option>
+            </select></label>
+        </div>
+        <label class="field"><span class="field-label">Transfermarkt link to the player
+            <span class="field-req">*</span></span>
+          <input name="transfermarkt_link" type="url" required inputmode="url"
+            pattern="https?://.*transfermarkt\..*" placeholder="https://www.transfermarkt.com/…"
+            title="A link to the player's Transfermarkt profile, e.g. https://www.transfermarkt.com/oleh-kozhushko/profil/spieler/…">
+          <span class="field-note">The one link that identifies the player beyond
+            doubt. For a Club Report, name the target club below.</span></label>
+        <label class="field"><span class="field-label">What should the report answer?</span>
+          <textarea name="message" rows="3" placeholder="e.g. Is he an upgrade on the wingers a mid-table side in our division already has?"></textarea></label>
+        <button class="btn mt5" type="submit"><span>Send request</span></button>
+      </form>
+      <div>
+        <ul class="tick">
+          <li><b>The weekly digest</b>: flagged players, Export Index movers, and the
+            numbers behind the transfer noise. Free.</li>
+          <li><b>Or just send a name</b>: DMs are open on
+            <a href="https://instagram.com/latent.scouting">Instagram</a>.</li>
+        </ul>
+        <form class="enq-card" name="digest" method="POST" style="margin-top:var(--s6)"
+              action="https://formsubmit.co/vpivtoran1@gmail.com">
+          <input type="hidden" name="_subject" value="LATENT: digest signup">
+          <input type="hidden" name="_next" value="https://latentscouting.com/thanks.html">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+          <label class="field"><span class="field-label">Email</span>
+            <input name="email" type="email" required autocomplete="email"></label>
+          <button class="btn btn-ghost mt4" type="submit"><span>Subscribe to the digest</span></button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <a class="mark" href="index.html"><svg class="mark-glyph" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><path class="g-leg" d="M17 88 L38 88 L52 50 L42 24 Z"/><path class="g-main" d="M35 12 L56 12 L85 88 L64 88 Z"/></svg>Latent</a>
+        <p class="mt3">Hidden value, measured.</p>
+        <p class="mt2"><a href="mailto:info@latentscouting.com">info@latentscouting.com</a></p>
+      </div>
+      <div class="foot-col">
+        <h5>Data</h5>
+        <ul>
+          <li><a href="players/index.html">Player database</a></li>
+          <li><a href="methodology.html">Methodology</a></li>
+          <li><a href="ledger.html">Hit-rate ledger</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Reports</h5>
+        <ul>
+          <li><a href="full-report.html">Full report</a></li>
+          <li><a href="club-report.html">Club report</a></li>
+          <li><a href="plans.html">Plans</a></li>
+          <li><a href="index.html#enquire">Enquire</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="foot-note">
+      Every figure on this site is generated from our own match-level database and is
+      reproducible from it. Percentiles are computed within a single competition and
+      season and are never compared across competitions. Stated limits are published in
+      full on the <a href="methodology.html">methodology</a> page.
+      © <span class="num">2026</span> Latent Scouting ·
+      <a href="terms.html">Terms</a> ·
+      <a href="privacy.html">Privacy</a>
+    </p>
+  </div>
+</footer>
+
+<script src="assets/motion.js" defer></script>
+</body>
+</html>

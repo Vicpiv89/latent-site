@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Club Report · Latent</title>
+<meta name="description" content="One player against one target squad: where he lands in it, the five incumbents he displaces, the league-context gap and head-to-head comps, each shown as a real excerpt from a published report.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230A0A0A'/%3E%3Cpath d='M17%2088L38%2088L52%2050L42%2024Z' fill='white'/%3E%3Cpath d='M35%2012L56%2012L85%2088L64%2088Z' fill='%232FA3EC'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#FFFFFF">
+<meta property="og:image" content="https://latentscouting.com/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="assets/fonts/inter-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="reports/engine.css">
+<script>document.documentElement.classList.add('js')</script>
+<style>
+/* page-unique layout only — tokens, no literals (site/STYLE.md §7) */
+.anat-grid{display:grid;grid-template-columns:200px minmax(0,1fr);gap:var(--s7);align-items:start}
+.anat-side{position:sticky;top:80px;display:grid;gap:var(--s5)}
+.anat-side .anchor-nav{position:static;top:auto}
+.anat-list{min-width:0}
+.anat{padding:var(--s7) 0;border-top:1px solid var(--line)}
+.anat:first-child{border-top:0;padding-top:0}
+.anat-head{display:grid;grid-template-columns:64px minmax(0,1fr);gap:var(--s4);align-items:start}
+.anat-no{font-family:var(--f-num);font-size:var(--t-2xl);color:var(--accent);line-height:1}
+.anat-q{font-size:var(--t-lg);color:var(--ink);margin-top:var(--s3);max-width:56ch}
+.anat-body{margin-top:var(--s5);padding-left:calc(64px + var(--s4))}
+.anat-copy{max-width:70ch;margin-bottom:var(--s5)}
+.anat-copy p + p{margin-top:var(--s3)}
+.cadence{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:var(--s4)}
+.hero-split{display:grid;grid-template-columns:1.05fr .95fr;gap:var(--s7);align-items:start}
+.toc{list-style:none;margin:0;padding:0;border-top:2px solid var(--ink)}
+.toc li{border-bottom:1px solid var(--line)}
+.toc a{display:flex;gap:var(--s3);align-items:baseline;padding:var(--s3) 0;color:var(--ink)}
+.toc a:hover{color:var(--accent);text-decoration:none}
+.toc .num{color:var(--ink-3);flex:none}
+.toc-note{padding:var(--s3) 0;font-size:var(--t-xs);color:var(--ink-3);border-bottom:0}
+.toc-note a{display:inline;padding:0;color:var(--accent);text-decoration:underline}
+@media (max-width:900px){.hero-split{grid-template-columns:1fr;gap:var(--s6)}}
+@media (max-width:900px){
+  .anat-grid{grid-template-columns:minmax(0,1fr);gap:var(--s5)}
+  .anat-side{position:static;top:auto}
+  .anat-side .anchor-nav{display:none}
+}
+@media (max-width:620px){
+  .anat-head{grid-template-columns:minmax(0,1fr);gap:var(--s2)}
+  .anat-body{padding-left:0}
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-nav">
+  <div class="wrap">
+    <a class="mark" href="index.html"><svg class="mark-glyph" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><path class="g-leg" d="M17 88 L38 88 L52 50 L42 24 Z"/><path class="g-main" d="M35 12 L56 12 L85 88 L64 88 Z"/></svg>Latent</a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="players/index.html">Players</a>
+      <a href="full-report.html" aria-current="page">Reports</a>
+      <a href="plans.html">Plans</a>
+      <a href="methodology.html">Methodology</a>
+      <a href="ledger.html">Ledger</a>
+    </nav>
+    <a class="btn btn-sm nav-cta" href="index.html#enquire"><span>Enquire</span></a>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ─────────────────────────────────────────────── hero -->
+<section class="band band-ink section">
+  <div class="wrap">
+    <div class="hero-split">
+      <div>
+        <span class="eyebrow">Report products · 02</span>
+        <h1 class="h-hero mt3">The Club<br>Report</h1>
+        <p class="lede mt4">One player against one target squad: does he improve
+          that team, and who exactly does he displace.</p>
+        <p class="lede mt3">Every section below is shown as a <strong>real excerpt from a
+          published Club Report</strong>. Nothing on this page is a mockup.</p>
+        <div class="row mt5">
+          <a class="btn btn-lg" href="index.html#enquire"><span>Request a report</span></a>
+          <a class="btn btn-lg btn-ghost" href="reports/oleh-kozhushko-club-report.html"><span>Read the published sample</span></a>
+        </div>
+      </div>
+      <ol class="toc">
+        <li><a href="#s1"><span class="num">01</span> Level vs target team</a></li>
+        <li><a href="#s2"><span class="num">02</span> Top 5 competitors for his minutes</a></li>
+        <li><a href="#s3"><span class="num">03</span> Comparison vs the destination league</a></li>
+        <li><a href="#s4"><span class="num">04</span> Comparison vs named players</a></li>
+        <li class="toc-note">Any <a href="full-report.html">Full Report</a> section can be
+          attached, valuation and fee comps included. Name it in the request.</li>
+      </ol>
+    </div>
+    <div class="tiles mt6">
+      <div class="tile"><span class="figure">4</span><span class="caption">Sections</span><span class="meta">Plus stated limits throughout</span></div>
+      <div class="tile"><span class="figure">48<span class="unit">h</span></span><span class="caption">Turnaround</span><span class="meta">From confirmation</span></div>
+      <div class="tile"><span class="figure">1</span><span class="caption">Named target club</span><span class="meta">Its real squad, not a league average</span></div>
+      <div class="tile tile-accent"><span class="figure">Quoted</span><span class="caption">On request</span><span class="meta">Priced per engagement</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────────── the anatomy -->
+<section class="section" id="anatomy">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">What's inside</span>
+      <h2>Section by section</h2>
+      <p class="lede">You name the player and the target club. The comparison runs
+        against the actual players he would be measured against, never a league
+        average. Any <a href="full-report.html">Full Report</a> section can be
+        attached; name it in the request.</p>
+    </div>
+
+    <div class="anat-grid">
+      <aside class="anat-side">
+        <nav class="anchor-nav" id="anat-nav" aria-label="Report sections">
+          <span class="label">The four sections</span>
+          <a href="#s1"><span class="num">01</span> Level vs target team</a>
+          <a href="#s2"><span class="num">02</span> Top 5 competitors</a>
+          <a href="#s3"><span class="num">03</span> Comparison vs league</a>
+          <a href="#s4"><span class="num">04</span> Comparison vs players</a>
+        </nav>
+        <div class="callout callout-quiet">
+          <span class="callout-title">Reading the excerpts</span>
+          <p>Every crop below comes from one published Club Report (Oleh Kozhushko measured
+            against Dynamo Kyiv), rendered in the report's own type.</p>
+        </div>
+      </aside>
+
+      <div class="anat-list">
+
+        <article class="anat" id="s1">
+          <header class="anat-head">
+            <span class="anat-no">01</span>
+            <div>
+              <h3>Level vs target team</h3>
+              <p class="anat-q">Is he an upgrade on what that club already has, or depth
+                priced as an upgrade?</p>
+            </div>
+          </header>
+          <div class="anat-body">
+            <div class="anat-copy">
+              <p>His output mapped directly onto the target squad: his per-90 numbers next to
+                the club's current baseline in his position, the depth and workload already
+                there, and where he would land in that squad's internal ranking on the metrics
+                that define his role.</p>
+              <p>When the two sides sit in different tiers, that is the first thing the section
+                says, and it then keeps the two profiles separate, each ranked inside its own
+                competition, rather than inventing an adjustment factor to blend them.</p>
+            </div>
+<!-- gen:excerpt:cr1 -->
+<figure class="xfig">
+  <div class="report-doc is-excerpt"><div class="tiles"><div class="tile"><span class="eyebrow">His 25/26 workload</span><div class="v">1,654<small> min</small></div><div class="sub">Persha Liha 25/26 (tier 2)</div></div><div class="tile"><span class="eyebrow">Shakhtar FW group</span><div class="v">3<small> players</small></div><div class="sub">Ukrainian Premier League (tier 1)</div></div><div class="tile"><span class="eyebrow">Most-used incumbent</span><div class="v">175<small> min</small></div><div class="sub">Kauã Elias</div></div></div><div class="bars"><div class="bar-row"><div class="bar-label">Goals /90<span>PL1 25/26 · n=46</span></div><div class="bar-val">0.38</div><div class="bar-track"><div class="bar-fill" style="width:81.5%;background:var(--sky)"></div></div><div class="bar-pct">82</div></div><div class="bar-row"><div class="bar-label">Assists /90<span>PL1 25/26 · n=46</span></div><div class="bar-val">0.16</div><div class="bar-track"><div class="bar-fill" style="width:83.7%;background:var(--sky)"></div></div><div class="bar-pct">84</div></div><div class="bar-row"><div class="bar-label">Shots /90<span>PL1 25/26 · n=46</span></div><div class="bar-val">2.83</div><div class="bar-track"><div class="bar-fill" style="width:85.9%;background:var(--sky)"></div></div><div class="bar-pct">86</div></div><div class="bar-row"><div class="bar-label">Shots on target /90<span>PL1 25/26 · n=46</span></div><div class="bar-val">1.31</div><div class="bar-track"><div class="bar-fill" style="width:85.9%;background:var(--sky)"></div></div><div class="bar-pct">86</div></div><div class="bar-row"><div class="bar-label">Shot conversion<span>PL1 25/26 · n=46</span></div><div class="bar-val">13%</div><div class="bar-track"><div class="bar-fill" style="width:55.4%;background:var(--sky)"></div></div><div class="bar-pct">55</div></div><div class="bar-row"><div class="bar-label">Key passes /90<span>PL1 25/26 · n=46</span></div><div class="bar-val">0.93</div><div class="bar-track"><div class="bar-fill" style="width:68.5%;background:var(--sky)"></div></div><div class="bar-pct">68</div></div></div></div>
+  <figcaption class="xcap">
+    <span class="label">Real excerpt</span>
+    <span>Oleh Kozhushko vs Dynamo Kyiv · §1 · squad framing and 6 ranked metrics · <a href="reports/oleh-kozhushko-club-report.html#sec-level_vs_target_team">read the section in full</a></span>
+  </figcaption>
+</figure>
+<!-- /gen:excerpt:cr1 -->
+          </div>
+        </article>
+
+        <article class="anat" id="s2">
+          <header class="anat-head">
+            <span class="anat-no">02</span>
+            <div>
+              <h3>Top 5 competitors</h3>
+              <p class="anat-q">Whose minutes is he actually taking?</p>
+            </div>
+          </header>
+          <div class="anat-body">
+            <div class="anat-copy">
+              <p>The players at the target club he would genuinely compete with, compared
+                head-to-head: output, usage, age and minutes share. This is the section a
+                negotiation turns on, because it replaces "we already have players there" with
+                names and numbers.</p>
+            </div>
+<!-- gen:excerpt:cr2 -->
+<figure class="xfig">
+  <div class="report-doc is-excerpt"><div class="table-scroll"><table><thead><tr><th>Player</th><th>Age</th><th>Competition</th><th class="n">Min</th><th class="n">Starts</th><th class="n">Goals /90</th><th class="n">Assists /90</th></tr></thead><tbody><tr><td>Kauã Elias</td><td class="n">20</td><td>UPL 26/27</td><td class="n">175 †</td><td class="n">2</td><td class="n">1.54</td><td class="n">0.00</td></tr><tr><td>Lassina Traoré</td><td class="n">25</td><td>UPL 26/27</td><td class="n">85 †</td><td class="n">1</td><td class="n">0.00</td><td class="n">0.00</td></tr><tr><td>Luca Meirelles</td><td class="n">19</td><td>UPL 26/27</td><td class="n">35 †</td><td class="n">0</td><td class="n">2.57</td><td class="n">0.00</td></tr><tr><td><strong>Oleh Kozhushko</strong></td><td class="n">28</td><td>PL1 25/26</td><td class="n">1,654</td><td class="n">22</td><td class="n">0.38</td><td class="n">0.16</td></tr></tbody></table></div></div>
+  <figcaption class="xcap">
+    <span class="label">Real excerpt</span>
+    <span>Oleh Kozhushko vs Dynamo Kyiv · §2 · 4 incumbents, first 7 of 11 columns · <a href="reports/oleh-kozhushko-club-report.html#sec-top5_competitors">read the section in full</a></span>
+  </figcaption>
+</figure>
+<!-- /gen:excerpt:cr2 -->
+          </div>
+        </article>
+
+        <article class="anat" id="s3">
+          <header class="anat-head">
+            <span class="anat-no">03</span>
+            <div>
+              <h3>Comparison vs league</h3>
+              <p class="anat-q">How far is the destination's standard from his current one, and
+                on which metrics is the gap real?</p>
+            </div>
+          </header>
+          <div class="anat-body">
+            <div class="anat-copy">
+              <p>Context for the jump: his rates against the positional baselines of the target
+                club's competition, so both sides can see the size of the step rather than
+                argue about it.</p>
+              <p class="note">Presented as raw-rate context with its limits stated. We never
+                print cross-league percentiles, and we don't invent a tier-adjustment factor to
+                make a comparison look cleaner than it is.</p>
+            </div>
+<!-- gen:excerpt:cr3 -->
+<figure class="xfig">
+  <div class="report-doc is-excerpt"><div class="caveat"><span class="eyebrow">League benchmark withheld</span><p>Only 2 FWs in the Ukrainian Premier League 26/27 have passed the minutes floor so far - below the 10-player cohort we publish an average from. The benchmark returns once the season fills out; his rank in his own league is shown instead.</p></div><div class="bars"><div class="bar-row"><div class="bar-label">Goals /90<span>PL1 25/26 · n=46</span></div><div class="bar-val">0.38</div><div class="bar-track"><div class="bar-fill" style="width:81.5%;background:var(--sky)"></div></div><div class="bar-pct">82</div></div><div class="bar-row"><div class="bar-label">Assists /90<span>PL1 25/26 · n=46</span></div><div class="bar-val">0.16</div><div class="bar-track"><div class="bar-fill" style="width:83.7%;background:var(--sky)"></div></div><div class="bar-pct">84</div></div><div class="bar-row"><div class="bar-label">Shots /90<span>PL1 25/26 · n=46</span></div><div class="bar-val">2.83</div><div class="bar-track"><div class="bar-fill" style="width:85.9%;background:var(--sky)"></div></div><div class="bar-pct">86</div></div><div class="bar-row"><div class="bar-label">Shots on target /90<span>PL1 25/26 · n=46</span></div><div class="bar-val">1.31</div><div class="bar-track"><div class="bar-fill" style="width:85.9%;background:var(--sky)"></div></div><div class="bar-pct">86</div></div><div class="bar-row"><div class="bar-label">Shot conversion<span>PL1 25/26 · n=46</span></div><div class="bar-val">13%</div><div class="bar-track"><div class="bar-fill" style="width:55.4%;background:var(--sky)"></div></div><div class="bar-pct">55</div></div></div></div>
+  <figcaption class="xcap">
+    <span class="label">Real excerpt</span>
+    <span>Oleh Kozhushko vs Dynamo Kyiv · §3 · the tier caveat and 5 ranked metrics · <a href="reports/oleh-kozhushko-club-report.html#sec-comparison_vs_league">read the section in full</a></span>
+  </figcaption>
+</figure>
+<!-- /gen:excerpt:cr3 -->
+          </div>
+        </article>
+
+        <article class="anat" id="s4">
+          <header class="anat-head">
+            <span class="anat-no">04</span>
+            <div>
+              <h3>Comparison vs players</h3>
+              <p class="anat-q">Against the other candidates for the same slot, who is better
+                on the same metric set?</p>
+            </div>
+          </header>
+          <div class="anat-body">
+            <div class="anat-copy">
+              <p>Head-to-head against named alternatives — the other players on the club's
+                shortlist, or the statistical comparables we surface if there isn't one.
+                Side-by-side profiles on one metric set, so the choice between candidates is an
+                argument about numbers instead of reels.</p>
+            </div>
+<!-- gen:excerpt:cr4 -->
+<figure class="xfig">
+  <div class="report-doc is-excerpt"><div class="card" style="margin-top:20px"><h3>His raw output plotted over the UPL FW pool - placement, not rank</h3><svg viewBox="0 0 560 340" width="100%" height="340" role="img"><line x1="46" y1="302" x2="548" y2="302" stroke="var(--line)"/><line x1="46" y1="14" x2="46" y2="302" stroke="var(--line)"/><circle cx="232.7" cy="302.0" r="4" fill="none" stroke="var(--ink-faint)" stroke-width="1.4"/><circle cx="46.0" cy="68.7" r="4" fill="none" stroke="var(--ink-faint)" stroke-width="1.4"/><circle cx="510.8" cy="35.3" r="6.5" fill="var(--sky)"/><text x="510.8" y="57.3" font-size="12" font-weight="600" text-anchor="middle" fill="var(--ink)">Oleh Kozhushko</text><text x="303" y="334" font-size="11" text-anchor="middle" fill="var(--ink-faint)">Shots /90</text><text x="12" y="158" font-size="11" text-anchor="middle" fill="var(--ink-faint)" transform="rotate(-90 12 158)">Goals /90</text></svg><p>Hollow markers: every FW past the minutes floor in the Ukrainian Premier League 26/27. Filled: Oleh Kozhushko, from Persha Liha 25/26 (tier 2) - axes are raw per-90 output, unadjusted for the level of opposition.</p></div></div>
+  <figcaption class="xcap">
+    <span class="label">Real excerpt</span>
+    <span>Oleh Kozhushko vs Dynamo Kyiv · §4 · head-to-head on one metric set · <a href="reports/oleh-kozhushko-club-report.html#sec-comparison_vs_players">read the section in full</a></span>
+  </figcaption>
+</figure>
+<!-- /gen:excerpt:cr4 -->
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────────── who it's for -->
+<section class="band band-carbon section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Who it's for</span>
+      <h2>Both sides of the table</h2>
+    </div>
+    <div class="grid cols-2">
+      <div class="panel">
+        <h3 class="h3">Agents &amp; intermediaries</h3>
+        <p class="mt3">Walk into the conversation holding the club's own squad numbers. When
+          your player outranks their incumbents on the metrics that matter, this is how you
+          prove it before the fee discussion starts.</p>
+      </div>
+      <div class="panel">
+        <h3 class="h3">Club staff</h3>
+        <p class="mt3">Pressure-test a recruitment case before committing to it. Whether the
+          answer is "sign him" or "the options you already have are better", it arrives with
+          the evidence attached.</p>
+      </div>
+    </div>
+    <div class="callout callout-warn mt6">
+      <span class="callout-title">Stated limits, in writing</span>
+      <p>Every Club Report closes what it cannot support: metrics the competition does not
+        record, seasons outside our coverage, comparisons that would need an adjustment we have
+        not validated. A missing number is reported as missing, never silently shown as zero.
+        In a negotiation that matters twice over, the report the other side cannot poke a hole
+        in is the one that ends the argument. How every number is made is public:
+        <a href="methodology.html">our full methodology</a>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────────── cadence + pricing -->
+<section class="section" id="cadence">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">How it's delivered</span>
+      <h2>One report, or coverage that keeps up</h2>
+      <p class="lede">The same engine on a cadence, so the file on your desk is
+        never last month's.</p>
+    </div>
+    <div class="cadence">
+      <div class="panel">
+        <span class="label">One-off</span>
+        <h3 class="h3 mt2">The Club Report</h3>
+        <p class="mt3">One player against one named squad, delivered as a web report and a
+          print-ready PDF within 48 hours of confirmation.</p>
+      </div>
+      <div class="panel">
+        <span class="label">Per match</span>
+        <h3 class="h3 mt2">Match updates</h3>
+        <p class="mt3">A short update after every fixture: the match line, what it did to his
+          rolling form, and whether the squad picture at the target club moved.</p>
+      </div>
+      <div class="panel">
+        <span class="label">Monthly</span>
+        <h3 class="h3 mt2">Monthly tracking</h3>
+        <p class="mt3">The comparison re-run each month across a shortlist or a squad, with a
+          change log against the previous issue.</p>
+      </div>
+      <div class="panel">
+        <span class="label">Per season</span>
+        <h3 class="h3 mt2">Season coverage</h3>
+        <p class="mt3">Full-season coverage on a squad or a recruitment shortlist, re-run at
+          each window and at season close, on retainer.</p>
+      </div>
+    </div>
+
+    <div class="grid cols-3 mt6">
+      <div>
+        <h4>Request</h4>
+        <p class="mt2">Send the player's Transfermarkt link plus the target club. Scope and a
+          quote come back within 24 hours.</p>
+      </div>
+      <div>
+        <h4>48-hour turnaround</h4>
+        <p class="mt2">Delivered within 48 hours of confirmation, as a web report and a
+          print-ready PDF.</p>
+      </div>
+      <div>
+        <h4>Quoted on request</h4>
+        <p class="mt2">No public price list. Every engagement is priced on scope, and any
+          cadence above is quoted as a package.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────────── sample -->
+<section class="band band-carbon section" id="samples">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">See the standard</span>
+      <h2>The published Club Report</h2>
+      <p class="lede">Whole and unedited, including the cross-tier warning it fires on itself.</p>
+    </div>
+    <a class="panel panel-hard" href="reports/oleh-kozhushko-club-report.html">
+      <span class="label">Club Report · Forward · 28</span>
+      <h3 class="h3 mt2">Oleh Kozhushko vs Dynamo Kyiv</h3>
+      <p class="mt3">Four sections against a real squad: where he lands in the forward group,
+        the incumbents he would compete with, the league-context gap, and head-to-head
+        profiles, with the tier difference stated at the top of every one of them.</p>
+      <p class="meta mt3">Read the sample →</p>
+    </a>
+    <p class="note mt5">The nine-section <a href="full-report.html">Full Report</a> has four
+      published samples of its own.</p>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────────── cta -->
+<section class="band band-ink section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Have a move to test?</span>
+      <h2>Request this for your player</h2>
+      <p class="lede">Send the player's Transfermarkt link and the target club. Scope and a
+        quote within 24 hours; the report within 48 of confirmation.</p>
+    </div>
+    <div class="row">
+      <a class="btn btn-lg" href="index.html#enquire"><span>Request a report</span></a>
+      <a class="btn btn-lg btn-ghost" href="full-report.html"><span>Compare with the Full Report</span></a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <a class="mark" href="index.html"><svg class="mark-glyph" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><path class="g-leg" d="M17 88 L38 88 L52 50 L42 24 Z"/><path class="g-main" d="M35 12 L56 12 L85 88 L64 88 Z"/></svg>Latent</a>
+        <p class="mt3">Hidden value, measured.</p>
+        <p class="mt2"><a href="mailto:info@latentscouting.com">info@latentscouting.com</a></p>
+      </div>
+      <div class="foot-col">
+        <h5>Data</h5>
+        <ul>
+          <li><a href="players/index.html">Player database</a></li>
+          <li><a href="methodology.html">Methodology</a></li>
+          <li><a href="ledger.html">Hit-rate ledger</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Reports</h5>
+        <ul>
+          <li><a href="full-report.html">Full report</a></li>
+          <li><a href="club-report.html">Club report</a></li>
+          <li><a href="plans.html">Plans</a></li>
+          <li><a href="index.html#enquire">Enquire</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="foot-note">
+      Every figure on this site is generated from our own match-level database and is
+      reproducible from it. Percentiles are computed within a single competition and
+      season and are never compared across competitions. Stated limits are published in
+      full on the <a href="methodology.html">methodology</a> page.
+      © <span class="num">2026</span> Latent Scouting ·
+      <a href="terms.html">Terms</a> ·
+      <a href="privacy.html">Privacy</a>
+    </p>
+  </div>
+</footer>
+
+<script src="assets/motion.js" defer></script>
+<script>
+/* Section contents: highlight the anatomy section currently in view. */
+(function(){
+  var nav = document.getElementById('anat-nav');
+  if(!nav) return;
+  var links = [].slice.call(nav.querySelectorAll('a'));
+  var secs = links.map(function(a){ return document.getElementById(a.hash.slice(1)); });
+  var tick = false;
+  function sync(){
+    tick = false;
+    var y = window.scrollY + 140, best = 0;
+    for(var i=0;i<secs.length;i++){
+      if(secs[i] && secs[i].getBoundingClientRect().top + window.scrollY <= y) best = i;
+    }
+    links.forEach(function(a,i){
+      if(i===best) a.setAttribute('aria-current','true'); else a.removeAttribute('aria-current');
+    });
+  }
+  addEventListener('scroll', function(){ if(!tick){ tick = true; requestAnimationFrame(sync); } }, {passive:true});
+  sync();
+})();
+</script>
+</body>
+</html>
