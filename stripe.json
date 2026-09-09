@@ -1,0 +1,9 @@
+{
+  "_readme": "Stripe Payment Links per tier and the customer-portal URL. Vic pastes them from the Stripe dashboard; site/build_plans.py reads this file. An empty string keeps that tier's button on the free report. Public URLs only; never a secret key.",
+  "portal_url": "",
+  "links": {
+    "scout": "",
+    "agency": "",
+    "club": ""
+  }
+}
